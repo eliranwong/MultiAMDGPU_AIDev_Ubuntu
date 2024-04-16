@@ -31,6 +31,10 @@ back up your data and proceed with caution.
 
 # Select Ubuntu and Kernel Versions
 
+Read supporting versions at https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-distributions
+
+![ubuntu](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/2af3b2de-b0ad-4cc0-b563-a956dce0cc85)
+
 Check your current Ubuntu and kernal versions, read:
 
 https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisites.html
@@ -38,8 +42,6 @@ https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisit
 Select supported versions of Ubuntu and kernel, e.g.
 
 > Ubuntu 22.04.4 + Kernel 6.6
-
-Read supporting versions at https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-distributions
 
 Upgrade to a supported kernel version, if necessary:
 
@@ -60,6 +62,8 @@ Restart to make changes effective:
 # Install ROCM 5.7
 
 Version 5.7 is preferred as it is officially supported by PyTorch and ZLUDA libraries. Read more at supported versions at https://pytorch.org/get-started/locally/
+
+![pytorch](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/1c34abd7-4cb1-41ee-8821-85983f991fa9)
 
 > wget https://repo.radeon.com/amdgpu-install/5.7.1/ubuntu/jammy/amdgpu-install_5.7.50701-1_all.deb
 
