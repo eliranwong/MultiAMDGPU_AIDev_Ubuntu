@@ -139,9 +139,7 @@ Remember, this is a low-level operation that can have significant effects on you
 
 # Add User to Groups for GPU Access
 
-Replace username with your actual username:
-
-> sudo usermod -a -G render,video username
+> sudo usermod -a -G render,video $LOGNAME
 
 <details><summary>Explanation</summary>
 
@@ -150,7 +148,7 @@ For AMD GPUs on Linux, the groups you might need to add users to for proper GPU 
 - video: This group grants access to video devices and may include GPU devices.
 - render: As previously mentioned, this group allows access to GPU rendering devices.
 
-When using AMD GPUs, especially with ROCm (Radeon Open Compute), you may also need to add users to these groups to ensure they have the necessary permissions to access the GPU for computing tasks. The ROCm documentation specifically mentions adding users to both the render and video groups to set the correct permissions.
+When using AMD GPUs, especially with ROCm (Radeon Open Compute), you may also need to add users to these groups to ensure they have the necessary permissions to access the GPU for computing tasks. [The ROCm documentation](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-radeon.html) specifically mentions adding users to both the render and video groups to set the correct permissions.
 
 To add a user to these groups, you can use the following command:
 
