@@ -79,7 +79,7 @@ Restart to make changes effective:
 
 To install rocm-related packages:
 
-> sudo apt install rocminfo rocm-smi-lib
+> sudo apt install rocminfo rocm-libs rocm-smi-lib
 
 To verify, run:
 
@@ -134,6 +134,31 @@ Here's how it works:
 So, while the integrated graphics card is still physically present and powered on, the operating system is unable to interact with it because the `pci-stub` driver has claimed it. This effectively "disables" the integrated graphics card from the operating system's perspective.
 
 Remember, this is a low-level operation that can have significant effects on your system, so it should be done with caution. Always make sure to consult the relevant documentation or seek expert advice if you're unsure. And don't forget to run `sudo update-grub` and reboot your system after making changes to the GRUB configuration file.
+
+</details>
+
+# Add User to Groups for GPU Access
+
+Replace username with your actual username:
+
+> sudo usermod -a -G render,video username
+
+<details><summary>Explanation</summary>
+
+For AMD GPUs on Linux, the groups you might need to add users to for proper GPU access are similar to those for NVIDIA GPUs. Here are the key groups:
+
+- video: This group grants access to video devices and may include GPU devices.
+- render: As previously mentioned, this group allows access to GPU rendering devices.
+
+When using AMD GPUs, especially with ROCm (Radeon Open Compute), you may also need to add users to these groups to ensure they have the necessary permissions to access the GPU for computing tasks. The ROCm documentation specifically mentions adding users to both the render and video groups to set the correct permissions.
+
+To add a user to these groups, you can use the following command:
+
+> sudo usermod -a -G render,video username
+
+Replace username with the actual username of the user you want to add to the groups. After adding the user to these groups, they should have the necessary permissions to access the GPU resources on your system. It's always a good practice to log out and log back in or reboot the system to ensure the changes take effect.
+
+If you're using specific AMDGPU control applications or tools, they might have their own group requirements or recommendations, so it's a good idea to check the documentation for those tools as well1. Remember, managing user access to GPUs is an important aspect of system administration, especially in multi-user environments or when dealing with sensitive compute tasks.
 
 </details>
 
