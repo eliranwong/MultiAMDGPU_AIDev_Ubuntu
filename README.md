@@ -503,3 +503,5 @@ https://github.com/ggerganov/llama.cpp/discussions/5138
 https://github.com/ggerganov/llama.cpp/pull/1607
 
 https://www.reddit.com/r/LocalLLaMA/comments/1anzmfe/multigpu_mixing_amdnvidia_with_llamacpp/
+
+https://rocm.blogs.amd.com/artificial-intelligence/llama2-lora/README.html
