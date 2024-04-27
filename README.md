@@ -507,3 +507,5 @@ https://www.reddit.com/r/LocalLLaMA/comments/1anzmfe/multigpu_mixing_amdnvidia_w
 https://community.amd.com/t5/ai/amd-extends-support-for-pytorch-machine-learning-development-on/ba-p/637756
 
 https://rocm.blogs.amd.com/artificial-intelligence/llama2-lora/README.html
+
+https://rocm.docs.amd.com/projects/install-on-linux/en/develop/how-to/3rd-party/pytorch-install.html
