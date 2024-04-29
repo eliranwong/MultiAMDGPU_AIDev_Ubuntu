@@ -515,3 +515,5 @@ https://rocm.docs.amd.com/projects/install-on-linux/en/develop/how-to/3rd-party/
 https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-onnx.html
 
 https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-migraphx.html
+
+https://rocm.blogs.amd.com/artificial-intelligence/llm-inference-optimize/README.html
