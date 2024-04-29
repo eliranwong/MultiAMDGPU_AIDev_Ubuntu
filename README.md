@@ -517,3 +517,9 @@ https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-onnx.ht
 https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-migraphx.html
 
 https://rocm.blogs.amd.com/artificial-intelligence/llm-inference-optimize/README.html
+
+https://onnxruntime.ai/docs/execution-providers/ROCm-ExecutionProvider.html
+
+https://onnxruntime.ai/docs/execution-providers/MIGraphX-ExecutionProvider.html
+
+https://onnxruntime.ai/docs/execution-providers/Vitis-AI-ExecutionProvider.html
