@@ -523,3 +523,7 @@ https://onnxruntime.ai/docs/execution-providers/ROCm-ExecutionProvider.html
 https://onnxruntime.ai/docs/execution-providers/MIGraphX-ExecutionProvider.html
 
 https://onnxruntime.ai/docs/execution-providers/Vitis-AI-ExecutionProvider.html
+
+https://huggingface.co/docs/optimum/onnxruntime/usage_guides/amdgpu
+
+https://github.com/ROCm/onnxruntime
