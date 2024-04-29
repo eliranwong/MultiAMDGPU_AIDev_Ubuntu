@@ -59,7 +59,7 @@ Restart to make changes effective:
 
 > sudo reboot
 
-# Install ROCM 5.7
+# Install ROCM 6.0
 
 Version 6.0 is preferred as it is officially supported by PyTorch latest stable version 2.3.0. Read more at supported versions at https://pytorch.org/get-started/locally/
 
