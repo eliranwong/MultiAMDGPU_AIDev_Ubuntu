@@ -61,13 +61,15 @@ Restart to make changes effective:
 
 # Install ROCM 5.7
 
-Version 5.7 is preferred as it is officially supported by PyTorch and ZLUDA libraries. Read more at supported versions at https://pytorch.org/get-started/locally/
+Version 6.0 is preferred as it is officially supported by PyTorch latest stable version 2.3.0. Read more at supported versions at https://pytorch.org/get-started/locally/
 
-![pytorch](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/1c34abd7-4cb1-41ee-8821-85983f991fa9)
+![Screenshot from 2024-04-29 16-07-45](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/148bf15e-437c-4b94-b292-73f56c009f3d)
 
-> wget https://repo.radeon.com/amdgpu-install/5.7.1/ubuntu/jammy/amdgpu-install_5.7.50701-1_all.deb
+sudo apt update
 
-> sudo apt install ./amdgpu-install_5.7.50701-1_all.deb
+> wget https://repo.radeon.com/amdgpu-install/6.0.2/ubuntu/jammy/amdgpu-install_6.0.60002-1_all.deb
+
+> sudo apt install ./amdgpu-install_6.0.60002-1_all.deb
 
 > sudo amdgpu-install --usecase=graphics,opencl,hip,hiplibsdk,rocm,rocmdev,mllib,mlsdk, asan
 
