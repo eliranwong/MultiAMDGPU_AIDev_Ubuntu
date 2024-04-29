@@ -33,7 +33,7 @@ back up your data and proceed with caution.
 
 Read supporting versions at https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-distributions
 
-![ubuntu](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/2af3b2de-b0ad-4cc0-b563-a956dce0cc85)
+![Ubuntu_support](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/ad82d57f-90d7-4d22-bc82-a43cff68dcbb)
 
 Check your current Ubuntu and kernal versions, read:
 
@@ -41,7 +41,7 @@ https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisit
 
 Select supported versions of Ubuntu and kernel, e.g.
 
-> Ubuntu 22.04.4 + Kernel 6.6
+> Ubuntu 22.04.4 + Kernel 6.5
 
 Upgrade to a supported kernel version, if necessary:
 
@@ -53,7 +53,7 @@ Upgrade to a supported kernel version, if necessary:
 
 > mainline-gtk
 
-Select version "6.6.27", for example, and click button "Install".
+Select version "6.5.11", for example, and click button "Install".
 
 Restart to make changes effective:
 
