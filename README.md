@@ -177,6 +177,8 @@ With CLI:
 
 From rocminfo output, make a note of the node values of the installed GPUs.
 
+Remarks: Be careful that some non-GPU devices may be assigned with node numbers.  In that case, ignore the node numbers.  Use index numbers, starting from 0. The largest number should be the number of available GPUs minus 1.
+
 # Environment Variables
 
 Modify the values to suit your cases.
