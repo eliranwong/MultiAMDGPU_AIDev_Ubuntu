@@ -265,6 +265,8 @@ ROCR_VISIBLE_DEVICES - device indices or UUIDs that will be exposed to applicati
 
 > export ROCR_VISIBLE_DEVICES=0,1
 
+Remarks: Tough documents state that device indices are accepted, but device indeces does not work in my case.  I have to use UUIDs.
+
 <details><summary>Explanation</summary>
 
 `ROCR_VISIBLE_DEVICES` is an environment variable used in the ROCm (Radeon Open Compute) software stack. It specifies which GPU devices will be exposed to applications.
