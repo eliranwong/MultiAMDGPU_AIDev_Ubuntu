@@ -267,7 +267,7 @@ ROCR_VISIBLE_DEVICES - device indices or UUIDs that will be exposed to applicati
 
 > export ROCR_VISIBLE_DEVICES=0,1
 
-Remarks: Tough documents state that device indices are accepted, but device indeces does not work in my case.  I have to use UUIDs.
+Remarks: Tough documents state that device indices are accepted, but device indeces does not work in my case.  I have to use UUIDs, in order for my system to detect the GPUs correctly. UUIDs of individual GPUs can be found with command 'rocminfo'.
 
 <details><summary>Explanation</summary>
 
