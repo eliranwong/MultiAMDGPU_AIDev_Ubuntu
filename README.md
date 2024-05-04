@@ -395,7 +395,7 @@ https://pytorch.org/get-started/locally/
 
 Install packages that support rocm, e.g.
 
-> pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.7 --no-cache-dir
+> pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.0 --no-cache-dir
 
 To verify:
 
