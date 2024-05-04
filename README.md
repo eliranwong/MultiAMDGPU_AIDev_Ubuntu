@@ -63,7 +63,7 @@ Restart to make changes effective:
 
 # Install ROCM 6.0
 
-Version 6.0 is preferred as it is officially supported by PyTorch latest stable version 2.3.0. Read more at supported versions at https://pytorch.org/get-started/locally/
+Version 6.0.2 is preferred as it is officially supported by PyTorch latest stable version 2.3.0. Read more at supported versions at https://pytorch.org/get-started/locally/
 
 ![Screenshot from 2024-04-29 16-07-45](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/148bf15e-437c-4b94-b292-73f56c009f3d)
 
