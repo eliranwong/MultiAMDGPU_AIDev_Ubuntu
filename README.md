@@ -6,6 +6,8 @@ from the noticeable gap in resources and discussions around AMD GPU setups for
 AI, as most online documentation and forums predominantly focus on Nvidia GPUs. 
 This repository aims to bridge that gap, providing an overview and step-by-step guide based on my personal experience and research.
 
+![result2](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/29e067dc-2bbd-4140-b0e3-39206a72c4b1)
+
 ### What You Will Find Here
 
 This repository contains notes, guides, and scripts that I've compiled during my
@@ -87,7 +89,7 @@ To verify, run:
 
 > rocminfo
 
-Read https://rocm.docs.amd.com/en/docs-5.7.1/deploy/linux/os-native/install.html#post-install-actions-and-verification-process
+Read https://rocm.docs.amd.com/en/docs-6.0.2/deploy/linux/os-native/install.html#post-install-actions-and-verification-process
 
 # Disable Integrated GPU
 
@@ -181,25 +183,61 @@ Modify the values to suit your cases.
 
 The following examples assume:
 
-* ROCm version 5.7.1 installed
+* ROCm version 6.0.2 installed
 
 * No integrated GPU
 
 * Two AMD RX 7900 XTX installed, with node values, noted from rocminfo output, '0' and '1'
 
-DRI_PRIME - optional in case with no integrated GPU
+## Overview
 
-> export DRI_PRIME=0
+I use my case as an example:
+
+```
+export ROCM_HOME=/opt/rocm-6.0.2
+export LD_LIBRARY_PATH=/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH
+export PATH=/home/eliran/.local/bin:/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/llvm/bin:$PATH
+export HSA_OVERRIDE_GFX_VERSION=11.0.0
+export ROCR_VISIBLE_DEVICES=GPU-bad1680dbd90c4ff,GPU-35086d5e71d6c9ab
+export GPU_DEVICE_ORDINAL=0,1
+export HIP_VISIBLE_DEVICES=0,1
+export CUDA_VISIBLE_DEVICES=0,1
+export LLAMA_HIPLAS=0,1
+export DRI_PRIME=0
+export OMP_DEFAULT_DEVICE=1
+```
+
+ROCM_HOME - tells AI libraries where ROCM is stored; typically somewhere in /opt, e.g.:
+
+> export ROCM_HOME=/opt/rocm-6.0.2
 
 <details><summary>Explanation</summary>
 
-`DRI_PRIME` is an environment variable used in Linux systems to manage hybrid graphics. Hybrid graphics are found on recent desktops and laptops, where there are two graphics cards: an integrated one (usually Intel) and a discrete one (like NVIDIA or AMD Radeon). The integrated card is used for regular tasks to save power, while the discrete card is used for GPU-intensive applications like gaming or 3D rendering.
+`ROCM_HOME` is an environment variable in Linux that is used to specify the location of the ROCm (Radeon Open Compute) software on your system. ROCm is a set of open-source libraries and tools that are used to create high performance, machine learning applications on AMD GPUs.
 
-When you run a command with `DRI_PRIME=1`, it tells the system to use the discrete GPU for that particular application. For example, if you want to run Firefox using the discrete GPU, you would use the command `DRI_PRIME=1 firefox`.
+When you install ROCm, it is typically installed in a directory under `/opt`. For example, if you installed version 6.0.2 of ROCm, it might be installed in `/opt/rocm-6.0.2`.
 
-On the other hand, `export DRI_PRIME=0` sets the `DRI_PRIME` environment variable to `0` for the entire session or script where the command is run. This means that the integrated GPU (which is usually less powerful but more energy-efficient) will be used for all applications run in that session or script.
+The `export` command in Linux is used to set environment variables. So, when you run the command `export ROCM_HOME=/opt/rocm-6.0.2`, you are telling the system "Whenever I refer to `ROCM_HOME`, I actually mean `/opt/rocm-6.0.2`".
 
-Please note that the actual GPU used can depend on your specific system configuration. You can check which GPU an application is using with the command `glxinfo | grep "OpenGL renderer"`.
+This is useful because many AI libraries that use ROCm will look for the `ROCM_HOME` environment variable to know where to find the ROCm software. By setting `ROCM_HOME`, you ensure that these libraries can find and use ROCm correctly.
+
+</details>
+
+LD_LIBRARY_PATH - loader library path; typically this is set to $ROCM_HOME/lib. An indication you’re missing this flag is if you import pytorch and see an error like undefined reference to...
+
+> export LD_LIBRARY_PATH=/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH
+
+> export PATH=/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/opencl/bin:$PATH
+
+<details><summary>Explanation</summary>
+
+`LD_LIBRARY_PATH` is an environment variable that specifies a list of directories where the dynamic linker should look for dynamically linked libraries. When a program is launched, the dynamic linker checks the `LD_LIBRARY_PATH` to find the libraries that the program needs to run.
+
+In this example, `LD_LIBRARY_PATH` is being set to include the `/opt/rocm-6.0.2/lib` directory. This is likely where the ROCm (Radeon Open Compute) libraries are installed. If you're trying to use PyTorch and it's built with ROCm support, it will need to know where these libraries are. If `LD_LIBRARY_PATH` doesn't include the ROCm library directory, you might see errors like "undefined reference to..." when you try to import PyTorch.
+
+The command `export LD_LIBRARY_PATH=/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH` is adding `/opt/rocm-6.0.2/lib` to your existing `LD_LIBRARY_PATH`.
+
+The `PATH` environment variable is similar, but it's used to tell the shell where to look for executable files. The command `export PATH=/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/opencl/bin:$PATH` is adding the `/opt/rocm-6.0.2/bin` and `/opt/rocm-6.0.2/opencl/bin` directories to your `PATH`. This means that when you type a command, the shell will also look in these directories to find it.
 
 </details>
 
@@ -220,40 +258,6 @@ rocminfo | grep gfx: This is a command-line instruction. `rocminfo` is a tool th
 export HSA_OVERRIDE_GFX_VERSION=11.0.0: This is a command that sets the `HSA_OVERRIDE_GFX_VERSION` environment variable to '11.0.0'. This tells the ROCm software to treat your GPU as if it were a gfx1100, even if it's actually a different version. This can be useful if your GPU is not yet fully supported by the ROCm software.
 
 In summary, these commands and variables are used to help ensure compatibility between your GPU and the ROCm software, even if your GPU is not yet fully supported. They allow you to override the reported version of your GPU so that the ROCm software treats it as a fully supported version. This can be particularly useful when working with newer GPUs like the AMD Radeon RX 7900 XTX. Please note that while this can enable you to use the ROCm software with unsupported GPUs, it may not provide optimal performance or full functionality. It's always best to check the official ROCm documentation or the GPU manufacturer's documentation for the most accurate and up-to-date information.
-
-</details>
-
-ROCM_HOME - tells AI libraries where ROCM is stored; typically somewhere in /opt, e.g.:
-
-> export ROCM_HOME=/opt/rocm-5.7.1
-
-<details><summary>Explanation</summary>
-
-`ROCM_HOME` is an environment variable in Linux that is used to specify the location of the ROCm (Radeon Open Compute) software on your system. ROCm is a set of open-source libraries and tools that are used to create high performance, machine learning applications on AMD GPUs.
-
-When you install ROCm, it is typically installed in a directory under `/opt`. For example, if you installed version 5.7.1 of ROCm, it might be installed in `/opt/rocm-5.7.1`.
-
-The `export` command in Linux is used to set environment variables. So, when you run the command `export ROCM_HOME=/opt/rocm-5.7.1`, you are telling the system "Whenever I refer to `ROCM_HOME`, I actually mean `/opt/rocm-5.7.1`".
-
-This is useful because many AI libraries that use ROCm will look for the `ROCM_HOME` environment variable to know where to find the ROCm software. By setting `ROCM_HOME`, you ensure that these libraries can find and use ROCm correctly.
-
-</details>
-
-LD_LIBRARY_PATH - loader library path; typically this is set to $ROCM_HOME/lib. An indication you’re missing this flag is if you import pytorch and see an error like undefined reference to...
-
-> export LD_LIBRARY_PATH=/opt/rocm-5.7.1/lib:$LD_LIBRARY_PATH
-
-> export PATH=/opt/rocm-5.7.1/bin:/opt/rocm-5.7.1/opencl/bin:$PATH
-
-<details><summary>Explanation</summary>
-
-`LD_LIBRARY_PATH` is an environment variable that specifies a list of directories where the dynamic linker should look for dynamically linked libraries. When a program is launched, the dynamic linker checks the `LD_LIBRARY_PATH` to find the libraries that the program needs to run.
-
-In this example, `LD_LIBRARY_PATH` is being set to include the `/opt/rocm-5.7.1/lib` directory. This is likely where the ROCm (Radeon Open Compute) libraries are installed. If you're trying to use PyTorch and it's built with ROCm support, it will need to know where these libraries are. If `LD_LIBRARY_PATH` doesn't include the ROCm library directory, you might see errors like "undefined reference to..." when you try to import PyTorch.
-
-The command `export LD_LIBRARY_PATH=/opt/rocm-5.7.1/lib:$LD_LIBRARY_PATH` is adding `/opt/rocm-5.7.1/lib` to your existing `LD_LIBRARY_PATH`.
-
-The `PATH` environment variable is similar, but it's used to tell the shell where to look for executable files. The command `export PATH=/opt/rocm-5.7.1/bin:/opt/rocm-5.7.1/opencl/bin:$PATH` is adding the `/opt/rocm-5.7.1/bin` and `/opt/rocm-5.7.1/opencl/bin` directories to your `PATH`. This means that when you type a command, the shell will also look in these directories to find it.
 
 </details>
 
@@ -331,6 +335,32 @@ Please note that the GPU IDs are not necessarily fixed, they can change based on
 
 </details>
 
+LLAMA_HIPLAS - applicable to Llama.cpp setup
+
+> export LLAMA_HIPLAS=0,1
+
+<details><summary>Explanation</summary>
+
+The LLAMA_HIPLAS=0,1 setting is likely related to the configuration of the LLaMA (Large Language Model) library in the llama.cpp project. However, the exact meaning of this setting is not directly available in the search results.
+
+</details>
+
+DRI_PRIME - optional in case with no integrated GPU
+
+> export DRI_PRIME=0
+
+<details><summary>Explanation</summary>
+
+`DRI_PRIME` is an environment variable used in Linux systems to manage hybrid graphics. Hybrid graphics are found on recent desktops and laptops, where there are two graphics cards: an integrated one (usually Intel) and a discrete one (like NVIDIA or AMD Radeon). The integrated card is used for regular tasks to save power, while the discrete card is used for GPU-intensive applications like gaming or 3D rendering.
+
+When you run a command with `DRI_PRIME=1`, it tells the system to use the discrete GPU for that particular application. For example, if you want to run Firefox using the discrete GPU, you would use the command `DRI_PRIME=1 firefox`.
+
+On the other hand, `export DRI_PRIME=0` sets the `DRI_PRIME` environment variable to `0` for the entire session or script where the command is run. This means that the integrated GPU (which is usually less powerful but more energy-efficient) will be used for all applications run in that session or script.
+
+Please note that the actual GPU used can depend on your specific system configuration. You can check which GPU an application is using with the command `glxinfo | grep "OpenGL renderer"`.
+
+</details>
+
 OMP_DEFAULT_DEVICE - default device used for OpenMP target offloading, e.g.:
 
 > export OMP_DEFAULT_DEVICE=1
@@ -344,16 +374,6 @@ In OpenMP, "offloading" refers to the process of transferring computation from t
 The value of `OMP_DEFAULT_DEVICE` is an integer that corresponds to the device ID. Device IDs usually start from 0 and increment for each additional device. So, if you have two devices and you want to use the second device as the default for offloading, you would set `OMP_DEFAULT_DEVICE="1"` (since we start counting from 0).
 
 It's not uncommon to skip the first device for offloading. The first device (device 0) could be reserved for other tasks, such as rendering graphics in a desktop environment. Offloading compute-intensive tasks to other devices can help ensure that the system remains responsive. However, this can vary based on the specific system configuration and the requirements of the application. It's always a good idea to check the documentation for your specific hardware and software setup to understand the best practices for your situation.
-
-</details>
-
-LLAMA_HIPLAS - applicable to Llama.cpp setup
-
-> export LLAMA_HIPLAS=0,1
-
-<details><summary>Explanation</summary>
-
-The LLAMA_HIPLAS=0,1 setting is likely related to the configuration of the LLaMA (Large Language Model) library in the llama.cpp project. However, the exact meaning of this setting is not directly available in the search results.
 
 </details>
 
