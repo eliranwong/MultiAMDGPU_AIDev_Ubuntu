@@ -195,7 +195,7 @@ The following examples assume:
 
 * No integrated GPU
 
-* Two AMD RX 7900 XTX installed, with node values, noted from rocminfo output, '0' and '1'
+* Two AMD RX 7900 XTX installed. (Their node values in 'rocminfo' output are '1' and '2', as the AMD Ryzen Threadripper CPU on my device is identified as "Agent 1" and is assigned 0 as its node value.  Therefore, I use indexes '0', '1' instead for GPUs setting below.)
 
 ## Overview
 
