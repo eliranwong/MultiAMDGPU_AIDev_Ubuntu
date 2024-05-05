@@ -433,7 +433,7 @@ To verify:
 
 > import torch
 
-> torch.__version__
+> torch.\_\_version\_\_
 
 > torch.cuda.is_available()
 
