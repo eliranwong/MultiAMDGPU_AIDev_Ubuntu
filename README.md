@@ -11,7 +11,7 @@ This repository aims to bridge that gap, providing an overview and step-by-step 
 ### What You Will Find Here
 
 This repository contains notes, guides, and scripts that I've compiled during my
-setup process. While my setup specifically involves Ubuntu 22.04, kernel 6.6, 
+setup process. While my setup specifically involves Ubuntu 22.04, kernel 6.5, 
 with 2 AMD RX 7900 XTX GPUs, the information provided here should be applicable 
 or easily adaptable to similar configurations. Here's what to expect:
 
