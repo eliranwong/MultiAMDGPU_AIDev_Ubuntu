@@ -439,6 +439,10 @@ To verify:
 
 > torch.cuda.device_count()
 
+> torch.cuda.get_device_properties(0).total_memory
+
+> torch.cuda.get_device_properties(1).total_memory
+
 > torch.cuda.current_device()
 
 > torch.cuda.get_device_name(torch.cuda.current_device())
