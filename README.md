@@ -381,26 +381,6 @@ Read more at:
 
 - https://medium.com/@damngoodtech/amd-rocm-pytorch-and-ai-on-ubuntu-the-rules-of-the-jungle-24a7ab280b17
 
-# Vulkan
-
-This is optional.
-
-Add the Kisak-mesa PPA (Personal Package Archive) to your system’s software sources. This PPA provides the latest stable Mesa drivers
-
-> sudo apt install libvulkan1 mesa-vulkan-drivers
-
-> sudo apt update && sudo apt -y full-upgrade
-
-Ensure there is no modprobe blacklist for amdgpu by running the command:
-
-> sudo rm /etc/modprobe.d/blacklist-amdgpu.conf
-
-Install Vulkan drivers and tools:
-
-> sudo apt install libvulkan1 mesa-vulkan-drivers
-
-> sudo apt install vulkan-utils vulkan-tools libvulkan-dev
-
 # Python libraries
 
 To make it clean, uninstall old copies, if any
@@ -571,6 +551,26 @@ Section "Device"
       Driver "modesetting"
 EndSection
 ```
+
+# Vulkan - An Alternative to ROCM
+
+This is optional.
+
+Add the Kisak-mesa PPA (Personal Package Archive) to your system’s software sources. This PPA provides the latest stable Mesa drivers
+
+> sudo apt install libvulkan1 mesa-vulkan-drivers
+
+> sudo apt update && sudo apt -y full-upgrade
+
+Ensure there is no modprobe blacklist for amdgpu by running the command:
+
+> sudo rm /etc/modprobe.d/blacklist-amdgpu.conf
+
+Install Vulkan drivers and tools:
+
+> sudo apt install libvulkan1 mesa-vulkan-drivers
+
+> sudo apt install vulkan-utils vulkan-tools libvulkan-dev
 
 # CUDA-compatible Alternative
 
