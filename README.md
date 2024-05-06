@@ -45,22 +45,9 @@ Select supported versions of Ubuntu and kernel, e.g.
 
 > Ubuntu 22.04.4 + Kernel 6.5
 
-Upgrade to a supported kernel version, if necessary:
+## Install a Supported Version or Kernel
 
-> sudo add-apt-repository ppa:cappelikan/ppa
-
-> sudo apt update && sudo apt -y full-upgrade
-
-> sudo apt install -y mainline
-
-> mainline-gtk
-
-Select version "6.5.11", for example, and click button "Install".
-
-Restart to make changes effective:
-
-> sudo reboot
-
+https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/Install_Ubuntu_Kernel.md
 
 # Add User to Groups for GPU Access
 
