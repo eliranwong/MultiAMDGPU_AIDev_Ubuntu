@@ -481,10 +481,6 @@ With Vulkan as backend:
 
 > CMAKE_ARGS="-DLLAMA_VULKAN=on" pip install llama-cpp-python
 
-# Qt5 Application Development
-
-> sudo apt install qt5-default qtwayland5
-
 # Performance Optimization
 
 For performance optimization, you may read:
