@@ -457,9 +457,19 @@ With pytorch & cupy installed first, run:
 
 > pip install spacy
 
+# ollama
+
+Ollama detects AMD GPUs automatically on installation:
+
+![amdgpu_ollama](https://github.com/eliranwong/freegenius/assets/25262722/c985062b-da23-4879-8d55-76b16e1017f3)
+
 # llama.cpp
 
-Compile llama.cpp, for example, with node values 0 and 1:
+The author managed to installed llama.cpp with 
+
+> CMAKE_ARGS="-DLLAMA_CLBLAST=on" pip install llama-cpp-python
+
+Alternately,
 
 With hipBLAS (ROCm) as backend:
 
@@ -468,6 +478,80 @@ With hipBLAS (ROCm) as backend:
 With Vulkan as backend:
 
 > CMAKE_ARGS="-DLLAMA_VULKAN=on" pip install llama-cpp-python
+
+Read more at: https://llama-cpp-python.readthedocs.io/en/stable/
+
+# freegenius
+
+1. Create and activate a virtual environment, e.g.
+
+> mkdir ~/apps
+
+> cd ~/apps
+
+> python3 -m venv freegenius
+
+> source ~/apps/freegenius/bin/activate
+
+2. Install pytorch
+
+Check required versions at https://github.com/eliranwong/freegenius/blob/main/package/freegenius/requirements.txt
+
+> pip install torch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 --index-url https://download.pytorch.org/whl/rocm6.0 --no-cache-dir
+
+3. Install llama.cpp
+
+Check required versions at https://github.com/eliranwong/freegenius/blob/main/package/freegenius/requirements.txt
+
+> CMAKE_ARGS="-DLLAMA_CLBLAST=on" pip install llama-cpp-python[server]==0.2.69
+
+4. Workaround [an issue regarding tensor_split feature](https://github.com/abetlen/llama-cpp-python/issues/1166)
+
+![amdgpu_llamacpp](https://github.com/eliranwong/freegenius/assets/25262722/6d227573-eef9-49ea-9239-59cae140a8d2)
+
+Edit the file "llama_cpp.py", in this case, located in '~/apps/freegenius/lib/python3.10/site-packages/llama_cpp'
+
+Edit the file manually: '~/apps/freegenius/lib/python3.10/site-packages/llama_cpp/llama_cpp.py'
+
+Change:
+
+from
+
+```
+LLAMA_MAX_DEVICES = _lib.llama_max_devices()
+```
+
+to
+
+```
+#LLAMA_MAX_DEVICES = _lib.llama_max_devices()
+LLAMA_MAX_DEVICES = 2
+```
+
+5. Install FreeGenius
+
+> pip install freegenius
+
+6. Edit FreeGenius config.py
+
+In this case, manually edit '~/apps/freegenius/lib/python3.10/site-packages/freegenius/config.py'
+
+```
+llamacppMainModel_n_gpu_layers = -1
+llamacppMainModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
+llamacppChatModel_n_gpu_layers = -1
+llamacppChatModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
+llamacppVisionModel_n_gpu_layers = -1
+llamacppVisionModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
+llamacppMainModel_additional_server_options = '--tensor_split=0.5,0.5'
+llamacppVisionModel_additional_server_options = '--tensor_split=0.5,0.5'
+ollamaMainModel_additional_options = {"num_gpu": 20000}
+ollamaChatModel_additional_options = {"num_gpu": 20000}
+```
+
+7. Run FreeGenius
+
+> freegenius
 
 # Performance Optimization
 
