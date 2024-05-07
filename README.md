@@ -629,3 +629,7 @@ https://onnxruntime.ai/docs/execution-providers/Vitis-AI-ExecutionProvider.html
 https://huggingface.co/docs/optimum/onnxruntime/usage_guides/amdgpu
 
 https://github.com/ROCm/onnxruntime
+
+https://rocm.docs.amd.com/projects/radeon/en/latest/docs/compatibility.html
+
+https://huggingface.co/blog/huggingface-and-optimum-amd
