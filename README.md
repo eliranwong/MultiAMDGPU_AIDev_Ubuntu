@@ -417,6 +417,14 @@ To verify:
 
 Read more at https://pytorch.org/get-started/locally/#linux-verification
 
+# ONNX
+
+https://onnxruntime.ai/getting-started
+
+https://onnxruntime.ai/docs/build/eps.html#amd-rocm
+
+https://onnxruntime.ai/docs/execution-providers/ROCm-ExecutionProvider.html
+
 # tensorflow
 
 AMD ROCm is upstreamed into the TensorFlow github repository. Pre-built wheels are hosted on pipy.org
