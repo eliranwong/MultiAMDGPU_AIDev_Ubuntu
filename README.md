@@ -90,7 +90,7 @@ Option 2:
 
 > sudo apt install ./amdgpu-install_6.0.60002-1_all.deb
 
-> sudo amdgpu-install --usecase=graphics,opencl,hip,hiplibsdk,rocm,rocmdev,mllib,mlsdk
+> sudo amdgpu-install --usecase=graphics,opencl,hip,hiplibsdk,rocm,rocmdev,mllib,mlsdk --no-dkms
 
 For more options of use cases, read https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/amdgpu-install.html#use-cases
 
