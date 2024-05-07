@@ -78,13 +78,13 @@ Version 6.0.2 is preferred as it is officially supported by PyTorch latest stabl
 
 ![Screenshot from 2024-04-29 16-07-45](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/148bf15e-437c-4b94-b292-73f56c009f3d)
 
-> sudo apt update
+## Uninstall Old Copies
 
-Option 1:
+> amdgpu-install --uninstall
 
-> sudo apt install rocm6.0.2
+> sudo apt remove --purge amdgpu-install
 
-Option 2:
+## Install
 
 > wget https://repo.radeon.com/amdgpu-install/6.0.2/ubuntu/jammy/amdgpu-install_6.0.60002-1_all.deb
 
