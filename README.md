@@ -560,25 +560,17 @@ Section "Device"
 EndSection
 ```
 
-# Vulkan - An Alternative to ROCM
+# Vulkan
 
 This is optional.
 
-Add the Kisak-mesa PPA (Personal Package Archive) to your system’s software sources. This PPA provides the latest stable Mesa drivers
+To install:
 
-> sudo apt install libvulkan1 mesa-vulkan-drivers
+> sudo apt install vulkan-amdgpu
 
-> sudo apt update && sudo apt -y full-upgrade
+To check:
 
-Ensure there is no modprobe blacklist for amdgpu by running the command:
-
-> sudo rm /etc/modprobe.d/blacklist-amdgpu.conf
-
-Install Vulkan drivers and tools:
-
-> sudo apt install libvulkan1 mesa-vulkan-drivers
-
-> sudo apt install vulkan-utils vulkan-tools libvulkan-dev
+> apt list --installed | grep vulkan
 
 # CUDA-compatible Alternative
 
