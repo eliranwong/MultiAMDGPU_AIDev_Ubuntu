@@ -421,7 +421,7 @@ Read more at https://pytorch.org/get-started/locally/#linux-verification
 
 https://onnxruntime.ai/getting-started
 
-https://onnxruntime.ai/docs/build/eps.html#amd-rocm
+Either https://onnxruntime.ai/docs/build/eps.html#amd-migraphx or https://onnxruntime.ai/docs/build/eps.html#amd-rocm
 
 https://onnxruntime.ai/docs/execution-providers/ROCm-ExecutionProvider.html
 
@@ -559,6 +559,12 @@ Section "Device"
       Driver "modesetting"
 EndSection
 ```
+
+# DMIGraphX
+
+https://github.com/ROCm/AMDMIGraphX
+
+> sudo apt update && sudo apt install -y migraphx
 
 # Vulkan
 
