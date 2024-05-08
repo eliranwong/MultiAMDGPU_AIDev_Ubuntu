@@ -158,6 +158,27 @@ Remember, this is a low-level operation that can have significant effects on you
 
 </details>
 
+# UPDATE GRUB
+
+**Configure Vulkan to use AMD graphics card**:
+
+    - Edit the file `/etc/default/grub` and in the line that reads `GRUB_CMDLINE_LINUX_DEFAULT`, add: `radeon.cik_support=0 amdgpu.cik_support=1 radeon.si_support=0 amdgpu.si_support=1`.
+    - Create a new file `/etc/modprobe.d/amdgpu.conf` and add the following lines to it:
+        ```
+        options amdgpu si_support=1
+        options amdgpu cik_support=1
+        ```
+    - Create a new file `/etc/modprobe.d/radeon.conf` and add the following lines to it:
+        ```
+        options radeon si_support=0
+        options radeon cik_support=0
+        ```
+    - Create a new file `/etc/modprobe.d/blacklist.conf` and add the following lines to it:
+        ```
+	blacklist radeon
+	```
+    - Run `sudo update-grub` and then reboot your system.
+
 # Hardware Detection
 
 With GUI:
@@ -199,6 +220,8 @@ export GPU_DEVICE_ORDINAL=0,1
 export HIP_VISIBLE_DEVICES=0,1
 export CUDA_VISIBLE_DEVICES=0,1
 export LLAMA_HIPLAS=0,1
+export GGML_VULKAN_DEVICE=0,1
+export GGML_VK_VISIBLE_DEVICES=0,1
 export DRI_PRIME=0
 export OMP_DEFAULT_DEVICE=1
 ```
@@ -372,6 +395,18 @@ In OpenMP, "offloading" refers to the process of transferring computation from t
 The value of `OMP_DEFAULT_DEVICE` is an integer that corresponds to the device ID. Device IDs usually start from 0 and increment for each additional device. So, if you have two devices and you want to use the second device as the default for offloading, you would set `OMP_DEFAULT_DEVICE="1"` (since we start counting from 0).
 
 It's not uncommon to skip the first device for offloading. The first device (device 0) could be reserved for other tasks, such as rendering graphics in a desktop environment. Offloading compute-intensive tasks to other devices can help ensure that the system remains responsive. However, this can vary based on the specific system configuration and the requirements of the application. It's always a good idea to check the documentation for your specific hardware and software setup to understand the best practices for your situation.
+
+</details>
+
+GGML_VULKAN_DEVICE & GGML_VK_VISIBLE_DEVICES - use Llama.cpp via Vulkan backend
+
+> export GGML_VULKAN_DEVICE=0,1
+
+> export GGML_VK_VISIBLE_DEVICES=0,1
+
+<details><summary>Explanation</summary>
+
+https://github.com/ggerganov/llama.cpp/issues/6166
 
 </details>
 
@@ -572,11 +607,21 @@ This is optional.
 
 To install:
 
-> sudo apt install vulkan-amdgpu
+> sudo apt install vulkan-amdgpu vulkan-tools vulkan-validationlayers vulkan-validationlayers-dev
 
 To check:
 
 > apt list --installed | grep vulkan
+
+To set related Vulkan SDK environment variables:
+
+(check the path of $VULKAN_SDK)
+
+> export PATH=$PATH:$VULKAN_SDK/bin
+
+> export LD_LIBRARY_PATH=$VULKAN_SDK/lib
+
+> export VK_LAYER_PATH=$VULKAN_SDK/etc/explicit_layer.d
 
 # CUDA-compatible Alternative
 
