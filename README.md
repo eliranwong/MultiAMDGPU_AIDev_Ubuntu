@@ -494,11 +494,11 @@ The author managed to installed llama.cpp with
 
 Alternately,
 
-With hipBLAS (ROCm) as backend:
+Use hipBLAS (ROCm) as backend:
 
 > CMAKE_ARGS="-DLLAMA_HIPBLAS=on" pip install llama-cpp-python
 
-With Vulkan as backend:
+Use Vulkan as backend:
 
 > CMAKE_ARGS="-DLLAMA_VULKAN=on" pip install llama-cpp-python
 
@@ -603,25 +603,41 @@ https://github.com/ROCm/AMDMIGraphX
 
 # Vulkan
 
-This is optional.
+Install vulkan to use vulkan backend for some applications, e.g. llama.cpp.
 
 To install:
 
+> wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
+
+> sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list https://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list
+
+> sudo apt update -y
+
+> sudo apt install -y vulkan-sdk
+
+Alternately,
+
 > sudo apt install vulkan-amdgpu vulkan-tools vulkan-validationlayers vulkan-validationlayers-dev
 
-To check:
+# To verify the installation, use the command below:
 
 > apt list --installed | grep vulkan
 
-To set related Vulkan SDK environment variables:
+> vulkaninfo
 
 (check the path of $VULKAN_SDK)
 
-> export PATH=$PATH:$VULKAN_SDK/bin
+e.g.
 
-> export LD_LIBRARY_PATH=$VULKAN_SDK/lib
+> locate explicit_layer.d # /usr/share/vulkan/explicit_layer.d
 
-> export VK_LAYER_PATH=$VULKAN_SDK/etc/explicit_layer.d
+To set related Vulkan SDK environment variables:
+
+> export VULKAN_SDK=/usr/share/vulkan
+
+> export VK_LAYER_PATH=$VULKAN_SDK/explicit_layer.d
+
+Reference: https://github.com/ggerganov/llama.cpp#vulkan
 
 # CUDA-compatible Alternative
 
