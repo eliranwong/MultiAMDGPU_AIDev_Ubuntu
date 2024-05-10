@@ -496,6 +496,8 @@ Alternately,
 
 Use hipBLAS (ROCm) as backend:
 
+> sudo apt install libc6-dev libstdc++-12-dev
+
 > CMAKE_ARGS="-DLLAMA_HIPBLAS=on" pip install llama-cpp-python
 
 Use Vulkan as backend:
