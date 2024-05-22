@@ -94,6 +94,34 @@ Version 6.0.2 is preferred as it is officially supported by PyTorch latest stabl
 
 For more options of use cases, read https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/amdgpu-install.html#use-cases
 
+## Modify Grub to Avoid Hangs
+
+Reference: https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.1.0/how-to/native-install/install-faq.html#issue-5-application-hangs-on-multi-gpu-systems
+
+Add "iommu=pt" to GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub. 
+
+For example, 
+
+> sudo nano /etc/default/grub
+
+Changed from:
+
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+```
+
+To:
+
+```
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iommu=pt"
+```
+
+Update grub
+
+> sudo update-grub
+
+## Verify
+
 Restart to make changes effective:
 
 > sudo reboot
