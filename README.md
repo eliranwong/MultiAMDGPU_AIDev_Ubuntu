@@ -604,13 +604,13 @@ https://github.com/nktice/AMD-AI/blob/main/performance-tuning.md
 
 4. Fix this error when encountered:
 
-'''
+```
   File ".../easy-diffusion/installer_files/env/lib/python3.8/site-packages/clip/clip.py", line 6, in <module>
     from pkg_resources import packaging
 ImportError: cannot import name 'packaging' from 'pkg_resources' (.../easy-diffusion/installer_files/env/lib/python3.8/site-packages/pkg_resources/__init__.py)
-'''
+```
 
-Press enter to continue and edit line 6 of the file '.../easy-diffusion/installer_files/env/lib/python3.8/site-packages/clip/clip.py' manually and changed it to:
+Press any key to continue and edit line 6 of the file '.../easy-diffusion/installer_files/env/lib/python3.8/site-packages/clip/clip.py' manually and changed it to:
 
 > import packaging
 
