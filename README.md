@@ -586,6 +586,42 @@ https://huggingface.co/docs/optimum/main/en/amd/amdgpu/overview
 
 https://github.com/nktice/AMD-AI/blob/main/performance-tuning.md
 
+# Easy-diffusion
+
+1. Download
+
+> wget https://github.com/cmdr2/stable-diffusion-ui/releases/latest/download/Easy-Diffusion-Linux.zip
+
+2. Unzip
+
+> unzip Easy-Diffusion-Linux.zip
+
+3. First attempt to install (expect an error):
+
+> cd easy-diffusion
+
+> ./start.sh
+
+4. Fix this error when encountered:
+
+'''
+  File ".../easy-diffusion/installer_files/env/lib/python3.8/site-packages/clip/clip.py", line 6, in <module>
+    from pkg_resources import packaging
+ImportError: cannot import name 'packaging' from 'pkg_resources' (.../easy-diffusion/installer_files/env/lib/python3.8/site-packages/pkg_resources/__init__.py)
+'''
+
+Press enter to continue and edit line 6 of the file '.../easy-diffusion/installer_files/env/lib/python3.8/site-packages/clip/clip.py' manually and changed it to:
+
+> import packaging
+
+5. Run the setup again
+
+> ./start.sh
+
+6. Launch the UI
+
+> open http://localhost:9000 
+
 # Xorg issue
 
 If you use Xorg instead of Wayland and have the issue where the mouse cursor is invisible, you can try to create the file /etc/X11/xorg.conf.d/99-modesetting.conf with the following content:
