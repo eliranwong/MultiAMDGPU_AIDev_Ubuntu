@@ -480,6 +480,10 @@ To verify:
 
 Read more at https://pytorch.org/get-started/locally/#linux-verification
 
+# MIGraphX
+
+https://github.com/ROCm/AMDMIGraphX?tab=readme-ov-file#installing-from-binaries
+
 # ONNX
 
 https://onnxruntime.ai/getting-started
@@ -487,6 +491,10 @@ https://onnxruntime.ai/getting-started
 Either https://onnxruntime.ai/docs/build/eps.html#amd-migraphx or https://onnxruntime.ai/docs/build/eps.html#amd-rocm
 
 https://onnxruntime.ai/docs/execution-providers/ROCm-ExecutionProvider.html
+
+# DeepSpeed
+
+https://cloudblogs.microsoft.com/opensource/2022/03/21/supporting-efficient-large-model-training-on-amd-instinct-gpus-with-deepspeed/
 
 # tensorflow
 
