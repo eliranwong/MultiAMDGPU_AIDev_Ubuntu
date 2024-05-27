@@ -86,6 +86,14 @@ Version 6.0.2 is preferred as it is officially supported by PyTorch latest stabl
 
 ## Install
 
+Option 1 - via package manager<br>
+(https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.0.2/how-to/native-install/ubuntu.html)
+
+> sudo apt install rocm6.0.2 rocminfo6.0.2 rocm-dev6.0.2 rocm-libs6.0.2 rocm-validation-suite6.0.2
+
+Option 2 - via package amdgpu-install<br>
+(https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.0.2/how-to/amdgpu-install.html)
+
 > wget https://repo.radeon.com/amdgpu-install/6.0.2/ubuntu/jammy/amdgpu-install_6.0.60002-1_all.deb
 
 > sudo apt install ./amdgpu-install_6.0.60002-1_all.deb
@@ -125,10 +133,6 @@ Update grub
 Restart to make changes effective:
 
 > sudo reboot
-
-To install rocm-related packages:
-
-> sudo apt install rocminfo rocm-libs rocm-smi-lib
 
 To verify, run:
 
