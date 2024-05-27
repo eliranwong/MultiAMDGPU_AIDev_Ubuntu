@@ -35,7 +35,7 @@ back up your data and proceed with caution.
 
 Read supporting versions at https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-distributions
 
-![Ubuntu_support](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/ad82d57f-90d7-4d22-bc82-a43cff68dcbb)
+pt --fix-broken install
 
 Check your current Ubuntu and kernal versions, read:
 
@@ -43,7 +43,7 @@ https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisit
 
 Select supported versions of Ubuntu and kernel, e.g.
 
-> Ubuntu 22.04.4 + Kernel 6.5
+> Ubuntu 22.04.4 + Kernel 6.6
 
 ## Install a Supported Version or Kernel
 
@@ -84,14 +84,7 @@ Version 6.0.2 is preferred as it is officially supported by PyTorch latest stabl
 
 > sudo apt remove --purge amdgpu-install
 
-## Install
-
-Option 1 - via package manager<br>
-(https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.0.2/how-to/native-install/ubuntu.html)
-
-> sudo apt install rocm6.0.2 rocminfo6.0.2 rocm-dev6.0.2 rocm-libs6.0.2 rocm-validation-suite6.0.2
-
-Option 2 - via package amdgpu-install<br>
+## Install via package amdgpu-install<br>
 (https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.0.2/how-to/amdgpu-install.html)
 
 > wget https://repo.radeon.com/amdgpu-install/6.0.2/ubuntu/jammy/amdgpu-install_6.0.60002-1_all.deb
@@ -101,6 +94,8 @@ Option 2 - via package amdgpu-install<br>
 > sudo amdgpu-install --usecase=graphics,opencl,hip,hiplibsdk,rocm,rocmdev,mllib,mlsdk --no-dkms
 
 For more options of use cases, read https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/amdgpu-install.html#use-cases
+
+To install via package manager, read https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.0.2/how-to/native-install/ubuntu.html
 
 ## Modify Grub to Avoid Hangs
 
