@@ -481,24 +481,6 @@ To verify:
 
 Read more at https://pytorch.org/get-started/locally/#linux-verification
 
-# ONNX with ROCm
-
-With docker:
-
-> git clone https://github.com/microsoft/onnxruntime.git
-
-> cd onnxruntime/dockerfiles
-
-> docker build -t onnxruntime-rocm -f Dockerfile.rocm .
-
-> docker run -it --device=/dev/kfd --device=/dev/dri --group-add video onnxruntime-rocm
-
-Read: https://github.com/microsoft/onnxruntime/tree/main/dockerfiles#rocm
-
-To build from source, read: https://onnxruntime.ai/docs/build/eps.html#amd-rocm
-
-More at: https://onnxruntime.ai/docs/
-
 # MIGraphX
 
 Install ROCm before installing MIGraphX.  To install MIGraphX
@@ -509,9 +491,57 @@ Header files and libraries are installed under /opt/rocm-<version>, where <versi
 
 Read: https://github.com/ROCm/AMDMIGraphX#amd-migraphx
 
-# Onnx ExecutionProvider
+# ONNX with ROCm
 
-With ROCm:
+Option 1: Install with pip
+
+Important - Install MIGraphX FIRST!
+
+> pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0.2/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl
+
+Option 2: Install with docker
+
+> git clone https://github.com/microsoft/onnxruntime.git
+
+> cd onnxruntime/dockerfiles
+
+> docker build -t onnxruntime-rocm -f Dockerfile.rocm .
+
+> docker run -it --device=/dev/kfd --device=/dev/dri --group-add video onnxruntime-rocm
+
+> pip list | grep onnxruntime-rocm
+
+Read: https://github.com/microsoft/onnxruntime/tree/main/dockerfiles#rocm
+
+Option 3: To build from source
+
+Read: https://onnxruntime.ai/docs/build/eps.html#amd-rocm
+
+More at: https://onnxruntime.ai/docs/
+
+# Onnx ExecutionProviders
+
+To verify:
+
+> python3
+
+```
+import onnxruntime as ort
+ort.get_available_providers()
+```
+
+To use MiGraphX ExecutionProvider:
+
+Read: https://onnxruntime.ai/docs/execution-providers/MIGraphX-ExecutionProvider.html
+
+```
+providers = [
+    'MIGraphXExecutionProvider',
+    'CPUExecutionProvider',
+]
+```
+
+To use ROCm ExecutionProvider:
 
 Read: https://onnxruntime.ai/docs/execution-providers/ROCm-ExecutionProvider.html
 
@@ -526,17 +556,6 @@ Option: user_compute_stream
 
 ```
 providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device(), "user_compute_stream": str(torch.cuda.current_stream().cuda_stream)})]
-```
-
-With MiGraphX:
-
-Read: https://onnxruntime.ai/docs/execution-providers/MIGraphX-ExecutionProvider.html
-
-```
-providers = [
-    'MIGraphXExecutionProvider',
-    'CPUExecutionProvider',
-]
 ```
 
 # DeepSpeed
