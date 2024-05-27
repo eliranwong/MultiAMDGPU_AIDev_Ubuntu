@@ -306,6 +306,8 @@ export HSA_OVERRIDE_GFX_VERSION=11.0.0: This is a command that sets the `HSA_OVE
 
 In summary, these commands and variables are used to help ensure compatibility between your GPU and the ROCm software, even if your GPU is not yet fully supported. They allow you to override the reported version of your GPU so that the ROCm software treats it as a fully supported version. This can be particularly useful when working with newer GPUs like the AMD Radeon RX 7900 XTX. Please note that while this can enable you to use the ROCm software with unsupported GPUs, it may not provide optimal performance or full functionality. It's always best to check the official ROCm documentation or the GPU manufacturer's documentation for the most accurate and up-to-date information.
 
+Remarks: Set HSA_OVERRIDE_GFX_VERSION=10.3.0 for 680M, and HSA_OVERRIDE_GFX_VERSION=11.0.0 for 780M.
+
 </details>
 
 ROCR_VISIBLE_DEVICES - device indices or UUIDs that will be exposed to applications, e.g.:
