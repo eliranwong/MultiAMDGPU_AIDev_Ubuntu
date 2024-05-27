@@ -715,12 +715,6 @@ Section "Device"
 EndSection
 ```
 
-# DMIGraphX
-
-https://github.com/ROCm/AMDMIGraphX
-
-> sudo apt update && sudo apt install -y migraphx
-
 # Vulkan
 
 Install vulkan to use vulkan backend for some applications, e.g. llama.cpp.
