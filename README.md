@@ -669,7 +669,7 @@ Ollama detects AMD GPUs automatically on installation:
 
 ![amdgpu_ollama](https://github.com/eliranwong/freegenius/assets/25262722/c985062b-da23-4879-8d55-76b16e1017f3)
 
-# llama.cpp
+# llama-cpp-python
 
 The author managed to installed llama.cpp with 
 
