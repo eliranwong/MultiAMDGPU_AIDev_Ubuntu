@@ -31,7 +31,7 @@ research. While I strive to provide accurate and up-to-date information, I
 cannot guarantee that everything will work perfectly for every setup. Always 
 back up your data and proceed with caution.
 
-# Hardware Configurations
+# Hardware Configurations for Multi-GPUs
 
 * PCIe® slots connected to the GPU must have identical PCIe lane width or bifurcation settings, and support PCIe 3.0 Atomics.
 
@@ -39,7 +39,7 @@ back up your data and proceed with caution.
 
 * Ensure the PSU has sufficient wattage to support multiple GPUs.
 
-* Do not mix iGPU enabled with Discrete GPU
+* Enable either iGPU or Discrete GPU
 
 Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/limitations.html#multi-gpu-configuration
 
