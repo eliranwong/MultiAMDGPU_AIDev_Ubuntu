@@ -31,6 +31,18 @@ research. While I strive to provide accurate and up-to-date information, I
 cannot guarantee that everything will work perfectly for every setup. Always 
 back up your data and proceed with caution.
 
+# Hardware Configurations
+
+* PCIe® slots connected to the GPU must have identical PCIe lane width or bifurcation settings, and support PCIe 3.0 Atomics.
+
+* Only use PCIe slots connected by the CPU and to avoid PCIe slots connected via chipset. Refer to product-specific motherboard documentation for PCIe electrical configuration.
+
+* Ensure the PSU has sufficient wattage to support multiple GPUs.
+
+* Do not mix iGPU enabled with Discrete GPU
+
+Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/limitations.html#multi-gpu-configuration
+
 # Select Ubuntu and Kernel Versions
 
 Read supporting versions at https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-distributions
@@ -237,7 +249,7 @@ I use my case as an example:
 
 ```
 export ROCM_HOME=/opt/rocm-6.0.2
-export LD_LIBRARY_PATH=/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/opt/rocm-6.0.2/include:/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH
 export PATH=/home/eliran/.local/bin:/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/llvm/bin:$PATH
 export HSA_OVERRIDE_GFX_VERSION=11.0.0
 export ROCR_VISIBLE_DEVICES=GPU-xxxxxxxxxxxxxxxx,GPU-xxxxxxxxxxxxxxxx
@@ -838,6 +850,8 @@ https://rocm.docs.amd.com/projects/install-on-linux/en/latest/tutorial/install-o
 https://amdgpu-install.readthedocs.io/en/latest/install-overview.html
 
 https://huggingface.co/amd
+
+https://community.amd.com/t5/ai/ct-p/amd_ai
 
 ## Others
 
