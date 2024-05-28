@@ -491,13 +491,19 @@ Header files and libraries are installed under /opt/rocm-<version>, where <versi
 
 Read: https://github.com/ROCm/AMDMIGraphX#amd-migraphx
 
-# ONNX with ROCm
+# ONNX Runtime with ROCm
+
+There are several options to set up onnx runtime in a python project, option 1 is preferred:
 
 Option 1: Install with pip
 
 Important - Install MIGraphX FIRST!
 
 > pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0.2/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl
+
+> pip list | grep onnxruntime-rocm
+
+Remarks: Whl files that support different rocm versions are available at https://repo.radeon.com/rocm/manylinux/
 
 Option 2: Install with docker
 
