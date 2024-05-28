@@ -35,15 +35,13 @@ back up your data and proceed with caution.
 
 Read supporting versions at https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-distributions
 
-pt --fix-broken install
-
 Check your current Ubuntu and kernal versions, read:
 
 https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisites.html
 
 Select supported versions of Ubuntu and kernel, e.g.
 
-> Ubuntu 22.04.4 + Kernel 6.6
+> Ubuntu 22.04.4 + Kernel 6.6.32
 
 ## Install a Supported Version or Kernel
 
@@ -72,7 +70,7 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 </details>
 
-# Install ROCM 6.0
+# Install ROCM 6.0.2
 
 Version 6.0.2 is preferred as it is officially supported by PyTorch latest stable version 2.3.0. Read more at supported versions at https://pytorch.org/get-started/locally/
 
@@ -91,7 +89,7 @@ Version 6.0.2 is preferred as it is officially supported by PyTorch latest stabl
 
 > sudo apt install ./amdgpu-install_6.0.60002-1_all.deb
 
-> sudo amdgpu-install --usecase=graphics,opencl,hip,hiplibsdk,rocm,rocmdev,mllib,mlsdk --no-dkms
+> sudo amdgpu-install --rocmrelease=6.0.2 --usecase=graphics,opencl,hip,hiplibsdk,rocm,rocmdev,mllib,mlsdk --vulkan=amdvlk,pro --no-dkms -y --accept-eula
 
 For more options of use cases, read https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/amdgpu-install.html#use-cases
 
@@ -795,23 +793,13 @@ Section "Device"
 EndSection
 ```
 
-# Vulkan
+# Vulkan Tools
 
-Install vulkan to use vulkan backend for some applications, e.g. llama.cpp.
+Install vulkan, optionally, to use vulkan backend for some applications, e.g. llama.cpp.
 
-To install:
+vulkan is installed with amdgpu-install, tools are installed with apt:
 
-> wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
-
-> sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list https://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list
-
-> sudo apt update -y
-
-> sudo apt install -y vulkan-sdk
-
-Alternately,
-
-> sudo apt install vulkan-amdgpu vulkan-tools vulkan-validationlayers vulkan-validationlayers-dev
+> sudo apt install vulkan-tools vulkan-validationlayers vulkan-validationlayers-dev
 
 # To verify the installation, use the command below:
 
@@ -841,9 +829,17 @@ Current known issues of ZLUDA: https://github.com/vosen/ZLUDA#known-issues
 
 # References
 
-https://rocm.docs.amd.com/en/docs-5.7.1/deploy/linux/os-native/install.html
+## Essential
+
+https://rocm.docs.amd.com/projects/radeon/en/latest/docs/prerequisites.html
+
+https://rocm.docs.amd.com/projects/install-on-linux/en/latest/tutorial/install-overview.html
+
+https://amdgpu-install.readthedocs.io/en/latest/install-overview.html
 
 https://huggingface.co/amd
+
+## Others
 
 https://huggingface.co/docs/optimum/main/en/amd/amdgpu/overview
 
@@ -888,9 +884,5 @@ https://onnxruntime.ai/docs/execution-providers/MIGraphX-ExecutionProvider.html
 https://onnxruntime.ai/docs/execution-providers/Vitis-AI-ExecutionProvider.html
 
 https://huggingface.co/docs/optimum/onnxruntime/usage_guides/amdgpu
-
-https://github.com/ROCm/onnxruntime
-
-https://rocm.docs.amd.com/projects/radeon/en/latest/docs/compatibility.html
 
 https://huggingface.co/blog/huggingface-and-optimum-amd
