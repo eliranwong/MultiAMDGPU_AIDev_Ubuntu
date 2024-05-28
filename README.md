@@ -564,6 +564,60 @@ Option: user_compute_stream
 providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device(), "user_compute_stream": str(torch.cuda.current_stream().cuda_stream)})]
 ```
 
+# Piper Text-to-Speech
+
+Piper-tts is a good offline tts engine that supports Linux. Its ONNX voice models are small in sizes that runs smooth even without GPUs.
+
+An [issue](https://github.com/rhasspy/piper/issues/483) and a [pull request](https://github.com/rhasspy/piper/pull/512) are created to support piper to accelrate with AMD-GPUs.
+
+Meanwhile, AMD-GPUs users can still workaround the issue with the following setup:
+
+To support ROCm-enabled GPUs via 'ROCMExecutionProvider' or 'MIGraphXExecutionProvider':
+
+1. Install piper-tts
+
+> pip install piper-tts
+
+2. Uninstall onnxruntime
+
+> pip uninstall onnxruntime
+
+3. Install onnxruntime-rocm
+
+> pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0.2/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl --no-cache-dir
+
+Remarks: Wheel files that support different ROCm versions are available at: https://repo.radeon.com/rocm/manylinux
+
+To verify:
+
+> python3
+```
+$ onnxruntime
+$ onnxruntime.get_available_providers()
+```
+
+Output:
+```
+['MIGraphXExecutionProvider', 'ROCMExecutionProvider', 'CPUExecutionProvider']
+```
+
+# Workaround:
+
+Manually edit the 'load' function in the file ../site-packages/piper/voice.py:
+
+From:
+
+```
+providers=["CPUExecutionProvider"]
+if not use_cuda
+else ["CUDAExecutionProvider"],
+```
+
+To:
+```
+providers=["MIGraphXExecutionProvider"],
+```
+
 # DeepSpeed
 
 https://cloudblogs.microsoft.com/opensource/2022/03/21/supporting-efficient-large-model-training-on-amd-instinct-gpus-with-deepspeed/
