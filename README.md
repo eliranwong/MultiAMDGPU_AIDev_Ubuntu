@@ -592,7 +592,7 @@ To verify:
 
 > python3
 ```
-$ onnxruntime
+$ import onnxruntime
 $ onnxruntime.get_available_providers()
 ```
 
