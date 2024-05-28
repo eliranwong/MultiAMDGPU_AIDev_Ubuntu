@@ -18,7 +18,7 @@ https://etcher.balena.io/#download-etcher
 
 > mainline-gtk
 
-Select version "6.5.11", for example, and click button "Install".
+Select version "6.6.32", for example, and click button "Install".
 
 Restart to make changes effective:
 
