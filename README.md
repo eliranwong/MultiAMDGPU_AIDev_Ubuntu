@@ -601,7 +601,7 @@ Output:
 ['MIGraphXExecutionProvider', 'ROCMExecutionProvider', 'CPUExecutionProvider']
 ```
 
-# Workaround:
+Workaround:
 
 Manually edit the 'load' function in the file ../site-packages/piper/voice.py:
 
