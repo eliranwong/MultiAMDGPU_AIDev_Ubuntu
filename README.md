@@ -669,7 +669,15 @@ Ollama detects AMD GPUs automatically on installation:
 
 ![amdgpu_ollama](https://github.com/eliranwong/freegenius/assets/25262722/c985062b-da23-4879-8d55-76b16e1017f3)
 
-# llama-cpp-python
+# Compile Llama.cpp from source
+
+hipBLAS: https://github.com/ggerganov/llama.cpp#hipblas
+
+CLBlast: https://github.com/ggerganov/llama.cpp#clblast
+
+Vulkan: https://github.com/ggerganov/llama.cpp#vulkan
+
+# Install llama-cpp-python Packages
 
 The author managed to installed llama.cpp with 
 
@@ -775,7 +783,7 @@ Install vulkan, optionally, to use vulkan backend for some applications, e.g. ll
 
 vulkan is installed with amdgpu-install, tools are installed with apt:
 
-> sudo apt install vulkan-tools vulkan-validationlayers vulkan-validationlayers-dev
+> sudo apt install libvulkan-dev vulkan-tools vulkan-validationlayers vulkan-validationlayers-dev
 
 # To verify the installation, use the command below:
 
