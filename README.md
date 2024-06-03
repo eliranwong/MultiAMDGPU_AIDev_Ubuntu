@@ -53,7 +53,7 @@ https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisit
 
 Select supported versions of Ubuntu and kernel, e.g.
 
-> Ubuntu 22.04.4 + Kernel 6.5.0-35.35
+> Ubuntu 22.04.4 + Kernel 6.5.11
 
 ## Install a Supported Version or Kernel
 
