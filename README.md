@@ -805,6 +805,12 @@ To set related Vulkan SDK environment variables:
 
 Reference: https://github.com/ggerganov/llama.cpp#vulkan
 
+# JAX
+
+https://jax.readthedocs.io/en/latest/developer.html#additional-notes-for-building-a-rocm-jaxlib-for-amd-gpus
+
+https://keras.io/guides/distributed_training_with_jax/
+
 # CUDA-compatible Alternative
 
 https://github.com/vosen/ZLUDA
