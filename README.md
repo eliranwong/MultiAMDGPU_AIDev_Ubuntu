@@ -101,7 +101,7 @@ Version 6.0.2 is preferred as it is officially supported by PyTorch latest stabl
 
 > sudo apt install ./amdgpu-install_6.0.60002-1_all.deb
 
-> sudo amdgpu-install --rocmrelease=6.0.2 --usecase=graphics,opencl,hip,hiplibsdk,rocm,rocmdev,mllib,mlsdk --vulkan=amdvlk,pro --no-dkms -y --accept-eula
+> sudo amdgpu-install --rocmrelease=6.0.2 --usecase=graphics,opencl,openclsdk,hip,hiplibsdk,rocm,rocmdev,rocmdevtools,lrt,mllib,mlsdk --vulkan=amdvlk,pro --no-dkms -y --accept-eula
 
 For more options of use cases, read https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/amdgpu-install.html#use-cases
 
