@@ -639,6 +639,26 @@ To:
 providers=["MIGraphXExecutionProvider"],
 ```
 
+To upgrade piper-tts, follow the following steps:
+
+1. Uninstall onnxruntime-rocm
+
+> pip uninstall onnxruntime-rocm
+
+2. Upgrade piper-tts
+
+> pip install --upgrade piper-tts --no-cache-dir
+
+3. Uninstall onnxruntime
+
+> pip uninstall onnxruntime
+
+5. Install Install onnxruntime-rocm again
+
+> pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0.2/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl --no-cache-dir
+
+6. Manually edit the 'load' function in the file ../site-packages/piper/voice.py as described above.
+
 # DeepSpeed
 
 https://cloudblogs.microsoft.com/opensource/2022/03/21/supporting-efficient-large-model-training-on-amd-instinct-gpus-with-deepspeed/
