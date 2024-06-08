@@ -2,14 +2,14 @@
 
 Tested device: Beelink GTR6 (Ryzen 9 6900HX CPU + integrated Radeon 680M GPU + 64GB RAM)
 
-Followed https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/README.md for for installation ROCm, pytorch, MIGraphX, etc.
+Followed https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/README.md for for installation ROCm 6.0.2.
 
 Environment variables:
 
 ```
-export ROCM_HOME=/opt/rocm
-export LD_LIBRARY_PATH=/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
-export PATH=$HOME/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
+export ROCM_HOME=/opt/rocm-6.0.2
+export LD_LIBRARY_PATH=/opt/rocm-6.0.2/include:/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH
+export PATH=$HOME/.local/bin:/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/llvm/bin:$PATH
 export HSA_OVERRIDE_GFX_VERSION=10.3.0
 ```
 
