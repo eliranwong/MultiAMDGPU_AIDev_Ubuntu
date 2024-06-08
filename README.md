@@ -908,3 +908,5 @@ https://onnxruntime.ai/docs/execution-providers/Vitis-AI-ExecutionProvider.html
 https://huggingface.co/docs/optimum/onnxruntime/usage_guides/amdgpu
 
 https://huggingface.co/blog/huggingface-and-optimum-amd
+
+https://discuss.linuxcontainers.org/t/ai-tutorial-rocm-and-pytorch-on-amd-apu-or-gpu/19743
