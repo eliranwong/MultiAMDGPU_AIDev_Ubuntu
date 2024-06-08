@@ -32,7 +32,7 @@ cd ~
 git clone https://github.com/ggerganov/llama.cpp
 mv llama.cpp cpu
 cd cpu
-make LLAMA_OPENBLAS=1 -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
+make -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
 # CPU ONLY with OpenBLAS
 cd ..
 git clone https://github.com/ggerganov/llama.cpp
