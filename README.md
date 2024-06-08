@@ -61,7 +61,17 @@ https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/Install_Ubuntu_
 
 # Add User to Groups for GPU Access
 
+Add current user to groups 'render' and 'video'
+
 > sudo usermod -a -G render,video $LOGNAME
+
+To add all future users to the video and render groups by default, run the following commands:
+
+```
+echo 'ADD_EXTRA_GROUPS=1' | sudo tee -a /etc/adduser.conf
+echo 'EXTRA_GROUPS=video' | sudo tee -a /etc/adduser.conf
+echo 'EXTRA_GROUPS=render' | sudo tee -a /etc/adduser.conf
+```
 
 <details><summary>Explanation</summary>
 
