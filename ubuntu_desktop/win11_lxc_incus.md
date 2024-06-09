@@ -66,6 +66,8 @@ Diferent versions can be found at: https://fedorapeople.org/groups/virt/virtio-w
 
 # Enable Sound
 
+Read https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/ubuntu_desktop/basic.md#replace-pulseaudio-with-pipewire-on-ubuntu-2204 for setting up pipewire
+
 > sudo apt install -y pulseaudio pipewire-pulse libasound2-plugins
 
 # Pulseaudio users
