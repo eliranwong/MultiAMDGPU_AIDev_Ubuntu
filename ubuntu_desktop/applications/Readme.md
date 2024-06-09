@@ -1,0 +1,1 @@
+Notes modified from https://github.com/eliranwong/ChromeOSLinux
