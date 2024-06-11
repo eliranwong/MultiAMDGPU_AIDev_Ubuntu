@@ -87,3 +87,7 @@ https://xahteiwi.eu/resources/hints-and-kinks/lxc-basics/
 https://discourse.ubuntu.com/t/lxd-incus-profile-for-gui-apps-wayland-x11-and-pulseaudio/40255
 
 https://discuss.linuxcontainers.org/t/incus-lxd-profile-for-gui-apps-wayland-x11-and-pulseaudio/18295/2
+
+https://discuss.linuxcontainers.org/t/how-to-add-sound-to-an-ubuntu-lxd-vm/14372
+
+https://discuss.linuxcontainers.org/t/audio-via-pulseaudio-inside-container/8768
