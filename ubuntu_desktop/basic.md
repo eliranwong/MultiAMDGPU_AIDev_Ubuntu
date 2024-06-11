@@ -464,7 +464,7 @@ Alternately, use run gui app 'dconf-editor'
 
 # Replace PulseAudio with PipeWire on Ubuntu 22.04
 
-The fix for PulseAudio, mentioned above, is not a satisfactory one.  Therefore, we find it better to replace PulseAudio with Pipewire on Ubuntu 22.04.
+The fix for [PulseAudio issues](https://github.com/eliranwong/ubuntu_on_surface_go#fix-pulseaudio-playback-delay), it better to replace PulseAudio with Pipewire on Ubuntu 22.04.
 
 Check current status:
 
