@@ -68,7 +68,9 @@ Diferent versions can be found at: https://fedorapeople.org/groups/virt/virtio-w
 
 > sudo apt install -y pulseaudio pipewire-pulse libasound2-plugins
 
-# Pulseaudio users
+> lxc config set win11 raw.qemu -- "-device intel-hda -device hda-duplex -audio spice"
+
+## Pulseaudio users
 
 > sudo nano /etc/pulse/default.pa
 
