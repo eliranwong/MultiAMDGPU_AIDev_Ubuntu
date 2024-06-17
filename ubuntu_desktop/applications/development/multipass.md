@@ -10,13 +10,13 @@ Run in ```primary```:
 
 > sudo apt update && sudo apt full-upgrade -y
 
-> sudo modprobe snd-hda-intel
+> sudo apt install linux-modules-extra-`uname -r`
 
-> echo "options snd-hda-intel model=generic" | sudo tee -a /etc/modprobe.d/alsa-base.conf
-
-> sudo apt install ubuntu-desktop xrdp
+> sudo apt install -y ubuntu-desktop xrdp
 
 > sudo passwd ubuntu
+
+# Connect from Host
 
 > remmina -c 'rdp://'$(multipass list | grep '^primary' | awk '{print $3}')
 
