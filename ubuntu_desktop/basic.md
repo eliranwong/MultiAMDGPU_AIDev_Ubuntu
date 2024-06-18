@@ -348,6 +348,12 @@ To install:
 
 > wget -P ~/.local/bin/ https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
 
+> chmod +x ~/.local/bin/yt-dlp
+
+Update path, if `~/.local/bin/` is not in the path:
+
+> export PATH=$HOME/.local/bin:$PATH
+
 To download mp3 audio:
 
 > yt-dlp -x --audio-format mp3 [youtube link]
@@ -381,7 +387,7 @@ alias update='sudo apt update && sudo apt dist-upgrade && updatedb && youtube-dl
 alias mp3='yt-dlp -x --audio-format mp3'
 alias mp4='yt-dlp -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'
 alias chrome='google-chrome-stable &>/dev/null & disown'
-alias firefox='/home/eliranwong/.Applications/firefox/firefox &>/dev/null & disown'
+alias firefox='/home/eliran/.Applications/firefox/firefox &>/dev/null & disown'
 alias win11='lxc console win11 --type=vga & disown'
 alias annotator='com.github.phase1geo.annotator & disown'
 ```

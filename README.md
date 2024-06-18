@@ -474,6 +474,8 @@ Read more at:
 
 - https://rocmdocs.amd.com/en/latest/conceptual/gpu-isolation.html#environment-variables
 
+https://rocmdocs.amd.com/projects/HIP/en/develop/how-to/debugging.html#useful-environment-variables
+
 - https://medium.com/@damngoodtech/amd-rocm-pytorch-and-ai-on-ubuntu-the-rules-of-the-jungle-24a7ab280b17
 
 # Python libraries
