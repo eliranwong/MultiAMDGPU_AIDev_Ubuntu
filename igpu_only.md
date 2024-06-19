@@ -130,3 +130,37 @@ llama_print_timings:       total time =   23803.76 ms /   348 tokens
 ## Observation
 
 Inference with ROCm + iGPU offloading is roughly 1.5x faster (prompt eval time, eval time) than other tested methods.
+
+## Further Comparison with Running inside an Incus container
+
+Updated on: 19th June 2024
+
+An incus container is set up on the same device.  Read https://github.com/eliranwong/incus_container_gui_setup/blob/main/ubuntu_22.04_LTS_tested.md
+
+This test is to compare the inference speed of running same command OUTSIDE and INSIDE the incus container:
+
+> ./main -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') --temp 0 -m 'mistral.gguf' -p "What is machine learning?" -ngl 33
+
+Running OUTSIDE incus container:
+
+```
+llama_print_timings:        load time =    3248.97 ms
+llama_print_timings:      sample time =      19.88 ms /   343 runs   (    0.06 ms per token, 17256.13 tokens per second)
+llama_print_timings: prompt eval time =     142.06 ms /     6 tokens (   23.68 ms per token,    42.23 tokens per second)
+llama_print_timings:        eval time =   23519.62 ms /   342 runs   (   68.77 ms per token,    14.54 tokens per second)
+llama_print_timings:       total time =   23871.77 ms /   348 tokens
+```
+
+Running INSIDE incus container:
+
+```
+llama_print_timings:        load time =    3449.31 ms
+llama_print_timings:      sample time =      12.81 ms /   343 runs   (    0.04 ms per token, 26767.60 tokens per second)
+llama_print_timings: prompt eval time =     144.80 ms /     6 tokens (   24.13 ms per token,    41.44 tokens per second)
+llama_print_timings:        eval time =   23498.68 ms /   342 runs   (   68.71 ms per token,    14.55 tokens per second)
+llama_print_timings:       total time =   23872.83 ms /   348 tokens
+```
+
+## Observation
+
+The running speed is just slightly lower inside an incus container, though the difference is not significant.
