@@ -141,7 +141,7 @@ This test is to compare the inference speed of running same command OUTSIDE and 
 
 > ./main -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') --temp 0 -m 'mistral.gguf' -p "What is machine learning?" -ngl 33
 
-Running OUTSIDE incus container:
+Running OUTSIDE incus container (the host):
 
 ```
 llama_print_timings:        load time =    3248.97 ms
