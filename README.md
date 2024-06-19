@@ -117,6 +117,8 @@ For more options of use cases, read https://rocm.docs.amd.com/projects/install-o
 
 To install via package manager, read https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.0.2/how-to/native-install/ubuntu.html
 
+To install ROCm inside a container, read: Read https://github.com/eliranwong/incus_container_gui_setup
+
 ## Modify Grub to Avoid Hangs
 
 Reference: https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.1.0/how-to/native-install/install-faq.html#issue-5-application-hangs-on-multi-gpu-systems
