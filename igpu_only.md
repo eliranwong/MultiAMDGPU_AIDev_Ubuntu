@@ -167,7 +167,7 @@ The running speed is just slightly lower inside an incus container, though the d
 
 ## Running INSIDE incus container with ROCm 6.1.2
 
-An incus container is set up, on the same machine, for testing ROCm 6.1.2. Read https://github.com/eliranwong/incus_container_gui_setup/blob/main/ubuntu_22.04_latest_rocm_tested.md
+An incus container is set up, on the same machine, for testing ROCm 6.1.2. Read https://github.com/eliranwong/incus_container_gui_setup/blob/main/ubuntu_22.04_LTS_latest_rocm_tested.md
 
 ```
 llama_print_timings:        load time =    4449.41 ms
