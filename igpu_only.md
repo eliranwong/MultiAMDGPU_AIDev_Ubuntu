@@ -176,7 +176,3 @@ llama_print_timings: prompt eval time =     130.74 ms /     6 tokens (   21.79 m
 llama_print_timings:        eval time =   23766.91 ms /   342 runs   (   69.49 ms per token,    14.39 tokens per second)
 llama_print_timings:       total time =   24146.75 ms /   348 tokens
 ```
-
-## Observation
-
-Running with ROCm 6.1.2 is faster than with ROCm 6.0.2
