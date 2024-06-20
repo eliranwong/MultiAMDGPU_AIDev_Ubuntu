@@ -164,3 +164,19 @@ llama_print_timings:       total time =   23872.83 ms /   348 tokens
 ## Observation
 
 The running speed is just slightly lower inside an incus container, though the difference is not significant.
+
+## Running INSIDE incus container with ROCm 6.1.2
+
+An incus container is set up, on the same machine, for testing ROCm 6.1.2. Read https://github.com/eliranwong/incus_container_gui_setup/blob/main/ubuntu_22.04_latest_rocm_tested.md
+
+```
+llama_print_timings:        load time =    4449.41 ms
+llama_print_timings:      sample time =      11.86 ms /   343 runs   (    0.03 ms per token, 28918.30 tokens per second)
+llama_print_timings: prompt eval time =     130.74 ms /     6 tokens (   21.79 ms per token,    45.89 tokens per second)
+llama_print_timings:        eval time =   23766.91 ms /   342 runs   (   69.49 ms per token,    14.39 tokens per second)
+llama_print_timings:       total time =   24146.75 ms /   348 tokens
+```
+
+## Observation
+
+Running with ROCm 6.1.2 is faster than with ROCm 6.0.2
