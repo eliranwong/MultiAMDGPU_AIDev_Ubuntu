@@ -551,6 +551,8 @@ pip3 install --upgrade pip wheel
 
 # Install Compatible Versions of numpy and protobuf
 
+Run or re-run this line if any conflicts about versions of numpy / protobuf:
+
 ```
 pip install numpy==1.26.4 protobuf==4.25.3
 ```
@@ -654,7 +656,8 @@ providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device()
 # Install Tensorflow
 
 ```
-pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/tensorflow_rocm-2.15.1-cp310-cp310-manylinux_2_28_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/tensorflow_rocm-2.15.1-cp310-cp310-manylinux_2_28_x86_64.whl
+pip3 install tensorflow_rocm-2.15.1-cp310-cp310-manylinux_2_28_x86_64.whl
 ```
 
 To verify:
@@ -663,7 +666,7 @@ To verify:
 python3 -c 'import tensorflow' 2> /dev/null && echo 'Success' || echo 'Failure'
 ```
 
-# cupy
+# Install Cupy
 
 Export required variables, if you haven't:
 
@@ -679,6 +682,7 @@ Install from source:
 git clone https://github.com/cupy/cupy.git
 cd cupy
 git checkout rocm-ci-6.1
+git submodule update --init
 pip install git+https://github.com/ROCmSoftwarePlatform/hipify_torch.git
 pip install .
 ```
@@ -689,13 +693,13 @@ To verify:
 python3 -c "import cupy; print(cupy.__version__)"
 ```
 
-# spacy
+# Install Spacy
 
 With pytorch & cupy installed first, run:
 
 > pip install spacy
 
-# Piper Text-to-Speech
+# Install Piper Text-to-Speech
 
 Piper-tts is a good offline tts engine that supports Linux. Its ONNX voice models are small in sizes that runs smooth even without GPUs.
 
@@ -715,7 +719,11 @@ To support ROCm-enabled GPUs via 'ROCMExecutionProvider' or 'MIGraphXExecutionPr
 
 3. Install onnxruntime-rocm
 
-> pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0.2/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl --no-cache-dir
+> pip install onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+
+or
+
+> pip install --force-reinstall onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
 
 Remarks: Wheel files that support different ROCm versions are available at: https://repo.radeon.com/rocm/manylinux
 
@@ -749,23 +757,29 @@ To:
 providers=["MIGraphXExecutionProvider"],
 ```
 
-To upgrade piper-tts, follow the following steps:
+To upgrade piper-tts, follow the following order:
 
-1. Uninstall onnxruntime-rocm
-
-> pip uninstall onnxruntime-rocm
-
-2. Upgrade piper-tts
+1. Upgrade piper-tts
 
 > pip install --upgrade piper-tts --no-cache-dir
 
-3. Uninstall onnxruntime
+2. Uninstall onnxruntime
 
 > pip uninstall onnxruntime
 
-5. Install Install onnxruntime-rocm again
+3. Install Install onnxruntime-rocm again
 
-6. Manually edit the 'load' function in the file ../site-packages/piper/voice.py as described above.
+> pip install --force-reinstall onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+
+4. Manually edit the 'load' function in the file ../site-packages/piper/voice.py as described above.
+
+# Check Versions of Installed Packages
+
+Check combination of installed versions up to this point:
+
+> pip list > pip_list.txt
+
+https://github.com/eliranwong/pip_list.txt
 
 # DeepSpeed
 
