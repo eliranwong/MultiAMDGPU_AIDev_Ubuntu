@@ -41,21 +41,13 @@ back up your data and proceed with caution.
 
 * Enable either iGPU or Discrete GPU
 
-Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/limitations.html#multi-gpu-configuration
+Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/mgpu.html
 
 # Select Ubuntu and Kernel Versions
 
-Read supporting versions at https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-distributions
+Read https://rocm.docs.amd.com/projects/radeon/en/latest/docs/compatibility/native_linux/native_linux_compatibility.html
 
-Check your current Ubuntu and kernal versions, read:
-
-https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/prerequisites.html
-
-Select supported versions of Ubuntu and kernel, e.g.
-
-> Ubuntu 22.04.4 + Kernel 6.5.11
-
-## Install a Supported Version or Kernel
+If you need to install an additional kernel, read:
 
 https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/Install_Ubuntu_Kernel.md
 
@@ -92,38 +84,42 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 </details>
 
-# Install ROCM 6.0.2
+# Install ROCM 6.1.3
 
-Version 6.0.2 is preferred as it is officially supported by PyTorch latest stable version 2.3.0. Read more at supported versions at https://pytorch.org/get-started/locally/
+Version 6.1.3 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
 
-![Screenshot from 2024-04-29 16-07-45](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/assets/25262722/148bf15e-437c-4b94-b292-73f56c009f3d)
+```
+AMD has expanded support for Machine Learning Development on RDNA™ 3 GPUs with Radeon™ Software for Linux 24.10.3 with ROCm™ 6.1.3!
+```
+
+Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/index.html
 
 ## Uninstall Old Copies
 
-> amdgpu-install --uninstall
-
-> sudo apt remove --purge amdgpu-install
+```
+amdgpu-install --uninstall
+sudo apt remove --purge amdgpu-install
+```
 
 ## Install via package amdgpu-install<br>
-(https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.0.2/how-to/amdgpu-install.html)
 
-> wget https://repo.radeon.com/amdgpu-install/6.0.2/ubuntu/jammy/amdgpu-install_6.0.60002-1_all.deb
-
-> sudo apt install ./amdgpu-install_6.0.60002-1_all.deb
-
-> sudo amdgpu-install --rocmrelease=6.0.2 --usecase=graphics,opencl,openclsdk,hip,hiplibsdk,rocm,rocmdev,rocmdevtools,lrt,mllib,mlsdk --vulkan=amdvlk,pro --no-dkms -y --accept-eula
+```
+sudo apt update
+sudo apt-get install libstdc++-12-dev
+wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/jammy/amdgpu-install_6.1.60103-1_all.deb
+sudo apt install ./amdgpu-install_6.1.60103-1_all.deb
+sudo amdgpu-install --usecase=graphics,multimedia,multimediasdk,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
+```
 
 For more options of use cases, read https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/amdgpu-install.html#use-cases
 
-To install via package manager, read https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.0.2/how-to/native-install/ubuntu.html
+To install ROCm inside a container, read: [Read https://github.com/eliranwong/incus_container_gui_setup](https://github.com/eliranwong/incus_container_gui_setup/blob/main/ubuntu_22.04_LTS_rocm_6.1.3_tested.md)
 
-To install ROCm inside a container, read: Read https://github.com/eliranwong/incus_container_gui_setup
+## Modify Grub to Avoid a Known Hang Issue
 
-## Modify Grub to Avoid Hangs
+Issue: https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/native-install/install-faq.html#issue-5-application-hangs-on-multi-gpu-systems
 
-Reference: https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.1.0/how-to/native-install/install-faq.html#issue-5-application-hangs-on-multi-gpu-systems
-
-Add "iommu=pt" to GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub. 
+Solution: Add "iommu=pt" to GRUB_CMDLINE_LINUX_DEFAULT in /etc/default/grub. 
 
 For example, 
 
@@ -155,7 +151,7 @@ To verify, run:
 
 > rocminfo
 
-Read https://rocm.docs.amd.com/en/docs-6.0.2/deploy/linux/os-native/install.html#post-install-actions-and-verification-process
+Read https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-radeon.html#post-install-verification-checks
 
 # Fix Xorg issue
 
@@ -270,10 +266,16 @@ The following examples assume:
 
 I use my case as an example:
 
+Remarks:
+* The following settings assumes `/opt/rocm` points to `/opt/rocm-6.1.3`.
+* Modify the values of ROCR_VISIBLE_DEVICES to your own ones.
+
 ```
-export ROCM_HOME=/opt/rocm-6.0.2
-export LD_LIBRARY_PATH=/opt/rocm-6.0.2/include:/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH
-export PATH=/home/eliran/.local/bin:/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/llvm/bin:$PATH
+export GFX_ARCH=gfx1100
+export ROCM_VERSION=6.1
+export ROCM_HOME=/opt/rocm
+export LD_LIBRARY_PATH=/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
+export PATH=/home/eliran/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
 export HSA_OVERRIDE_GFX_VERSION=11.0.0
 export ROCR_VISIBLE_DEVICES=GPU-xxxxxxxxxxxxxxxx,GPU-xxxxxxxxxxxxxxxx
 export GPU_DEVICE_ORDINAL=0,1
@@ -288,7 +290,7 @@ export OMP_DEFAULT_DEVICE=1
 
 ROCM_HOME - tells AI libraries where ROCM is stored; typically somewhere in /opt, e.g.:
 
-> export ROCM_HOME=/opt/rocm-6.0.2
+> export ROCM_HOME=/opt/rocm-6.1.3
 
 <details><summary>Explanation</summary>
 
@@ -476,27 +478,104 @@ Read more at:
 
 - https://rocmdocs.amd.com/en/latest/conceptual/gpu-isolation.html#environment-variables
 
-https://rocmdocs.amd.com/projects/HIP/en/develop/how-to/debugging.html#useful-environment-variables
+- https://rocmdocs.amd.com/projects/HIP/en/develop/how-to/debugging.html#useful-environment-variables
 
 - https://medium.com/@damngoodtech/amd-rocm-pytorch-and-ai-on-ubuntu-the-rules-of-the-jungle-24a7ab280b17
+
+# Install Vulkan Tools
+
+This is optional if you don't use vulkan.
+
+```
+sudo apt install vulkan-tools libvulkan-dev vulkan-validationlayers vulkan-validationlayers-dev
+```
+
+To verify:
+
+```
+vulkaninfo
+```
+
+## Check the path of $VULKAN_SDK
+
+e.g.
+
+> locate explicit_layer.d # /usr/share/vulkan/explicit_layer.d
+
+To set related Vulkan SDK environment variables:
+
+> export VULKAN_SDK=/usr/share/vulkan
+
+> export VK_LAYER_PATH=$VULKAN_SDK/explicit_layer.d
+
+Reference: https://github.com/ggerganov/llama.cpp#vulkan
+
+# MIGraphX
+
+Install ROCm before installing MIGraphX.  To install MIGraphX
+
+```
+sudo apt update && sudo apt install -y migraphx
+```
+
+Header files and libraries are installed under /opt/rocm-\<version\>, where \<version\> is the ROCm version.
+
+Read: https://github.com/ROCm/AMDMIGraphX#amd-migraphx
+
+# Set up Python
+
+Use python version 3.10.x, to work with wheel files available at https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/
+
+To install a specific version with pyenv, read https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/ubuntu_desktop/basic.md#pyenv
+
+```
+sudo apt update
+sudo apt install -y make build-essential python3 python-setuptools libjpeg-dev python3-pip python3-dev python3-venv libssl-dev libffi-dev libnss3 zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev python3-wheel python3-wheel-whl twine
+```
 
 # Python libraries
 
 To make it clean, uninstall old copies, if any
 
-> pip uninstall torch torchaudio torchvision cupy spacy -y
+> pip uninstall torch torchaudio torchvision cupy spacy numpy protobuf -y
 
-# pytorch
+# Set up a python virtual environment
 
-https://pytorch.org/get-started/locally/
+```
+python3 -m venv ai
+source ai/bin/activate
+pip3 install --upgrade pip wheel
+```
 
-Install packages that support rocm, e.g.
+# Install Compatible Versions of numpy and protobuf
 
-> pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.0 --no-cache-dir
+```
+pip install numpy==1.26.4 protobuf==4.25.3
+```
+
+# Install PyTorch
+
+```
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/torch-2.1.2%2Brocm6.1.3-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/torchvision-0.16.1%2Brocm6.1.3-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/pytorch_triton_rocm-2.1.0%2Brocm6.1.3.4d510c3a44-cp310-cp310-linux_x86_64.whl
+pip3 install torch-2.1.2+rocm6.1.3-cp310-cp310-linux_x86_64.whl torchvision-0.16.1+rocm6.1.3-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.1.0+rocm6.1.3.4d510c3a44-cp310-cp310-linux_x86_64.whl
+```
 
 To verify:
 
-> python3
+```
+python3 -c 'import torch' 2> /dev/null && echo 'Success' || echo 'Failure'
+python3 -c 'import torch; print(torch.cuda.is_available())'
+python3 -c "import torch; print(f'device name [0]:', torch.cuda.get_device_name(0))"
+python3 -m torch.utils.collect_env
+```
+
+Alternately, run:
+
+```
+python3
+```
 
 > import torch
 
@@ -516,60 +595,31 @@ To verify:
 
 Read more at https://pytorch.org/get-started/locally/#linux-verification
 
-# MIGraphX
+# Install ONNX Runtime
 
-Install ROCm before installing MIGraphX.  To install MIGraphX
+Install `migraphx` FIRST!
 
-> sudo apt update && sudo apt install -y migraphx
+```
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl
+mv onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+pip install onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+```
 
-Header files and libraries are installed under /opt/rocm-<version>, where <version> is the ROCm version.
-
-Read: https://github.com/ROCm/AMDMIGraphX#amd-migraphx
-
-# ONNX Runtime with ROCm
-
-There are several options to set up onnx runtime in a python project, option 1 is preferred:
-
-Option 1: Install with pip
-
-Important - Install MIGraphX FIRST!
-
-> pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0.2/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl
-
-> pip list | grep onnxruntime-rocm
-
-Remarks: Whl files that support different rocm versions are available at https://repo.radeon.com/rocm/manylinux/
-
-Option 2: Install with docker
-
-> git clone https://github.com/microsoft/onnxruntime.git
-
-> cd onnxruntime/dockerfiles
-
-> docker build -t onnxruntime-rocm -f Dockerfile.rocm .
-
-> docker run -it --device=/dev/kfd --device=/dev/dri --group-add video onnxruntime-rocm
-
-> pip list | grep onnxruntime-rocm
-
-Read: https://github.com/microsoft/onnxruntime/tree/main/dockerfiles#rocm
-
-Option 3: To build from source
-
-Read: https://onnxruntime.ai/docs/build/eps.html#amd-rocm
-
-More at: https://onnxruntime.ai/docs/
-
-# Onnx ExecutionProviders
+Remarks: The 2nd line above renames the wheel file before installation, to avoid errors resulted from running [official instructions](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-onnx.html#).
 
 To verify:
 
-> python3
+```
+python3 -c "import onnxruntime; print(onnxruntime.get_available_providers())"
+```
+
+Expected output:
 
 ```
-import onnxruntime as ort
-ort.get_available_providers()
+['MIGraphXExecutionProvider', 'ROCMExecutionProvider', 'CPUExecutionProvider']
 ```
+
+# Work with ONNX ExecutionProviders
 
 To use MiGraphX ExecutionProvider:
 
@@ -598,6 +648,30 @@ Option: user_compute_stream
 ```
 providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device(), "user_compute_stream": str(torch.cuda.current_stream().cuda_stream)})]
 ```
+
+# Install Tensorflow
+
+```
+pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/tensorflow_rocm-2.15.1-cp310-cp310-manylinux_2_28_x86_64.whl
+```
+
+To verify:
+
+```
+python3 -c 'import tensorflow' 2> /dev/null && echo 'Success' || echo 'Failure'
+```
+
+# cupy
+
+> pip install cupy
+
+Note: Installation from source may offer better support
+
+# spacy
+
+With pytorch & cupy installed first, run:
+
+> pip install spacy
 
 # Piper Text-to-Speech
 
@@ -669,33 +743,11 @@ To upgrade piper-tts, follow the following steps:
 
 5. Install Install onnxruntime-rocm again
 
-> pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.0.2/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl --no-cache-dir
-
 6. Manually edit the 'load' function in the file ../site-packages/piper/voice.py as described above.
 
 # DeepSpeed
 
 https://cloudblogs.microsoft.com/opensource/2022/03/21/supporting-efficient-large-model-training-on-amd-instinct-gpus-with-deepspeed/
-
-# tensorflow
-
-AMD ROCm is upstreamed into the TensorFlow github repository. Pre-built wheels are hosted on pipy.org
-
-The latest version can be installed with this command:
-
-> pip install tensorflow-rocm
-
-# cupy
-
-> pip install cupy
-
-Note: Installation from source may offer better support
-
-# spacy
-
-With pytorch & cupy installed first, run:
-
-> pip install spacy
 
 # ollama
 
@@ -810,34 +862,6 @@ For performance optimization, you may read:
 https://huggingface.co/docs/optimum/main/en/amd/amdgpu/overview
 
 https://github.com/nktice/AMD-AI/blob/main/performance-tuning.md
-
-# Vulkan Tools
-
-Install vulkan, optionally, to use vulkan backend for some applications, e.g. llama.cpp.
-
-vulkan is installed with amdgpu-install, tools are installed with apt:
-
-> sudo apt install libvulkan-dev vulkan-tools vulkan-validationlayers vulkan-validationlayers-dev
-
-# To verify the installation, use the command below:
-
-> apt list --installed | grep vulkan
-
-> vulkaninfo
-
-(check the path of $VULKAN_SDK)
-
-e.g.
-
-> locate explicit_layer.d # /usr/share/vulkan/explicit_layer.d
-
-To set related Vulkan SDK environment variables:
-
-> export VULKAN_SDK=/usr/share/vulkan
-
-> export VK_LAYER_PATH=$VULKAN_SDK/explicit_layer.d
-
-Reference: https://github.com/ggerganov/llama.cpp#vulkan
 
 # JAX
 
