@@ -272,6 +272,8 @@ Remarks:
 
 ```
 export GFX_ARCH=gfx1100
+export HCC_AMDGPU_TARGET=gfx1100
+export CUPY_INSTALL_USE_HIP=1
 export ROCM_VERSION=6.1
 export ROCM_HOME=/opt/rocm
 export LD_LIBRARY_PATH=/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
@@ -663,9 +665,29 @@ python3 -c 'import tensorflow' 2> /dev/null && echo 'Success' || echo 'Failure'
 
 # cupy
 
-> pip install cupy
+Export required variables, if you haven't:
 
-Note: Installation from source may offer better support
+```
+export CUPY_INSTALL_USE_HIP=1
+export ROCM_HOME=/opt/rocm
+export HCC_AMDGPU_TARGET=gfx1100
+```
+
+Install from source:
+
+```
+git clone https://github.com/cupy/cupy.git
+cd cupy
+git checkout rocm-ci-6.1
+pip install git+https://github.com/ROCmSoftwarePlatform/hipify_torch.git
+pip install .
+```
+
+To verify:
+
+```
+python3 -c "import cupy; print(cupy.__version__)"
+```
 
 # spacy
 
