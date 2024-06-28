@@ -67,15 +67,27 @@ More about pyenv-virtualenv at: https://github.com/pyenv/pyenv-virtualenv
 
 More about pyenv plugins at: https://github.com/pyenv/pyenv/wiki/Plugins
 
-# Update pip
+# Update pip wheel
 
-> pip install --upgrade pip
+> pip install --upgrade pip wheel
 
 # Install ROCm
 
-https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#install-rocm-602
+https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#install-rocm-613
 
-> echo "export PATH=$HOME/.local/bin:/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/llvm/bin:$PATH" >> ~/.bashrc
+> echo "export PATH=$HOME/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH" >> ~/.bashrc
+
+# Refresh Snap Store
+
+Check pid of snap store
+
+> ps -aux | grep snap
+
+Kill snap store before refresh
+
+> sudo kill xxxx
+
+> sudo snap refresh snap-store
 
 # Install Common Fonts
 
@@ -83,19 +95,15 @@ https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#install-rocm-602
 
 # Install Google Fonts
 
-> wget https://github.com/google/fonts/archive/master.tar.gz -O gf.tar.gz
-
-> sudo tar -xf gf.tar.gz --directory /usr/share
-
-> sudo chown -R :users /usr/share/fonts-main
-
-> sudo mkdir -p /usr/share/fonts/truetype/google-fonts
-
-> sudo find /usr/share/fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \\; || return 1
-
-> rm -f gf.tar.gz
-
-> sudo fc-cache -f && sudo rm -rf /var/cache/*
+```
+wget https://github.com/google/fonts/archive/master.tar.gz -O gf.tar.gz
+sudo tar -xf gf.tar.gz --directory /usr/share
+sudo chown -R :users /usr/share/fonts-main
+sudo mkdir -p /usr/share/fonts/truetype/google-fonts
+sudo find /usr/share/fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \\; || return 1
+rm -f gf.tar.gz
+sudo fc-cache -f && sudo rm -rf /var/cache/*
+```
 
 # Add Fonts with font-viewer
 
@@ -128,7 +136,7 @@ Settings > Language and Region > Manage Installed Languages > Install / Remove L
 
 > sudo locale-gen
 
-> sudo apt install ibus-pinyin
+> sudo apt install -y ibus-pinyin
 
 > ibus restart
 
@@ -138,13 +146,15 @@ Settings > Keyboard > Input Sources > Add > Chinese (Intelligent Pinyin) > Prefe
 
 > nano ~/.bashrc
 
-export LC_CTYPE=zh_CN.UTF-8<br>
-export XIM=ibus<br>
-export XIM_PROGRAM=/usr/bin/ibus<br>
-export QT_IM_MODULE=ibus<br>
-export GTK_IM_MODULE=ibus<br>
-export XMODIFIERS=@im=ibus<br>
+```
+export LC_CTYPE=zh_CN.UTF-8
+export XIM=ibus
+export XIM_PROGRAM=/usr/bin/ibus
+export QT_IM_MODULE=ibus
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
 export DefaultIMModule=ibus
+```
 
 # Connect Android phone
 
