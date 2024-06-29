@@ -801,7 +801,7 @@ Vulkan: https://github.com/ggerganov/llama.cpp#vulkan
 
 ## Speed Test: CPU vs CPU+GPUx2
 
-To test, I ran the same prompt `What is machine learning?` with the same model file `mistral.gguf`.
+To test, I ran the same prompt `What is machine learning?` with the same model file `mistral.gguf`, using [llama.cpp](https://github.com/ggerganov/llama.cpp).
 
 ## CPU only
 
@@ -831,8 +831,6 @@ llama_print_timings: prompt eval time =      81.22 ms /     6 tokens (   13.54 m
 llama_print_timings:        eval time =   24270.78 ms /   570 runs   (   42.58 ms per token,    23.49 tokens per second)
 llama_print_timings:       total time =   24522.14 ms /   576 tokens
 ```
-
-make LLAMA_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
 
 ## CPU + GPU x 2
 
