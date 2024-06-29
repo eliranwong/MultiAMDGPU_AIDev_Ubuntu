@@ -246,9 +246,27 @@ With CLI:
 
 > rocminfo
 
-From rocminfo output, make a note of the node values of the installed GPUs.
+Look for information like:
 
-Remarks: Be careful that some non-GPU devices may be assigned with node numbers.  In that case, ignore the node numbers.  Use index numbers, starting from 0. The largest number should be the number of available GPUs minus 1.
+```
+*******                  
+Agent 2                  
+*******                  
+  Name:                    gfx1100                            
+  Uuid:                    GPU-b54ca445df90862b               
+  Marketing Name:          Radeon RX 7900 XTX                 
+  Vendor Name:             AMD 
+
+*******                  
+Agent 3                  
+*******                  
+  Name:                    gfx1100                            
+  Uuid:                    GPU-2ff163adb661d5fb               
+  Marketing Name:          Radeon RX 7900 XTX                 
+  Vendor Name:             AMD        
+```
+
+In this case, there are two GPUs, which are referred as device 0 and 1 later. You need take a note about the name and the uuid for setting environment variables that we are about to discuss.
 
 # Environment Variables
 
@@ -271,23 +289,27 @@ Remarks:
 * Modify the values of ROCR_VISIBLE_DEVICES to your own ones.
 
 ```
+# rocm
 export GFX_ARCH=gfx1100
 export HCC_AMDGPU_TARGET=gfx1100
 export CUPY_INSTALL_USE_HIP=1
 export ROCM_VERSION=6.1
 export ROCM_HOME=/opt/rocm
-export LD_LIBRARY_PATH=/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/include/vulkan:/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
 export PATH=/home/eliran/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
 export HSA_OVERRIDE_GFX_VERSION=11.0.0
-export ROCR_VISIBLE_DEVICES=GPU-xxxxxxxxxxxxxxxx,GPU-xxxxxxxxxxxxxxxx
+export ROCR_VISIBLE_DEVICES=GPU-b54ca445df90862b,GPU-2ff163adb661d5fb
 export GPU_DEVICE_ORDINAL=0,1
 export HIP_VISIBLE_DEVICES=0,1
 export CUDA_VISIBLE_DEVICES=0,1
 export LLAMA_HIPLAS=0,1
-export GGML_VULKAN_DEVICE=0,1
-export GGML_VK_VISIBLE_DEVICES=0,1
 export DRI_PRIME=0
 export OMP_DEFAULT_DEVICE=1
+# vulkan
+export GGML_VULKAN_DEVICE=0,1
+export GGML_VK_VISIBLE_DEVICES=0,1
+export VULKAN_SDK=/usr/share/vulkan
+export VK_LAYER_PATH=$VULKAN_SDK/explicit_layer.d
 ```
 
 ROCM_HOME - tells AI libraries where ROCM is stored; typically somewhere in /opt, e.g.:
@@ -577,25 +599,25 @@ python3 -m torch.utils.collect_env
 
 Alternately, run:
 
+> python3
+
 ```
-python3
+>>> import torch
+>>> torch.__version__
+'2.1.2+rocm6.1.3'
+>>> torch.cuda.is_available()
+True
+>>> torch.cuda.device_count()
+2
+>>> torch.cuda.get_device_properties(0).total_memory
+25753026560
+>>> torch.cuda.get_device_properties(1).total_memory
+25753026560
+>>> torch.cuda.current_device()
+0
+>>> torch.cuda.get_device_name(torch.cuda.current_device())
+'Radeon RX 7900 XTX'
 ```
-
-> import torch
-
-> torch.\_\_version\_\_
-
-> torch.cuda.is_available()
-
-> torch.cuda.device_count()
-
-> torch.cuda.get_device_properties(0).total_memory
-
-> torch.cuda.get_device_properties(1).total_memory
-
-> torch.cuda.current_device()
-
-> torch.cuda.get_device_name(torch.cuda.current_device())
 
 Read more at https://pytorch.org/get-started/locally/#linux-verification
 
@@ -686,9 +708,7 @@ pip install .
 
 To verify:
 
-```
-python3 -c "import cupy; print(cupy.__version__)"
-```
+> python3 -c "import cupy; print(cupy.__version__)"
 
 # Install Spacy
 
@@ -871,6 +891,21 @@ llama_print_timings:       total time =    9119.94 ms /   957 tokens
 ## Result
 
 The difference in speed is more than obvious.
+
+## More Benchmark
+
+https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/benchmark.md
+
+## Working with Large-size Files
+
+* Adjust the number of layers with `-ngl` to the maximum possible vaule for loading the files on your devices.
+* You may want to control the context size and the output tokens too.
+
+For examples:
+
+> ./llama-cli -m ../gguf/command-r-plus.gguf -p "What is machine learning?" --temp 0.0 -ngl 20 -c 2048 -n 2048 -t 24 -ngl 48
+
+> ./llama-cli -m ../gguf/wizardlm2_8x22b.gguf -p "What is machine learning?" --temp 0.0 -ngl 20 -c 2048 -n 2048 -t 24 -ngl 34
 
 # Install Llama-cpp-python Packages
 
