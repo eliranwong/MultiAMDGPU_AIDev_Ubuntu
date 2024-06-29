@@ -256,7 +256,7 @@ Modify the values to suit your cases.
 
 The following examples assume:
 
-* ROCm version 6.0.2 installed
+* ROCm version 6.1.3 installed
 
 * No integrated GPU
 
@@ -298,9 +298,9 @@ ROCM_HOME - tells AI libraries where ROCM is stored; typically somewhere in /opt
 
 `ROCM_HOME` is an environment variable in Linux that is used to specify the location of the ROCm (Radeon Open Compute) software on your system. ROCm is a set of open-source libraries and tools that are used to create high performance, machine learning applications on AMD GPUs.
 
-When you install ROCm, it is typically installed in a directory under `/opt`. For example, if you installed version 6.0.2 of ROCm, it might be installed in `/opt/rocm-6.0.2`.
+When you install ROCm, it is typically installed in a directory under `/opt`. For example, if you installed version 6.1.3 of ROCm, it might be installed in `/opt/rocm-6.1.3`.
 
-The `export` command in Linux is used to set environment variables. So, when you run the command `export ROCM_HOME=/opt/rocm-6.0.2`, you are telling the system "Whenever I refer to `ROCM_HOME`, I actually mean `/opt/rocm-6.0.2`".
+The `export` command in Linux is used to set environment variables. So, when you run the command `export ROCM_HOME=/opt/rocm-6.1.3`, you are telling the system "Whenever I refer to `ROCM_HOME`, I actually mean `/opt/rocm-6.1.3`".
 
 This is useful because many AI libraries that use ROCm will look for the `ROCM_HOME` environment variable to know where to find the ROCm software. By setting `ROCM_HOME`, you ensure that these libraries can find and use ROCm correctly.
 
@@ -308,19 +308,19 @@ This is useful because many AI libraries that use ROCm will look for the `ROCM_H
 
 LD_LIBRARY_PATH - loader library path; typically this is set to $ROCM_HOME/lib. An indication you’re missing this flag is if you import pytorch and see an error like undefined reference to...
 
-> export LD_LIBRARY_PATH=/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH
+> export LD_LIBRARY_PATH=/opt/rocm-6.1.3/lib:$LD_LIBRARY_PATH
 
-> export PATH=/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/opencl/bin:$PATH
+> export PATH=/opt/rocm-6.1.3/bin:/opt/rocm-6.1.3/opencl/bin:$PATH
 
 <details><summary>Explanation</summary>
 
 `LD_LIBRARY_PATH` is an environment variable that specifies a list of directories where the dynamic linker should look for dynamically linked libraries. When a program is launched, the dynamic linker checks the `LD_LIBRARY_PATH` to find the libraries that the program needs to run.
 
-In this example, `LD_LIBRARY_PATH` is being set to include the `/opt/rocm-6.0.2/lib` directory. This is likely where the ROCm (Radeon Open Compute) libraries are installed. If you're trying to use PyTorch and it's built with ROCm support, it will need to know where these libraries are. If `LD_LIBRARY_PATH` doesn't include the ROCm library directory, you might see errors like "undefined reference to..." when you try to import PyTorch.
+In this example, `LD_LIBRARY_PATH` is being set to include the `/opt/rocm-6.1.3/lib` directory. This is likely where the ROCm (Radeon Open Compute) libraries are installed. If you're trying to use PyTorch and it's built with ROCm support, it will need to know where these libraries are. If `LD_LIBRARY_PATH` doesn't include the ROCm library directory, you might see errors like "undefined reference to..." when you try to import PyTorch.
 
-The command `export LD_LIBRARY_PATH=/opt/rocm-6.0.2/lib:$LD_LIBRARY_PATH` is adding `/opt/rocm-6.0.2/lib` to your existing `LD_LIBRARY_PATH`.
+The command `export LD_LIBRARY_PATH=/opt/rocm-6.1.3/lib:$LD_LIBRARY_PATH` is adding `/opt/rocm-6.1.3/lib` to your existing `LD_LIBRARY_PATH`.
 
-The `PATH` environment variable is similar, but it's used to tell the shell where to look for executable files. The command `export PATH=/opt/rocm-6.0.2/bin:/opt/rocm-6.0.2/opencl/bin:$PATH` is adding the `/opt/rocm-6.0.2/bin` and `/opt/rocm-6.0.2/opencl/bin` directories to your `PATH`. This means that when you type a command, the shell will also look in these directories to find it.
+The `PATH` environment variable is similar, but it's used to tell the shell where to look for executable files. The command `export PATH=/opt/rocm-6.1.3/bin:/opt/rocm-6.1.3/opencl/bin:$PATH` is adding the `/opt/rocm-6.1.3/bin` and `/opt/rocm-6.1.3/opencl/bin` directories to your `PATH`. This means that when you type a command, the shell will also look in these directories to find it.
 
 </details>
 
