@@ -604,12 +604,9 @@ Read more at https://pytorch.org/get-started/locally/#linux-verification
 Install `migraphx` FIRST!
 
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl
-mv onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
 pip install onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
 ```
-
-Remarks: The 2nd line above renames the wheel file before installation, to avoid errors resulted from running [official instructions](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-onnx.html#).
 
 To verify:
 
