@@ -105,7 +105,7 @@ sudo apt remove --purge amdgpu-install
 
 ```
 sudo apt update
-sudo apt-get install libstdc++-12-dev
+sudo apt install -y libstdc++-12-dev
 wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/jammy/amdgpu-install_6.1.60103-1_all.deb
 sudo apt install ./amdgpu-install_6.1.60103-1_all.deb
 sudo amdgpu-install --usecase=graphics,multimedia,multimediasdk,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
@@ -246,9 +246,27 @@ With CLI:
 
 > rocminfo
 
-From rocminfo output, make a note of the node values of the installed GPUs.
+Look for information like:
 
-Remarks: Be careful that some non-GPU devices may be assigned with node numbers.  In that case, ignore the node numbers.  Use index numbers, starting from 0. The largest number should be the number of available GPUs minus 1.
+```
+*******                  
+Agent 2                  
+*******                  
+  Name:                    gfx1100                            
+  Uuid:                    GPU-b54ca445df90862b               
+  Marketing Name:          Radeon RX 7900 XTX                 
+  Vendor Name:             AMD 
+
+*******                  
+Agent 3                  
+*******                  
+  Name:                    gfx1100                            
+  Uuid:                    GPU-2ff163adb661d5fb               
+  Marketing Name:          Radeon RX 7900 XTX                 
+  Vendor Name:             AMD        
+```
+
+In this case, there are two GPUs, which are referred as device 0 and 1 later. You need take a note about the name and the uuid for setting environment variables that we are about to discuss.
 
 # Environment Variables
 
@@ -271,23 +289,27 @@ Remarks:
 * Modify the values of ROCR_VISIBLE_DEVICES to your own ones.
 
 ```
+# rocm
 export GFX_ARCH=gfx1100
 export HCC_AMDGPU_TARGET=gfx1100
 export CUPY_INSTALL_USE_HIP=1
 export ROCM_VERSION=6.1
 export ROCM_HOME=/opt/rocm
-export LD_LIBRARY_PATH=/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/include/vulkan:/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
 export PATH=/home/eliran/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
 export HSA_OVERRIDE_GFX_VERSION=11.0.0
-export ROCR_VISIBLE_DEVICES=GPU-xxxxxxxxxxxxxxxx,GPU-xxxxxxxxxxxxxxxx
+export ROCR_VISIBLE_DEVICES=GPU-b54ca445df90862b,GPU-2ff163adb661d5fb
 export GPU_DEVICE_ORDINAL=0,1
 export HIP_VISIBLE_DEVICES=0,1
 export CUDA_VISIBLE_DEVICES=0,1
 export LLAMA_HIPLAS=0,1
-export GGML_VULKAN_DEVICE=0,1
-export GGML_VK_VISIBLE_DEVICES=0,1
 export DRI_PRIME=0
 export OMP_DEFAULT_DEVICE=1
+# vulkan
+export GGML_VULKAN_DEVICE=0,1
+export GGML_VK_VISIBLE_DEVICES=0,1
+export VULKAN_SDK=/usr/share/vulkan
+export VK_LAYER_PATH=$VULKAN_SDK/explicit_layer.d
 ```
 
 ROCM_HOME - tells AI libraries where ROCM is stored; typically somewhere in /opt, e.g.:
@@ -577,25 +599,25 @@ python3 -m torch.utils.collect_env
 
 Alternately, run:
 
+> python3
+
 ```
-python3
+>>> import torch
+>>> torch.__version__
+'2.1.2+rocm6.1.3'
+>>> torch.cuda.is_available()
+True
+>>> torch.cuda.device_count()
+2
+>>> torch.cuda.get_device_properties(0).total_memory
+25753026560
+>>> torch.cuda.get_device_properties(1).total_memory
+25753026560
+>>> torch.cuda.current_device()
+0
+>>> torch.cuda.get_device_name(torch.cuda.current_device())
+'Radeon RX 7900 XTX'
 ```
-
-> import torch
-
-> torch.\_\_version\_\_
-
-> torch.cuda.is_available()
-
-> torch.cuda.device_count()
-
-> torch.cuda.get_device_properties(0).total_memory
-
-> torch.cuda.get_device_properties(1).total_memory
-
-> torch.cuda.current_device()
-
-> torch.cuda.get_device_name(torch.cuda.current_device())
 
 Read more at https://pytorch.org/get-started/locally/#linux-verification
 
@@ -604,12 +626,9 @@ Read more at https://pytorch.org/get-started/locally/#linux-verification
 Install `migraphx` FIRST!
 
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl
-mv onnxruntime_rocm-inference-1.17.0-cp310-cp310-linux_x86_64.whl onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
 pip install onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
 ```
-
-Remarks: The 2nd line above renames the wheel file before installation, to avoid errors resulted from running [official instructions](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-onnx.html#).
 
 To verify:
 
@@ -689,9 +708,7 @@ pip install .
 
 To verify:
 
-```
-python3 -c "import cupy; print(cupy.__version__)"
-```
+> python3 -c "import cupy; print(cupy.__version__)"
 
 # Install Spacy
 
@@ -799,7 +816,98 @@ CLBlast: https://github.com/ggerganov/llama.cpp#clblast
 
 Vulkan: https://github.com/ggerganov/llama.cpp#vulkan
 
-# Install llama-cpp-python Packages
+## Speed Test: CPU vs CPU+GPUx2
+
+To test, I ran the same prompt `What is machine learning?` with the same model file `mistral.gguf`, using [llama.cpp](https://github.com/ggerganov/llama.cpp), on the same machine.
+
+## CPU only
+
+Build from source:
+
+```
+git clone https://github.com/ggerganov/llama.cpp
+cd llama.cpp
+make -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
+```
+
+To run:
+
+> ./llama-cli -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') --temp 0 -m ../mistral.gguf -p "What is machine learning?"
+
+Output:
+
+```
+llm_load_tensors: ggml ctx size =    0.14 MiB
+llm_load_tensors:        CPU buffer size =  3917.87 MiB
+...
+...
+...
+llama_print_timings:        load time =    1602.50 ms
+llama_print_timings:      sample time =      11.38 ms /   571 runs   (    0.02 ms per token, 50193.39 tokens per second)
+llama_print_timings: prompt eval time =      81.22 ms /     6 tokens (   13.54 ms per token,    73.88 tokens per second)
+llama_print_timings:        eval time =   24270.78 ms /   570 runs   (   42.58 ms per token,    23.49 tokens per second)
+llama_print_timings:       total time =   24522.14 ms /   576 tokens
+```
+
+## CPU + GPU x 2
+
+Build from source:
+
+```
+git clone https://github.com/ggerganov/llama.cpp
+cd llama.cpp
+make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
+```
+
+Remarks: Use `GGML_HIPBLAS` instead of `LLAMA_HIPBLAS`
+
+To run:
+
+> ./llama-cli -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') --temp 0 -m ../mistral.gguf -p "What is machine learning?" -ngl 33
+
+Output:
+
+```
+ggml_cuda_init: found 2 ROCm devices:
+  Device 0: Radeon RX 7900 XTX, compute capability 11.0, VMM: no
+  Device 1: Radeon RX 7900 XTX, compute capability 11.0, VMM: no
+llm_load_tensors: ggml ctx size =    0.41 MiB
+llm_load_tensors: offloading 32 repeating layers to GPU
+llm_load_tensors: offloading non-repeating layers to GPU
+llm_load_tensors: offloaded 33/33 layers to GPU
+llm_load_tensors:      ROCm0 buffer size =  1989.53 MiB
+llm_load_tensors:      ROCm1 buffer size =  1858.02 MiB
+llm_load_tensors:        CPU buffer size =    70.31 MiB
+...
+...
+...
+llama_print_timings:        load time =    3440.52 ms
+llama_print_timings:      sample time =      17.78 ms /   952 runs   (    0.02 ms per token, 53540.30 tokens per second)
+llama_print_timings: prompt eval time =      12.38 ms /     6 tokens (    2.06 ms per token,   484.46 tokens per second)
+llama_print_timings:        eval time =    8928.70 ms /   951 runs   (    9.39 ms per token,   106.51 tokens per second)
+llama_print_timings:       total time =    9119.94 ms /   957 tokens
+```
+
+## Result
+
+The difference in speed is more than obvious.
+
+## More Benchmark
+
+https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/benchmark.md
+
+## Working with Large-size Files
+
+* Adjust the number of layers with `-ngl` to the maximum possible vaule for loading the files on your devices.
+* You may want to control the context size and the output tokens too.
+
+For examples:
+
+> ./llama-cli -m ../gguf/command-r-plus.gguf -p "What is machine learning?" --temp 0.0 -ngl 20 -c 2048 -n 2048 -t 24 -ngl 48
+
+> ./llama-cli -m ../gguf/wizardlm2_8x22b.gguf -p "What is machine learning?" --temp 0.0 -ngl 20 -c 2048 -n 2048 -t 24 -ngl 34
+
+# Install Llama-cpp-python Packages
 
 The author managed to installed llama.cpp with 
 
@@ -819,31 +927,9 @@ Use Vulkan as backend:
 
 Read more at: https://llama-cpp-python.readthedocs.io/en/stable/
 
-# freegenius
+## Troubleshoot Tensor Split Issue
 
-1. Create and activate a virtual environment, e.g.
-
-> mkdir ~/apps
-
-> cd ~/apps
-
-> python3 -m venv freegenius
-
-> source ~/apps/freegenius/bin/activate
-
-2. Install pytorch
-
-Check required versions at https://github.com/eliranwong/freegenius/blob/main/package/freegenius/requirements.txt
-
-> pip install torch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 --index-url https://download.pytorch.org/whl/rocm6.0 --no-cache-dir
-
-3. Install llama.cpp
-
-Check required versions at https://github.com/eliranwong/freegenius/blob/main/package/freegenius/requirements.txt
-
-> CMAKE_ARGS="-DLLAMA_CLBLAST=on" pip install llama-cpp-python[server]==0.2.69
-
-4. Workaround [an issue regarding tensor_split feature](https://github.com/abetlen/llama-cpp-python/issues/1166)
+[an issue regarding tensor_split feature](https://github.com/abetlen/llama-cpp-python/issues/1166)
 
 ![amdgpu_llamacpp](https://github.com/eliranwong/freegenius/assets/25262722/6d227573-eef9-49ea-9239-59cae140a8d2)
 
@@ -866,30 +952,9 @@ to
 LLAMA_MAX_DEVICES = 2
 ```
 
-5. Install FreeGenius
+# freegenius
 
-> pip install freegenius
-
-6. Edit FreeGenius config.py
-
-In this case, manually edit '~/apps/freegenius/lib/python3.10/site-packages/freegenius/config.py'
-
-```
-llamacppMainModel_n_gpu_layers = -1
-llamacppMainModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
-llamacppChatModel_n_gpu_layers = -1
-llamacppChatModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
-llamacppVisionModel_n_gpu_layers = -1
-llamacppVisionModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
-llamacppMainModel_additional_server_options = '--tensor_split=0.5,0.5'
-llamacppVisionModel_additional_server_options = '--tensor_split=0.5,0.5'
-ollamaMainModel_additional_options = {"num_gpu": 20000}
-ollamaChatModel_additional_options = {"num_gpu": 20000}
-```
-
-7. Run FreeGenius
-
-> freegenius
+https://github.com/eliranwong/freegenius/wiki/Llama.cpp-Server-with-GPU-Acceleration
 
 # Performance Optimization
 
@@ -910,67 +975,3 @@ https://keras.io/guides/distributed_training_with_jax/
 https://github.com/vosen/ZLUDA
 
 Current known issues of ZLUDA: https://github.com/vosen/ZLUDA#known-issues
-
-# References
-
-## Essential
-
-https://rocm.docs.amd.com/projects/radeon/en/latest/docs/prerequisites.html
-
-https://rocm.docs.amd.com/projects/install-on-linux/en/latest/tutorial/install-overview.html
-
-https://amdgpu-install.readthedocs.io/en/latest/install-overview.html
-
-https://huggingface.co/amd
-
-https://community.amd.com/t5/ai/ct-p/amd_ai
-
-## Others
-
-https://huggingface.co/docs/optimum/main/en/amd/amdgpu/overview
-
-https://medium.com/@damngoodtech/amd-rocm-pytorch-and-ai-on-ubuntu-the-rules-of-the-jungle-24a7ab280b17
-
-https://askubuntu.com/questions/1451506/how-to-make-ubuntu-22-04-work-with-a-radeon-rx-7900-xtx
-
-https://medium.vaningelgem.be/installing-pytorch-rocm-on-ubuntu-mantic-23-10-3da0f84c65d9
-
-https://medium.com/@gotagando/how-to-install-rocm-5-7-1-for-7900-xtx-a84099917358
-
-https://github.com/nktice/AMD-AI
-
-https://medium.com/@topandroidapps.zooparty/install-and-run-llama-cpp-with-rocm-5-7-on-ubuntu-22-04-530987b8a835
-
-https://medium.com/@yash9439/run-any-llm-on-distributed-multiple-gpus-locally-using-llama-cpp-2ff478a0dc3c
-
-https://github.com/ggerganov/llama.cpp/issues/3051
-
-https://github.com/ggerganov/llama.cpp/discussions/5138
-
-https://github.com/ggerganov/llama.cpp/pull/1607
-
-https://www.reddit.com/r/LocalLLaMA/comments/1anzmfe/multigpu_mixing_amdnvidia_with_llamacpp/
-
-https://community.amd.com/t5/ai/amd-extends-support-for-pytorch-machine-learning-development-on/ba-p/637756
-
-https://rocm.blogs.amd.com/artificial-intelligence/llama2-lora/README.html
-
-https://rocm.docs.amd.com/projects/install-on-linux/en/develop/how-to/3rd-party/pytorch-install.html
-
-https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-onnx.html
-
-https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-migraphx.html
-
-https://rocm.blogs.amd.com/artificial-intelligence/llm-inference-optimize/README.html
-
-https://onnxruntime.ai/docs/execution-providers/ROCm-ExecutionProvider.html
-
-https://onnxruntime.ai/docs/execution-providers/MIGraphX-ExecutionProvider.html
-
-https://onnxruntime.ai/docs/execution-providers/Vitis-AI-ExecutionProvider.html
-
-https://huggingface.co/docs/optimum/onnxruntime/usage_guides/amdgpu
-
-https://huggingface.co/blog/huggingface-and-optimum-amd
-
-https://discuss.linuxcontainers.org/t/ai-tutorial-rocm-and-pytorch-on-amd-apu-or-gpu/19743

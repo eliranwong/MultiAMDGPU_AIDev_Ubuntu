@@ -1,3 +1,7 @@
+# Install LXC
+
+> sudo apt install -y libpam-cgfs lxc
+
 # Prepare Tools
 
 Install distrobuilder:
