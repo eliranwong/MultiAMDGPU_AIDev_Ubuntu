@@ -801,7 +801,7 @@ Vulkan: https://github.com/ggerganov/llama.cpp#vulkan
 
 ## Speed Test: CPU vs CPU+GPUx2
 
-To test, I ran the same prompt `What is machine learning?` with the same model file `mistral.gguf`, using [llama.cpp](https://github.com/ggerganov/llama.cpp).
+To test, I ran the same prompt `What is machine learning?` with the same model file `mistral.gguf`, using [llama.cpp](https://github.com/ggerganov/llama.cpp), on the same machine.
 
 ## CPU only
 
@@ -875,7 +875,7 @@ llama_print_timings:       total time =    9119.94 ms /   957 tokens
 
 The difference in speed is more than obvious.
 
-# Install llama-cpp-python Packages
+# Install Llama-cpp-python Packages
 
 The author managed to installed llama.cpp with 
 
@@ -895,31 +895,9 @@ Use Vulkan as backend:
 
 Read more at: https://llama-cpp-python.readthedocs.io/en/stable/
 
-# freegenius
+## Troubleshoot Tensor Split Issue
 
-1. Create and activate a virtual environment, e.g.
-
-> mkdir ~/apps
-
-> cd ~/apps
-
-> python3 -m venv freegenius
-
-> source ~/apps/freegenius/bin/activate
-
-2. Install pytorch
-
-Check required versions at https://github.com/eliranwong/freegenius/blob/main/package/freegenius/requirements.txt
-
-> pip install torch==2.3.0 torchvision==0.18.0 torchaudio==2.3.0 --index-url https://download.pytorch.org/whl/rocm6.0 --no-cache-dir
-
-3. Install llama.cpp
-
-Check required versions at https://github.com/eliranwong/freegenius/blob/main/package/freegenius/requirements.txt
-
-> CMAKE_ARGS="-DLLAMA_CLBLAST=on" pip install llama-cpp-python[server]==0.2.69
-
-4. Workaround [an issue regarding tensor_split feature](https://github.com/abetlen/llama-cpp-python/issues/1166)
+[an issue regarding tensor_split feature](https://github.com/abetlen/llama-cpp-python/issues/1166)
 
 ![amdgpu_llamacpp](https://github.com/eliranwong/freegenius/assets/25262722/6d227573-eef9-49ea-9239-59cae140a8d2)
 
@@ -942,30 +920,9 @@ to
 LLAMA_MAX_DEVICES = 2
 ```
 
-5. Install FreeGenius
+# freegenius
 
-> pip install freegenius
-
-6. Edit FreeGenius config.py
-
-In this case, manually edit '~/apps/freegenius/lib/python3.10/site-packages/freegenius/config.py'
-
-```
-llamacppMainModel_n_gpu_layers = -1
-llamacppMainModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
-llamacppChatModel_n_gpu_layers = -1
-llamacppChatModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
-llamacppVisionModel_n_gpu_layers = -1
-llamacppVisionModel_additional_model_options = {'tensor_split': [0.5, 0.5]}
-llamacppMainModel_additional_server_options = '--tensor_split=0.5,0.5'
-llamacppVisionModel_additional_server_options = '--tensor_split=0.5,0.5'
-ollamaMainModel_additional_options = {"num_gpu": 20000}
-ollamaChatModel_additional_options = {"num_gpu": 20000}
-```
-
-7. Run FreeGenius
-
-> freegenius
+https://github.com/eliranwong/freegenius/wiki/Llama.cpp-Server-with-GPU-Acceleration
 
 # Performance Optimization
 
@@ -986,67 +943,3 @@ https://keras.io/guides/distributed_training_with_jax/
 https://github.com/vosen/ZLUDA
 
 Current known issues of ZLUDA: https://github.com/vosen/ZLUDA#known-issues
-
-# References
-
-## Essential
-
-https://rocm.docs.amd.com/projects/radeon/en/latest/docs/prerequisites.html
-
-https://rocm.docs.amd.com/projects/install-on-linux/en/latest/tutorial/install-overview.html
-
-https://amdgpu-install.readthedocs.io/en/latest/install-overview.html
-
-https://huggingface.co/amd
-
-https://community.amd.com/t5/ai/ct-p/amd_ai
-
-## Others
-
-https://huggingface.co/docs/optimum/main/en/amd/amdgpu/overview
-
-https://medium.com/@damngoodtech/amd-rocm-pytorch-and-ai-on-ubuntu-the-rules-of-the-jungle-24a7ab280b17
-
-https://askubuntu.com/questions/1451506/how-to-make-ubuntu-22-04-work-with-a-radeon-rx-7900-xtx
-
-https://medium.vaningelgem.be/installing-pytorch-rocm-on-ubuntu-mantic-23-10-3da0f84c65d9
-
-https://medium.com/@gotagando/how-to-install-rocm-5-7-1-for-7900-xtx-a84099917358
-
-https://github.com/nktice/AMD-AI
-
-https://medium.com/@topandroidapps.zooparty/install-and-run-llama-cpp-with-rocm-5-7-on-ubuntu-22-04-530987b8a835
-
-https://medium.com/@yash9439/run-any-llm-on-distributed-multiple-gpus-locally-using-llama-cpp-2ff478a0dc3c
-
-https://github.com/ggerganov/llama.cpp/issues/3051
-
-https://github.com/ggerganov/llama.cpp/discussions/5138
-
-https://github.com/ggerganov/llama.cpp/pull/1607
-
-https://www.reddit.com/r/LocalLLaMA/comments/1anzmfe/multigpu_mixing_amdnvidia_with_llamacpp/
-
-https://community.amd.com/t5/ai/amd-extends-support-for-pytorch-machine-learning-development-on/ba-p/637756
-
-https://rocm.blogs.amd.com/artificial-intelligence/llama2-lora/README.html
-
-https://rocm.docs.amd.com/projects/install-on-linux/en/develop/how-to/3rd-party/pytorch-install.html
-
-https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-onnx.html
-
-https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/install-migraphx.html
-
-https://rocm.blogs.amd.com/artificial-intelligence/llm-inference-optimize/README.html
-
-https://onnxruntime.ai/docs/execution-providers/ROCm-ExecutionProvider.html
-
-https://onnxruntime.ai/docs/execution-providers/MIGraphX-ExecutionProvider.html
-
-https://onnxruntime.ai/docs/execution-providers/Vitis-AI-ExecutionProvider.html
-
-https://huggingface.co/docs/optimum/onnxruntime/usage_guides/amdgpu
-
-https://huggingface.co/blog/huggingface-and-optimum-amd
-
-https://discuss.linuxcontainers.org/t/ai-tutorial-rocm-and-pytorch-on-amd-apu-or-gpu/19743
