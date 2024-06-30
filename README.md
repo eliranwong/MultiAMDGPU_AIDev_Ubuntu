@@ -568,7 +568,7 @@ To make it clean, uninstall old copies, if any
 ```
 python3 -m venv ai
 source ai/bin/activate
-pip3 install --upgrade pip wheel
+pip3 install --upgrade pip wheel setuptools
 ```
 
 # Install Compatible Versions of numpy and protobuf
@@ -686,6 +686,8 @@ python3 -c 'import tensorflow' 2> /dev/null && echo 'Success' || echo 'Failure'
 ```
 
 # Install Cupy
+
+Install `torch+rocm6.1.3` FIRST! Read https://github.com/cupy/cupy/issues/8396#issuecomment-2198608467
 
 Export required variables, if you haven't:
 
@@ -822,7 +824,7 @@ To test, I ran the same prompt `What is machine learning?` with the same model f
 
 ## CPU only
 
-Build from source:
+Build from source for CPU only:
 
 ```
 git clone https://github.com/ggerganov/llama.cpp
@@ -851,7 +853,7 @@ llama_print_timings:       total time =   24522.14 ms /   576 tokens
 
 ## CPU + GPU x 2
 
-Build from source:
+Build from source for GPU acceleration with ROCm:
 
 ```
 git clone https://github.com/ggerganov/llama.cpp
