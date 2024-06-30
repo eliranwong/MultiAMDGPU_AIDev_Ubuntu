@@ -710,7 +710,9 @@ pip install .
 
 To verify:
 
-> python3 -c "import cupy; print(cupy.__version__)"
+```
+python3 -c "import cupy; print(cupy.__version__)"
+```
 
 # Install Spacy
 
