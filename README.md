@@ -812,13 +812,33 @@ Ollama detects AMD GPUs automatically on installation:
 
 ![amdgpu_ollama](https://github.com/eliranwong/freegenius/assets/25262722/c985062b-da23-4879-8d55-76b16e1017f3)
 
+## VS Code Plugin with Ollama
+
+Install VS code plugin `twinny` by `rjmacarthy`
+
+Download LLMs to work with twinny, e.g.:
+
+```
+ollama pull codellama:7b-instruct
+ollama pull codellama:7b-code
+```
+
+Click "Manage twinny providers" for more options.
+
 # Compile Llama.cpp from source
 
-hipBLAS: https://github.com/ggerganov/llama.cpp#hipblas
+For ROCm users:
 
-CLBlast: https://github.com/ggerganov/llama.cpp#clblast
+```
+git clone https://github.com/ggerganov/llama.cpp
+cd llama.cpp
+make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
+echo "alias llamacpp=\\"$(pwd)/llama-cli --threads $(lscpu | grep '^Core(s)' | awk '{print $NF}') --gpu-layers 999 --interactive --conversation --color --model\\"" >> $HOME/.bashrc
+```
 
-Vulkan: https://github.com/ggerganov/llama.cpp#vulkan
+To run a model file, e.g. `mistral.gguf`, with GPUs, use `llamacpp` as follows:
+
+> llamacpp mistral.gguf
 
 ## Speed Test: CPU vs CPU+GPUx2
 
