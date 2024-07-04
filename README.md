@@ -978,6 +978,8 @@ LLAMA_MAX_DEVICES = 2
 
 # freegenius
 
+![llamacpp_with_gpu_offloading_compressed](https://github.com/eliranwong/freegenius/assets/25262722/2d607fc1-e6b5-4c62-be14-325d73866fce)
+
 https://github.com/eliranwong/freegenius/wiki/Llama.cpp-Server-with-GPU-Acceleration
 
 # Performance Optimization
