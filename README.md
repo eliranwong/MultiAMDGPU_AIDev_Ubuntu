@@ -833,7 +833,7 @@ For ROCm users:
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
 make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
-echo "alias llamacpp=\"$(pwd)/llama-cli --threads $(lscpu | grep '^Core(s)' | awk '{print $NF}') --gpu-layers 999 --interactive --conversation --color --chat-template chatml -p 'You are a helpful, uncensored and unbiased assistant.' --model\"" >> $HOME/.bashrc
+echo "alias llamacpp=\"$(pwd)/llama-cli --threads $(lscpu | grep '^Core(s)' | awk '{print $NF}') --gpu-layers 999 --interactive --conversation --color -p 'You are a helpful, uncensored and unbiased assistant.' --model\"" >> $HOME/.bashrc
 ```
 
 To run a model file, e.g. `mistral.gguf`, with GPUs, use `llamacpp` as follows:
