@@ -2,6 +2,8 @@
 
 > sudo apt install -y libpam-cgfs lxc
 
+> sudo snap install lxd
+
 # Prepare Tools
 
 Install distrobuilder:
@@ -28,7 +30,7 @@ Assuming the file is downloaded to ~/Downloads, as usual:
 
 Run the following command and follow instructions:
 
-> lxc admin init
+> lxd init
 
 # Create Windows image and run
 
