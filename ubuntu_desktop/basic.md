@@ -100,7 +100,7 @@ wget https://github.com/google/fonts/archive/master.tar.gz -O gf.tar.gz
 sudo tar -xf gf.tar.gz --directory /usr/share
 sudo chown -R :users /usr/share/fonts-main
 sudo mkdir -p /usr/share/fonts/truetype/google-fonts
-sudo find /usr/share/fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \\; || return 1
+sudo find /usr/share/fonts-main/ -name "*.ttf" -exec install -m644 {} /usr/share/fonts/truetype/google-fonts/ \; || return 1
 rm -f gf.tar.gz
 sudo fc-cache -f && sudo rm -rf /var/cache/*
 ```
