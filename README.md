@@ -256,6 +256,14 @@ Agent 2
   Uuid:                    GPU-b54ca445df90862b               
   Marketing Name:          Radeon RX 7900 XTX                 
   Vendor Name:             AMD 
+  Feature:                 KERNEL_DISPATCH                    
+  Profile:                 BASE_PROFILE                       
+  Float Round Mode:        NEAR                               
+  Max Queue Number:        128(0x80)                          
+  Queue Min Size:          64(0x40)                           
+  Queue Max Size:          131072(0x20000)                    
+  Queue Type:              MULTI                              
+  Node:                    1 
 
 *******                  
 Agent 3                  
@@ -264,9 +272,17 @@ Agent 3
   Uuid:                    GPU-2ff163adb661d5fb               
   Marketing Name:          Radeon RX 7900 XTX                 
   Vendor Name:             AMD        
+  Feature:                 KERNEL_DISPATCH                    
+  Profile:                 BASE_PROFILE                       
+  Float Round Mode:        NEAR                               
+  Max Queue Number:        128(0x80)                          
+  Queue Min Size:          64(0x40)                           
+  Queue Max Size:          131072(0x20000)                    
+  Queue Type:              MULTI                              
+  Node:                    2
 ```
 
-In this case, there are two GPUs, which are referred as device 0 and 1 later. You need take a note about the name and the uuid for setting environment variables that we are about to discuss.
+In this case, there are two GPUs, which are referred as device 0 and 1 later.
 
 # Environment Variables
 
@@ -278,7 +294,9 @@ The following examples assume:
 
 * No integrated GPU
 
-* Two AMD RX 7900 XTX installed. (Their node values in 'rocminfo' output are '1' and '2', as the AMD Ryzen Threadripper CPU on my device is identified as "Agent 1" and is assigned 0 as its node value.  Therefore, I use indexes '0', '1' instead for GPUs setting below.)
+* Two AMD RX 7900 XTX installed.
+
+Note: You may run `rocm-smi` to find the mapping information of node numbers to devices numbers.
 
 ## Overview
 
@@ -687,8 +705,6 @@ python3 -c 'import tensorflow' 2> /dev/null && echo 'Success' || echo 'Failure'
 
 # Install Cupy
 
-Install `torch+rocm6.1.3` FIRST! Read https://github.com/cupy/cupy/issues/8396#issuecomment-2198608467
-
 Export required variables, if you haven't:
 
 ```
@@ -706,6 +722,12 @@ git checkout rocm-ci-6.1
 git submodule update --init
 pip install git+https://github.com/ROCmSoftwarePlatform/hipify_torch.git
 pip install .
+```
+
+To fix cicular import error, run again:
+
+```
+pip3 install torch-2.1.2+rocm6.1.3-cp310-cp310-linux_x86_64.whl torchvision-0.16.1+rocm6.1.3-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.1.0+rocm6.1.3.4d510c3a44-cp310-cp310-linux_x86_64.whl
 ```
 
 To verify:
@@ -738,15 +760,13 @@ To support ROCm-enabled GPUs via 'ROCMExecutionProvider' or 'MIGraphXExecutionPr
 
 > pip uninstall onnxruntime
 
-3. Install onnxruntime-rocm
-
-> pip install onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
-
-or
+3. Re-install onnxruntime-rocm
 
 > pip install --force-reinstall onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
 
-Remarks: Wheel files that support different ROCm versions are available at: https://repo.radeon.com/rocm/manylinux
+4. Fix numpy and protobuf versions
+
+> pip install numpy==1.26.4 protobuf==4.25.3
 
 To verify:
 
