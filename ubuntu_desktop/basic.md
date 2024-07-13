@@ -482,35 +482,23 @@ Check current status:
 
 Set up:
 
-> sudo add-apt-repository ppa:pipewire-debian/pipewire-upstream
-
-> sudo add-apt-repository ppa:pipewire-debian/wireplumber-upstream
-
-> sudo apt update && sudo apt dist-upgrade
-
-> systemctl --user daemon-reload
-
-> sudo apt install pipewire-audio-client-libraries libspa-0.2-bluetooth libspa-0.2-jack
-
-> sudo apt install wireplumber pipewire-media-session-
-
-NOTE: there’s a ‘-‘ in the end of the command indicates to remove the package. The command will also install the required pipewire-pulse automatically.
-
-> systemctl --user --now enable wireplumber.service
-
-Configure ALSA:
-
-> sudo cp /usr/share/doc/pipewire/examples/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/
-
-Configure Jack:
-
-> sudo cp /usr/share/doc/pipewire/examples/ld.so.conf.d/pipewire-jack-*.conf /etc/ld.so.conf.d/
-
-> sudo ldconfig
-
-Configure Bluetooth:
-
-> sudo apt remove pulseaudio-module-bluetooth
+```
+sudo add-apt-repository ppa:pipewire-debian/pipewire-upstream
+sudo add-apt-repository ppa:pipewire-debian/wireplumber-upstream
+sudo apt update && sudo apt dist-upgrade
+systemctl --user daemon-reload
+sudo apt install pipewire-audio-client-libraries libspa-0.2-bluetooth libspa-0.2-jack
+# There’s a ‘-‘ in the end of the following command indicates to remove the package. The command will also install the required pipewire-pulse automatically.
+sudo apt install wireplumber pipewire-media-session-
+systemctl --user --now enable wireplumber.service
+# Configure ALSA:
+sudo cp /usr/share/doc/pipewire/examples/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/
+# Configure Jack:
+sudo cp /usr/share/doc/pipewire/examples/ld.so.conf.d/pipewire-jack-*.conf /etc/ld.so.conf.d/
+sudo ldconfig
+# Configure Bluetooth:
+sudo apt remove pulseaudio-module-bluetooth
+```
 
 Reboot to make all changes effective
 
