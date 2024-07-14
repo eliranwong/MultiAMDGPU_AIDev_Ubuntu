@@ -1,18 +1,23 @@
 # Install LXC
 
-> sudo apt install -y libpam-cgfs lxc
-
-> sudo snap install lxd
+```
+sudo apt install -y libpam-cgfs lxc
+sudo snap install lxd
+```
 
 # Prepare Tools
 
 Install distrobuilder:
 
-> sudo snap install distrobuilder --classic
+```
+sudo snap install distrobuilder --classic
+```
 
 Install virt-viewer:
 
-> sudo apt install -y virt-viewer libguestfs-tools wimtools rsync
+```
+sudo apt install -y virt-viewer libguestfs-tools wimtools rsync
+```
 
 # Prepare Windows ISO
 
@@ -22,29 +27,29 @@ Download Windows 11 Disk Image (ISO) for x64 devices > Windows 11 (multi-edition
 
 Assuming the file is downloaded to ~/Downloads, as usual:
 
-> cd ~/Downloads
-
-> sudo distrobuilder repack-windows Win11_23H2_EnglishInternational_x64v2.iso win11.lxd.iso
+```
+cd ~/Downloads
+sudo distrobuilder repack-windows Win11_23H2_EnglishInternational_x64v2.iso win11.lxd.iso
+```
 
 # Setup lxc for the first time
 
 Run the following command and follow instructions:
 
-> lxd init
+```
+lxd init
+```
 
 # Create Windows image and run
 
-> lxc init win11 --vm --empty
-
-> lxc config device override win11 root size=128GiB
-
-> lxc config set win11 limits.cpu=8 limits.memory=32GiB
-
-> lxc config device add win11 vtpm tpm path=/dev/tpm0
-
-> lxc config device add win11 install disk source=$HOME/Downloads/win11.lxd.iso boot.priority=10
-
-> lxc start win11 --console=vga
+```
+lxc init win11 --vm --empty
+lxc config device override win11 root size=96GiB
+lxc config set win11 limits.cpu=8 limits.memory=32GiB
+lxc config device add win11 vtpm tpm path=/dev/tpm0
+lxc config device add win11 install disk source=$HOME/Downloads/win11.lxd.iso boot.priority=10
+lxc start win11 --console=vga
+```
 
 # Setup Windows
 
@@ -52,7 +57,9 @@ Follow instructions on the console for setup.
 
 Attach to instance console every time after the Windows is restarted and terminal is closed till the whole setup is complete.
 
-> lxc console win11 --type=vga
+```
+lxc console win11 --type=vga
+```
 
 # Update VirtIO drivers
 
@@ -64,23 +71,32 @@ Diferent versions can be found at: https://fedorapeople.org/groups/virt/virtio-w
 
 # Dismount Windows ISO Image
 
-> lxc config device remove win11 install
+```
+lxc config device remove win11 install
+```
 
 # Add alias
 
-> echo "alias win11='lxc console win11 --type=vga&'" >> ~/.bashrc
+```
+echo "alias win11='lxc console win11 --type=vga&'" >> ~/.bashrc
+echo "alias startwin11='lxc start win11 --console=vga'" >> ~/.bashrc
+echo "lxc stop --force win11" >> ~/.bash_logout
+```
 
 # Enable Sound
 
 Read https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/ubuntu_desktop/basic.md#replace-pulseaudio-with-pipewire-on-ubuntu-2204 for setting up pipewire
 
-> sudo apt install -y pulseaudio pipewire-pulse libasound2-plugins
+```
+sudo apt install -y pulseaudio pipewire-pulse libasound2-plugins
+lxc config set win11 raw.qemu -- "-device intel-hda -device hda-duplex -audio spice"
+```
 
-> lxc config set win11 raw.qemu -- "-device intel-hda -device hda-duplex -audio spice"
+# Configure Pulse
 
-## Pulseaudio users
-
-> sudo nano /etc/pulse/default.pa
+```
+sudo nano /etc/pulse/default.pa
+```
 
 Change from:
 
@@ -94,11 +110,12 @@ To:
 load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1
 ```
 
-## Pipewire-pulse users
+## For Pipewire-pulse Users Only
 
-> mkdir -p ~/.config/pipewire/pipewire-pulse.conf.d
-
-> nano ~/.config/pipewire/pipewire-pulse.conf.d/pulse-tcp.conf
+```
+mkdir -p ~/.config/pipewire/pipewire-pulse.conf.d
+nano ~/.config/pipewire/pipewire-pulse.conf.d/pulse-tcp.conf
+```
 
 Add the following content:
 
@@ -110,7 +127,10 @@ context.exec = [
 
 ## Export PULSE_SERVER
 
-> echo "export PULSE_SERVER=tcp:127.0.0.1:4713" >> ~/.bashrc
+```
+export PULSE_SERVER=tcp:127.0.0.1:4713
+echo "export PULSE_SERVER=tcp:127.0.0.1:4713" >> ~/.bashrc
+```
 
 # Reboot
 
