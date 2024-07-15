@@ -1014,6 +1014,50 @@ LLAMA_MAX_DEVICES = 2
 
 https://github.com/eliranwong/freegenius/wiki/Llama.cpp-Server-with-GPU-Acceleration
 
+# stable-diffusion-webui
+
+Setup of stable-diffusion-webui is straightforward as follows:
+
+```
+sudo apt install google-perftools libgl1
+git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
+cd stable-diffusion-webui
+python3 -m venv venv
+./webui.sh
+```
+
+Read more at: https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-AMD-GPUs
+
+# fabric
+
+Install pipx xsel and ffmpeg to work with fabric:
+
+```
+sudo apt install -y pipx xsel ffmpeg
+git clone https://github.com/danielmiessler/fabric.git
+cd fabric
+pipx install .
+tee --append $HOME/.bashrc <<EOF
+alias pbcopy='xsel -b -i'
+alias pbpaste='xsel -b -o'
+EOF
+fabric --setup
+source $HOME/.bashrc
+```
+
+# perplexica
+
+Install docker first and run:
+
+```
+sudo apt install -y git
+git clone https://github.com/ItzCrazyKns/Perplexica.git
+cd Perplexica
+cp sample.config.toml config.toml
+docker compose up -d
+open localhost:3000
+```
+
 # Performance Optimization
 
 For performance optimization, you may read:
