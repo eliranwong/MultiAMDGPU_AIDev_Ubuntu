@@ -1024,9 +1024,37 @@ git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
 cd stable-diffusion-webui
 python3 -m venv venv
 ./webui.sh
+
+# Set up an alias [optional]
+echo 'alias sdwebui="'$(pwd)'/webui.sh"' >> ~/.bashrc
+```
+
+```
+open http://127.0.0.1:7860
 ```
 
 Read more at: https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-AMD-GPUs
+
+# ComfyUI
+
+[Official setup instructions](https://github.com/comfyanonymous/ComfyUI) works:
+
+```
+git clone https://github.com/comfyanonymous/ComfyUI
+cd ComfyUI
+python3 -m venv venv
+source venv/bin/activate
+pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.1
+pip install -r requirements.txt
+python3 main.py
+
+# Set up an alias [optional]
+echo 'alias comfyui="'$(pwd)'/venv/bin/python3 main.py"' >> ~/.bashrc
+```
+
+```
+open http://127.0.0.1:8188
+```
 
 # fabric
 
