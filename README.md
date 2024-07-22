@@ -1049,7 +1049,7 @@ pip install -r requirements.txt
 python3 main.py
 
 # Set up an alias [optional]
-echo 'alias comfyui="'$(pwd)'/venv/bin/python3 main.py"' >> ~/.bashrc
+echo 'alias comfyui="'$(pwd)'/venv/bin/python3 '$(pwd)'/main.py"' >> ~/.bashrc
 ```
 
 ```
