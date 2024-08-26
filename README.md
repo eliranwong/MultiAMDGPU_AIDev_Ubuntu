@@ -1056,6 +1056,35 @@ echo 'alias comfyui="'$(pwd)'/venv/bin/python3 '$(pwd)'/main.py"' >> ~/.bashrc
 open http://127.0.0.1:8188
 ```
 
+# SwarmUI + Flux in GGUF Formats
+
+1. Install SwarmUI
+
+Read the latest instructions at: https://github.com/mcmonkeyprojects/SwarmUI#installing-on-linux
+
+```
+wget https://github.com/mcmonkeyprojects/SwarmUI/releases/download/0.6.5-Beta/install-linux.sh -O install-linux.sh
+chmod +x install-linux.sh
+./install-linux.sh
+```
+2. Select AMD version during the installation process
+
+![amd_version](https://github.com/user-attachments/assets/2ccc0862-e4e3-4d15-85a7-5d604d74044b)
+
+3. After SwarmUI is installed, download a gguf file from GGUF Quantized "unet" models repositories, such as Flux Schnell https://huggingface.co/city96/FLUX.1-schnell-gguf/tree/main or Flux Dev https://huggingface.co/city96/FLUX.1-dev-gguf/tree/main
+
+4. Place the donwload file(s) in folder `Models/unet` inside SwarmUI directory
+
+5. Download file `ae.safetensors` from https://huggingface.co/black-forest-labs/FLUX.1-dev/tree/main and place it in `Models/VAE` inside SwarmUI directory
+
+6. In "Models" tab, edit model metadata of the gguf file and select the correct architecture, e.g. Flux.1 Dev
+
+![edit_model_metadata](https://github.com/user-attachments/assets/fdcde050-476e-4a6c-8d58-0ee41f37ecb3)
+
+7. Enter a prompt and generate an image. Confirm to install GGUF support when prompted.
+
+![install_GGUF_support](https://github.com/user-attachments/assets/97ac8b50-2e84-45e9-a69f-d1d8b7080e84)
+
 # fabric
 
 Install pipx xsel and ffmpeg to work with fabric:
