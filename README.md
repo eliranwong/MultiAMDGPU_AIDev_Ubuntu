@@ -1041,11 +1041,14 @@ Read more at: https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Insta
 
 ```
 git clone https://github.com/comfyanonymous/ComfyUI
-cd ComfyUI
+cd ComfyUI/custom_nodes
+git clone https://github.com/ltdrdata/ComfyUI-Manager
+cd ..
 python3 -m venv venv
 source venv/bin/activate
 pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.1
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt  --extra-index-url https://download.pytorch.org/whl/nightly/rocm6.1
+python3 -m pip install -r custom_nodes/ComfyUI-Manager/requirements.txt --extra-index-url https://download.pytorch.org/whl/nightly/rocm6.1
 python3 main.py
 
 # Set up an alias [optional]
@@ -1071,19 +1074,27 @@ chmod +x install-linux.sh
 
 ![amd_version](https://github.com/user-attachments/assets/2ccc0862-e4e3-4d15-85a7-5d604d74044b)
 
-3. After SwarmUI is installed, download a gguf file from GGUF Quantized "unet" models repositories, such as Flux Schnell https://huggingface.co/city96/FLUX.1-schnell-gguf/tree/main or Flux Dev https://huggingface.co/city96/FLUX.1-dev-gguf/tree/main
+3. After SwarmUI is installed, stop the server first.
 
-4. Place the donwload file(s) in folder `Models/unet` inside SwarmUI directory
+4. Download a gguf file from GGUF Quantized "unet" models repositories, such as Flux Schnell https://huggingface.co/city96/FLUX.1-schnell-gguf/tree/main or Flux Dev https://huggingface.co/city96/FLUX.1-dev-gguf/tree/main
 
-5. Download file `ae.safetensors` from https://huggingface.co/black-forest-labs/FLUX.1-dev/tree/main and place it in `Models/VAE` inside SwarmUI directory
+5. Place the donwload file(s) in folder `Models/unet` inside SwarmUI directory
 
-6. In "Models" tab, edit model metadata of the gguf file and select the correct architecture, e.g. Flux.1 Dev
+6. Download file `ae.safetensors` from https://huggingface.co/black-forest-labs/FLUX.1-dev/tree/main and place it in `Models/VAE` inside SwarmUI directory
+
+7. Run `./launch-linux.sh` to launch SwarmUI
+
+8. In "Models" tab, edit model metadata of the gguf file and select the correct architecture, e.g. Flux.1 Dev
 
 ![edit_model_metadata](https://github.com/user-attachments/assets/fdcde050-476e-4a6c-8d58-0ee41f37ecb3)
 
-7. Enter a prompt and generate an image. Confirm to install GGUF support when prompted.
+8. Enter a prompt and generate an image. Confirm to install GGUF support when prompted.
 
 ![install_GGUF_support](https://github.com/user-attachments/assets/97ac8b50-2e84-45e9-a69f-d1d8b7080e84)
+
+9. Set an alias, assuming your current location at SwamUI directory:
+
+> echo 'alias swarmui='$(pwd)'/launch-linux.sh' >> ~/.bashrc
 
 # fabric
 
