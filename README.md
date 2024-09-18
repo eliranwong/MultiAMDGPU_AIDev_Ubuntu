@@ -1008,11 +1008,17 @@ to
 LLAMA_MAX_DEVICES = 2
 ```
 
-# freegenius
+# Toolmate
 
 ![llamacpp_with_gpu_offloading_compressed](https://github.com/eliranwong/freegenius/assets/25262722/2d607fc1-e6b5-4c62-be14-325d73866fce)
 
-https://github.com/eliranwong/freegenius/wiki/Llama.cpp-Server-with-GPU-Acceleration
+[https://github.com/eliranwong/freegenius/wiki/Llama.cpp-Server-with-GPU-Acceleration](https://github.com/eliranwong/toolmate/blob/main/package/toolmate/docs/GPU%20Acceleration.md)
+
+# Stable-diffusion-cpp-python
+
+```
+pip install --upgrade --force-reinstall --no-cache-dir stable-diffusion-cpp-python -C cmake.args="-DSD_HIPBLAS=ON -DCMAKE_BUILD_TYPE=Release -DAMDGPU_TARGETS=gfx1100"
+```
 
 # stable-diffusion-webui
 
