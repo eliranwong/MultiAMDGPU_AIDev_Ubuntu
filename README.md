@@ -1010,9 +1010,23 @@ LLAMA_MAX_DEVICES = 2
 
 # Toolmate
 
+Options:
+
+1. Use llama-cpp-python as backend:
+
+```
+pip install --upgrade --force-reinstall --no-cache-dir toolmate numpy==1.26.4 llama-cpp-python[server] -C cmake.args="-DGGML_HIPBLAS=on" stable-diffusion-cpp-python -C cmake.args="-DSD_HIPBLAS=ON -DCMAKE_BUILD_TYPE=Release -DAMDGPU_TARGETS=gfx1100"
+```
+
+2. use llama.cpp server as backend
+
 ![llamacpp_with_gpu_offloading_compressed](https://github.com/eliranwong/freegenius/assets/25262722/2d607fc1-e6b5-4c62-be14-325d73866fce)
 
 [https://github.com/eliranwong/freegenius/wiki/Llama.cpp-Server-with-GPU-Acceleration](https://github.com/eliranwong/toolmate/blob/main/package/toolmate/docs/GPU%20Acceleration.md)
+
+3. Ollama
+
+It requires no extra step.
 
 # Stable-diffusion-cpp-python
 
