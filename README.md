@@ -84,6 +84,35 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 </details>
 
+# Upgrade to the Latest ROCM that supports Radeon GPUs
+
+This sections applies ONLY IF you have a previous ROCM version, that is older than version 6.2.3, installed.  For new installation follow next section but changing 6.1.3 to 6.2.3.
+
+[Official instructions](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/index.html) 
+
+If you’re using ROCm with AMD Radeon or Radeon Pro GPUs for graphics workloads, see the [Use ROCm on Radeon GPU](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-radeon.html) documentation for installation instructions.
+
+At the time of writing, the latest version that supports Radeon GPUs as stated at https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-radeon.html is 6.2.3
+
+To upgrade from a previous version:
+
+```
+sudo apt update
+wget https://repo.radeon.com/amdgpu-install/6.2.3/ubuntu/jammy/amdgpu-install_6.2.60203-1_all.deb
+sudo apt install ./amdgpu-install_6.2.60203-1_all.deb
+sudo apt full-upgrade
+```
+
+To check, run:
+
+```
+ls -l /etc/alternatives/rocm
+```
+
+Expected output:
+
+> ... /etc/alternatives/rocm -> /opt/rocm-6.2.3
+
 # Install ROCM 6.1.3
 
 Version 6.1.3 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
@@ -290,7 +319,7 @@ Modify the values to suit your cases.
 
 The following examples assume:
 
-* ROCm version 6.1.3 installed
+* ROCm version 6.2.3 installed
 
 * No integrated GPU
 
@@ -311,7 +340,7 @@ Remarks:
 export GFX_ARCH=gfx1100
 export HCC_AMDGPU_TARGET=gfx1100
 export CUPY_INSTALL_USE_HIP=1
-export ROCM_VERSION=6.1
+export ROCM_VERSION=6.2
 export ROCM_HOME=/opt/rocm
 export LD_LIBRARY_PATH=/usr/include/vulkan:/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
 export PATH=/home/eliran/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
