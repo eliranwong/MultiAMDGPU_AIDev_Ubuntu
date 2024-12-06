@@ -1206,7 +1206,7 @@ git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
 cd LLaMA-Factory
 python3 -m venv rocm
 source rocm/bin/activate
-pip install -e ".[metrics,bitsandbytes]"
+pip install -e ".[metrics]"
 pip uninstall torch triton -y
 wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torch-2.3.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
 wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torchvision-0.18.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
