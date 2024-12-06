@@ -1225,7 +1225,7 @@ To run webui:
 
 > env HIP_VISIBLE_DEVICES=0 llamafactory-cli webui
 
-Note: Llama Factory currently fails to run training when for mulitple GPUs, e.g.:
+Note: Llama Factory currently fails to run training when mulitple GPUs are used, e.g.:
 
 > env HIP_VISIBLE_DEVICES=0,1 llamafactory-cli webui
 
