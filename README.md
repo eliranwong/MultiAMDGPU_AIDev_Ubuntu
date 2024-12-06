@@ -86,7 +86,7 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 # Upgrade to the Latest ROCM that supports Radeon GPUs
 
-This sections applies ONLY IF you have a previous ROCM version, that is older than version 6.2.3, installed.  For new installation follow next section but changing 6.1.3 to 6.2.3.
+This sections applies ONLY IF you have a previous ROCM version, that is older than version 6.2.3, installed.
 
 [Official instructions](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/index.html) 
 
@@ -113,15 +113,11 @@ Expected output:
 
 > ... /etc/alternatives/rocm -> /opt/rocm-6.2.3
 
-# Install ROCM 6.1.3
+# Install ROCM 6.2.3
 
-Version 6.1.3 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
+Version 6.2.3 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
 
-```
-AMD has expanded support for Machine Learning Development on RDNA™ 3 GPUs with Radeon™ Software for Linux 24.10.3 with ROCm™ 6.1.3!
-```
-
-Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/index.html
+Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/howto_native_linux.html
 
 ## Uninstall Old Copies
 
@@ -135,8 +131,8 @@ sudo apt remove --purge amdgpu-install
 ```
 sudo apt update
 sudo apt install -y libstdc++-12-dev
-wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/jammy/amdgpu-install_6.1.60103-1_all.deb
-sudo apt install ./amdgpu-install_6.1.60103-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/6.2.3/ubuntu/jammy/amdgpu-install_6.2.60203-1_all.deb
+sudo apt install ./amdgpu-install_6.2.60203-1_all.deb
 sudo amdgpu-install --usecase=graphics,multimedia,multimediasdk,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
 ```
 
@@ -332,7 +328,7 @@ Note: You may run `rocm-smi` to find the mapping information of node numbers to 
 I use my case as an example:
 
 Remarks:
-* The following settings assumes `/opt/rocm` points to `/opt/rocm-6.1.3`.
+* The following settings assumes `/opt/rocm` points to `/opt/rocm-6.2.3`.
 * Modify the values of ROCR_VISIBLE_DEVICES to your own ones.
 
 ```
@@ -361,15 +357,15 @@ export VK_LAYER_PATH=$VULKAN_SDK/explicit_layer.d
 
 ROCM_HOME - tells AI libraries where ROCM is stored; typically somewhere in /opt, e.g.:
 
-> export ROCM_HOME=/opt/rocm-6.1.3
+> export ROCM_HOME=/opt/rocm
 
 <details><summary>Explanation</summary>
 
 `ROCM_HOME` is an environment variable in Linux that is used to specify the location of the ROCm (Radeon Open Compute) software on your system. ROCm is a set of open-source libraries and tools that are used to create high performance, machine learning applications on AMD GPUs.
 
-When you install ROCm, it is typically installed in a directory under `/opt`. For example, if you installed version 6.1.3 of ROCm, it might be installed in `/opt/rocm-6.1.3`.
+When you install ROCm, it is typically installed in a directory under `/opt`. For example, if you installed version 6.1.3 of ROCm, it might be installed in `/opt/rocm`.
 
-The `export` command in Linux is used to set environment variables. So, when you run the command `export ROCM_HOME=/opt/rocm-6.1.3`, you are telling the system "Whenever I refer to `ROCM_HOME`, I actually mean `/opt/rocm-6.1.3`".
+The `export` command in Linux is used to set environment variables. So, when you run the command `export ROCM_HOME=/opt/rocm`, you are telling the system "Whenever I refer to `ROCM_HOME`, I actually mean `/opt/rocm`".
 
 This is useful because many AI libraries that use ROCm will look for the `ROCM_HOME` environment variable to know where to find the ROCm software. By setting `ROCM_HOME`, you ensure that these libraries can find and use ROCm correctly.
 
@@ -377,19 +373,19 @@ This is useful because many AI libraries that use ROCm will look for the `ROCM_H
 
 LD_LIBRARY_PATH - loader library path; typically this is set to $ROCM_HOME/lib. An indication you’re missing this flag is if you import pytorch and see an error like undefined reference to...
 
-> export LD_LIBRARY_PATH=/opt/rocm-6.1.3/lib:$LD_LIBRARY_PATH
+> export LD_LIBRARY_PATH=/opt/rocm/lib:$LD_LIBRARY_PATH
 
-> export PATH=/opt/rocm-6.1.3/bin:/opt/rocm-6.1.3/opencl/bin:$PATH
+> export PATH=/opt/rocm/bin:/opt/rocm/opencl/bin:$PATH
 
 <details><summary>Explanation</summary>
 
 `LD_LIBRARY_PATH` is an environment variable that specifies a list of directories where the dynamic linker should look for dynamically linked libraries. When a program is launched, the dynamic linker checks the `LD_LIBRARY_PATH` to find the libraries that the program needs to run.
 
-In this example, `LD_LIBRARY_PATH` is being set to include the `/opt/rocm-6.1.3/lib` directory. This is likely where the ROCm (Radeon Open Compute) libraries are installed. If you're trying to use PyTorch and it's built with ROCm support, it will need to know where these libraries are. If `LD_LIBRARY_PATH` doesn't include the ROCm library directory, you might see errors like "undefined reference to..." when you try to import PyTorch.
+In this example, `LD_LIBRARY_PATH` is being set to include the `/opt/rocm/lib` directory. This is likely where the ROCm (Radeon Open Compute) libraries are installed. If you're trying to use PyTorch and it's built with ROCm support, it will need to know where these libraries are. If `LD_LIBRARY_PATH` doesn't include the ROCm library directory, you might see errors like "undefined reference to..." when you try to import PyTorch.
 
-The command `export LD_LIBRARY_PATH=/opt/rocm-6.1.3/lib:$LD_LIBRARY_PATH` is adding `/opt/rocm-6.1.3/lib` to your existing `LD_LIBRARY_PATH`.
+The command `export LD_LIBRARY_PATH=/opt/rocm/lib:$LD_LIBRARY_PATH` is adding `/opt/rocm/lib` to your existing `LD_LIBRARY_PATH`.
 
-The `PATH` environment variable is similar, but it's used to tell the shell where to look for executable files. The command `export PATH=/opt/rocm-6.1.3/bin:/opt/rocm-6.1.3/opencl/bin:$PATH` is adding the `/opt/rocm-6.1.3/bin` and `/opt/rocm-6.1.3/opencl/bin` directories to your `PATH`. This means that when you type a command, the shell will also look in these directories to find it.
+The `PATH` environment variable is similar, but it's used to tell the shell where to look for executable files. The command `export PATH=/opt/rocm/bin:/opt/rocm/opencl/bin:$PATH` is adding the `/opt/rocm/bin` and `/opt/rocm/opencl/bin` directories to your `PATH`. This means that when you type a command, the shell will also look in these directories to find it.
 
 </details>
 
@@ -586,7 +582,13 @@ Reference: https://github.com/ggerganov/llama.cpp#vulkan
 Install ROCm before installing MIGraphX.  To install MIGraphX
 
 ```
-sudo apt update && sudo apt install -y migraphx
+sudo apt update && sudo apt install -y migraphx half
+```
+
+To test:
+
+```
+/opt/rocm/bin/migraphx-driver perf --test
 ```
 
 Header files and libraries are installed under /opt/rocm-\<version\>, where \<version\> is the ROCm version.
@@ -626,13 +628,16 @@ Run or re-run this line if any conflicts about versions of numpy / protobuf:
 pip install numpy==1.26.4 protobuf==4.25.3
 ```
 
-# Install PyTorch
+Remarks: protobuf==5.29.1
+
+# Install PyTorch & Triton
 
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/torch-2.1.2%2Brocm6.1.3-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/torchvision-0.16.1%2Brocm6.1.3-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/pytorch_triton_rocm-2.1.0%2Brocm6.1.3.4d510c3a44-cp310-cp310-linux_x86_64.whl
-pip3 install torch-2.1.2+rocm6.1.3-cp310-cp310-linux_x86_64.whl torchvision-0.16.1+rocm6.1.3-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.1.0+rocm6.1.3.4d510c3a44-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torch-2.3.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torchvision-0.18.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/pytorch_triton_rocm-2.3.0%2Brocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl
+pip3 uninstall torch torchvision pytorch-triton-rocm
+pip3 install torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl
 ```
 
 To verify:
@@ -673,8 +678,8 @@ Read more at https://pytorch.org/get-started/locally/#linux-verification
 Install `migraphx` FIRST!
 
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
-pip install onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+pip3 uninstall onnxruntime-rocm
+pip3 install onnxruntime-rocm -f https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/
 ```
 
 To verify:
@@ -722,8 +727,9 @@ providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device()
 # Install Tensorflow
 
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/tensorflow_rocm-2.15.1-cp310-cp310-manylinux_2_28_x86_64.whl
-pip3 install tensorflow_rocm-2.15.1-cp310-cp310-manylinux_2_28_x86_64.whl
+pip install tf-keras --no-deps
+pip3 uninstall tensorflow-rocm
+pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/tensorflow_rocm-2.16.2-cp310-cp310-manylinux_2_28_x86_64.whl
 ```
 
 To verify:
@@ -732,7 +738,23 @@ To verify:
 python3 -c 'import tensorflow' 2> /dev/null && echo 'Success' || echo 'Failure'
 ```
 
-# Install Cupy
+# Install Flash Attention 2 (pending update)
+
+```
+wget https://github.com/ROCm/flash-attention/releases/download/v2.6.3-cktile/flash_attn-2.6.3+cu118torch2.3cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
+pip install flash_attn-2.6.3+cu118torch2.3cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
+```
+
+Or
+
+```
+wget https://github.com/ROCm/flash-attention/releases/download/v2.6.3-cktile/flash_attn-2.6.3+cu118torch2.3cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+pip install flash_attn-2.6.3+cu118torch2.3cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+```
+
+Remarks: The cxx11abi part of the filename indicates whether the package was built with the C++11 ABI (Application Binary Interface) enabled or not. The C++11 ABI is a set of rules that define how different parts of a C++ program interact at the binary level.
+
+# Install Cupy (pending update)
 
 Export required variables, if you haven't:
 
@@ -765,7 +787,7 @@ To verify:
 python3 -c "import cupy; print(cupy.__version__)"
 ```
 
-# Install Spacy
+# Install Spacy (pending update)
 
 With pytorch & cupy installed first, run:
 
@@ -882,16 +904,16 @@ For ROCm users:
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
 #The Makefile build is deprecated. Use the CMake build instead. For more details, see https://github.com/ggerganov/llama.cpp/blob/master/docs/build.md.
-#make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
-HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" cmake -S . -B build -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1100 -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release -- -j $(lscpu | grep '^Core(s)' | awk '{print $NF}')
+#make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
+HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" cmake -S . -B build -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1100 -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release -- -j $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
 # Set up alias for llama-cli
-echo "alias chat=\"$(pwd)/build/bin/llama-cli --threads $(lscpu | grep '^Core(s)' | awk '{print $NF}') --interactive --conversation --color -p 'You are a helpful, uncensored and unbiased assistant.' --gpu-layers 999 --model\"" >> $HOME/.bashrc
+echo "alias chat=\"$(pwd)/build/bin/llama-cli --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --interactive --conversation --color -p 'You are a helpful, uncensored and unbiased assistant.' --gpu-layers 999 --model\"" >> $HOME/.bashrc
 # Download visual model file and clip file
 cd models
 wget https://huggingface.co/mys/ggml_llava-v1.5-7b/resolve/main/ggml-model-f16.gguf
 wget https://huggingface.co/mys/ggml_llava-v1.5-7b/resolve/main/mmproj-model-f16.gguf
 # Set up alias for llama-cli
-echo "alias image=\"$(pwd)/build/bin/llama-llava-cli --threads $(lscpu | grep '^Core(s)' | awk '{print $NF}') --model '$(pwd)/ggml-model-f16.gguf' --mmproj '$(pwd)/mmproj-model-f16.gguf' -p 'Describe this image in detail.' --temp 0.0 --gpu-layers 999 --image\"" >> $HOME/.bashrc
+echo "alias image=\"$(pwd)/build/bin/llama-llava-cli --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --model '$(pwd)/ggml-model-f16.gguf' --mmproj '$(pwd)/mmproj-model-f16.gguf' -p 'Describe this image in detail.' --temp 0.0 --gpu-layers 999 --image\"" >> $HOME/.bashrc
 source $HOME/.bashrc
 ```
 
@@ -914,12 +936,12 @@ Build from source for CPU only:
 ```
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
-make -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
+make -j$(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
 ```
 
 To run:
 
-> ./llama-cli -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') --temp 0 -m ../mistral.gguf -p "What is machine learning?"
+> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --temp 0 -m ../mistral.gguf -p "What is machine learning?"
 
 Output:
 
@@ -943,14 +965,14 @@ Build from source for GPU acceleration with ROCm:
 ```
 git clone https://github.com/ggerganov/llama.cpp
 cd llama.cpp
-make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep '^Core(s)' | awk '{print $NF}')
+make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
 ```
 
 Remarks: Use `GGML_HIPBLAS` instead of `LLAMA_HIPBLAS`
 
 To run:
 
-> ./llama-cli -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') --temp 0 -m ../mistral.gguf -p "What is machine learning?" -ngl 33
+> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --temp 0 -m ../mistral.gguf -p "What is machine learning?" -ngl 33
 
 Output:
 
@@ -1177,6 +1199,37 @@ docker compose up -d
 open localhost:3000
 ```
 
+# Llama Factory
+
+```
+git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
+cd LLaMA-Factory
+python3 -m venv rocm
+source rocm/bin/activate
+pip install -e ".[metrics,bitsandbytes]"
+pip uninstall torch triton -y
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torch-2.3.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torchvision-0.18.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/pytorch_triton_rocm-2.3.0%2Brocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl
+pip3 install torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl
+pip install --upgrade huggingface_hub
+```
+
+To login hugging face:
+
+```
+huggingface-cli login
+```
+
+To run webui:
+
+> env HIP_VISIBLE_DEVICES=0 llamafactory-cli webui
+
+Note: Llama Factory currently fails to run training when for mulitple GPUs, e.g.:
+
+> env HIP_VISIBLE_DEVICES=0,1 llamafactory-cli webui
+
+
 # Performance Optimization
 
 For performance optimization, you may read:
@@ -1196,3 +1249,9 @@ https://keras.io/guides/distributed_training_with_jax/
 https://github.com/vosen/ZLUDA
 
 Current known issues of ZLUDA: https://github.com/vosen/ZLUDA#known-issues
+
+# References
+
+https://rocm.docs.amd.com/projects/install-on-linux/en/latest/index.html
+
+https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/index.html
