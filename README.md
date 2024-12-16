@@ -133,7 +133,7 @@ sudo apt update
 sudo apt install -y libstdc++-12-dev
 wget https://repo.radeon.com/amdgpu-install/6.2.3/ubuntu/jammy/amdgpu-install_6.2.60203-1_all.deb
 sudo apt install ./amdgpu-install_6.2.60203-1_all.deb
-sudo amdgpu-install --usecase=graphics,multimedia,multimediasdk,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
+sudo amdgpu-install --usecase=graphics,multimedia,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
 ```
 
 For more options of use cases, read https://rocm.docs.amd.com/projects/install-on-linux/en/latest/how-to/amdgpu-install.html#use-cases
