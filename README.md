@@ -1165,6 +1165,11 @@ chmod +x install-linux.sh
 
 ![install_GGUF_support](https://github.com/user-attachments/assets/97ac8b50-2e84-45e9-a69f-d1d8b7080e84)
 
+Remarks:
+
+* a cfg_scale of 1 is recommended for FLUX
+* euler sampling method is recommended for FLUX
+
 9. Set an alias, assuming your current location at SwamUI directory:
 
 > echo 'alias swarmui='$(pwd)'/launch-linux.sh' >> ~/.bashrc
