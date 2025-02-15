@@ -84,38 +84,9 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 </details>
 
-# Upgrade to the Latest ROCM that supports Radeon GPUs
+# Install ROCM 6.3.2
 
-This sections applies ONLY IF you have a previous ROCM version, that is older than version 6.2.3, installed.
-
-[Official instructions](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/index.html) 
-
-If you’re using ROCm with AMD Radeon or Radeon Pro GPUs for graphics workloads, see the [Use ROCm on Radeon GPU](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-radeon.html) documentation for installation instructions.
-
-At the time of writing, the latest version that supports Radeon GPUs as stated at https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-radeon.html is 6.2.3
-
-To upgrade from a previous version:
-
-```
-sudo apt update
-wget https://repo.radeon.com/amdgpu-install/6.2.3/ubuntu/jammy/amdgpu-install_6.2.60203-1_all.deb
-sudo apt install ./amdgpu-install_6.2.60203-1_all.deb
-sudo apt full-upgrade
-```
-
-To check, run:
-
-```
-ls -l /etc/alternatives/rocm
-```
-
-Expected output:
-
-> ... /etc/alternatives/rocm -> /opt/rocm-6.2.3
-
-# Install ROCM 6.2.3
-
-Version 6.2.3 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
+Version 6.3.2 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
 
 Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/howto_native_linux.html
 
@@ -131,8 +102,8 @@ sudo apt remove --purge amdgpu-install
 ```
 sudo apt update
 sudo apt install -y libstdc++-12-dev
-wget https://repo.radeon.com/amdgpu-install/6.2.3/ubuntu/jammy/amdgpu-install_6.2.60203-1_all.deb
-sudo apt install ./amdgpu-install_6.2.60203-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/6.3.2/ubuntu/noble/amdgpu-install_6.3.60302-1_all.deb
+sudo apt install ./amdgpu-install_6.3.60302-1_all.deb
 sudo amdgpu-install --usecase=graphics,multimedia,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
 ```
 
@@ -315,7 +286,7 @@ Modify the values to suit your cases.
 
 The following examples assume:
 
-* ROCm version 6.2.3 installed
+* ROCm version 6.3.2 installed
 
 * No integrated GPU
 
@@ -328,7 +299,7 @@ Note: You may run `rocm-smi` to find the mapping information of node numbers to 
 I use my case as an example:
 
 Remarks:
-* The following settings assumes `/opt/rocm` points to `/opt/rocm-6.2.3`.
+* The following settings assumes `/opt/rocm` points to `/opt/rocm-6.3.2`.
 * Modify the values of ROCR_VISIBLE_DEVICES to your own ones.
 
 ```
@@ -336,7 +307,7 @@ Remarks:
 export GFX_ARCH=gfx1100
 export HCC_AMDGPU_TARGET=gfx1100
 export CUPY_INSTALL_USE_HIP=1
-export ROCM_VERSION=6.2
+export ROCM_VERSION=6.3
 export ROCM_HOME=/opt/rocm
 export LD_LIBRARY_PATH=/usr/include/vulkan:/opt/rocm/include:/opt/rocm/lib:$LD_LIBRARY_PATH
 export PATH=/home/eliran/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
@@ -633,11 +604,12 @@ Remarks: protobuf==5.29.1
 # Install PyTorch & Triton
 
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torch-2.3.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torchvision-0.18.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/pytorch_triton_rocm-2.3.0%2Brocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torch-2.5.1%2Brocm6.3.2.lw-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchvision-0.20.0%2Brocm6.3.2-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchaudio-2.5.0%2Brocm6.3.2-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/pytorch_triton_rocm-3.1.0%2Brocm6.3.2.b253a53766-cp310-cp310-linux_x86_64.whl
 pip3 uninstall torch torchvision pytorch-triton-rocm
-pip3 install torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl
+pip3 install torch-2.3.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl torchaudio-2.5.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.3.2.5a02332983-cp310-cp310-linux_x86_64.whl
 ```
 
 To verify:
@@ -679,7 +651,8 @@ Install `migraphx` FIRST!
 
 ```
 pip3 uninstall onnxruntime-rocm
-pip3 install onnxruntime-rocm -f https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/onnxruntime_rocm-1.19.0-cp310-cp310-linux_x86_64.whl
+pip3 install onnxruntime_rocm-1.19.0-cp310-cp310-linux_x86_64.whl
 ```
 
 To verify:
@@ -729,7 +702,7 @@ providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device()
 ```
 pip install tf-keras --no-deps
 pip3 uninstall tensorflow-rocm
-pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/tensorflow_rocm-2.16.2-cp310-cp310-manylinux_2_28_x86_64.whl
+pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/tensorflow_rocm-2.17.0-cp310-cp310-manylinux_2_28_x86_64.whl
 ```
 
 To verify:
@@ -740,16 +713,25 @@ python3 -c 'import tensorflow' 2> /dev/null && echo 'Success' || echo 'Failure'
 
 # Install Flash Attention 2 (pending update)
 
+Links available at: https://github.com/ROCm/flash-attention/releases/
+
 ```
-wget https://github.com/ROCm/flash-attention/releases/download/v2.6.3-cktile/flash_attn-2.6.3+cu118torch2.3cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
-pip install flash_attn-2.6.3+cu118torch2.3cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
+wget https://github.com/ROCm/flash-attention/releases/download/v3.0.0.r1-cktile/flash_attn-3.0.0.post1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+pip install flash_attn-3.0.0.post1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
 ```
 
 Or
 
 ```
-wget https://github.com/ROCm/flash-attention/releases/download/v2.6.3-cktile/flash_attn-2.6.3+cu118torch2.3cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
-pip install flash_attn-2.6.3+cu118torch2.3cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+wget https://github.com/ROCm/flash-attention/releases/download/v3.0.0.r1-cktile/flash_attn-3.0.0.post1+cu118torch2.0cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
+pip install flash_attn-3.0.0.post1+cu118torch2.0cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
+```
+
+Or
+
+```
+wget https://github.com/ROCm/flash-attention/releases/download/v3.0.0.r1-cktile/flash_attn-3.0.0.post1+cu118torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
+pip install flash_attn-3.0.0.post1+cu118torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
 ```
 
 Remarks: The cxx11abi part of the filename indicates whether the package was built with the C++11 ABI (Application Binary Interface) enabled or not. The C++11 ABI is a set of rules that define how different parts of a C++ program interact at the binary level.
@@ -778,7 +760,7 @@ pip install .
 To fix cicular import error, run again:
 
 ```
-pip3 install torch-2.1.2+rocm6.1.3-cp310-cp310-linux_x86_64.whl torchvision-0.16.1+rocm6.1.3-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.1.0+rocm6.1.3.4d510c3a44-cp310-cp310-linux_x86_64.whl
+pip3 install torch-2.3.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl torchaudio-2.5.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.3.2.5a02332983-cp310-cp310-linux_x86_64.whl
 ```
 
 To verify:
@@ -813,7 +795,7 @@ To support ROCm-enabled GPUs via 'ROCMExecutionProvider' or 'MIGraphXExecutionPr
 
 3. Re-install onnxruntime-rocm
 
-> pip install --force-reinstall onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+> pip install --force-reinstall onnxruntime_rocm-1.19.0-cp310-cp310-linux_x86_64.whl
 
 4. Fix numpy and protobuf versions
 
@@ -861,7 +843,7 @@ To upgrade piper-tts, follow the following order:
 
 3. Install Install onnxruntime-rocm again
 
-> pip install --force-reinstall onnxruntime_rocm-1.17.0-cp310-cp310-linux_x86_64.whl
+> pip install --force-reinstall onnxruntime_rocm-1.19.0-cp310-cp310-linux_x86_64.whl
 
 4. Manually edit the 'load' function in the file ../site-packages/piper/voice.py as described above.
 
@@ -1213,10 +1195,10 @@ python3 -m venv rocm
 source rocm/bin/activate
 pip install -e ".[metrics]"
 pip uninstall torch triton -y
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torch-2.3.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/torchvision-0.18.0%2Brocm6.2.3-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.2.3/pytorch_triton_rocm-2.3.0%2Brocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl
-pip3 install torch-2.3.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.2.3-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.2.3.5a02332983-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torch-2.3.0%2Brocm6.3.2-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchvision-0.18.0%2Brocm6.3.2-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/pytorch_triton_rocm-2.3.0%2Brocm6.3.2.5a02332983-cp310-cp310-linux_x86_64.whl
+pip3 install torch-2.3.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.3.2.5a02332983-cp310-cp310-linux_x86_64.whl
 pip install --upgrade huggingface_hub
 ```
 

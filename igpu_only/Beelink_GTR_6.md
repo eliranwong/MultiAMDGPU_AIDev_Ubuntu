@@ -2,6 +2,10 @@
 
 Tested device: Beelink GTR6 (Ryzen 9 6900HX CPU + integrated Radeon 680M GPU + 64GB RAM)
 
+# ROCM Version
+
+Tested ROCM Version: 6.0.2
+
 Followed https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/README.md for for installation ROCm 6.0.2.
 
 Environment variables:
