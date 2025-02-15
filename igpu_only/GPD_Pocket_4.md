@@ -66,7 +66,14 @@ eval rate:            46.48 tokens/s
 Model: `deepseek-r1:7b`
 
 ```
-
+total duration:       35.692882833s
+load duration:        24.075692ms
+prompt eval count:    8 token(s)
+prompt eval duration: 254ms
+prompt eval rate:     31.50 tokens/s
+eval count:           563 token(s)
+eval duration:        35.412s
+eval rate:            15.90 tokens/s
 ```
 
 Model: `deepseek-r1:8b`
@@ -98,5 +105,12 @@ eval rate:            7.39 tokens/s
 Model: `deepseek-r1:32b`
 
 ```
-
+total duration:       5m53.281645538s
+load duration:        18.26359ms
+prompt eval count:    8 token(s)
+prompt eval duration: 852ms
+prompt eval rate:     9.39 tokens/s
+eval count:           1308 token(s)
+eval duration:        5m52.409s
+eval rate:            3.71 tokens/s
 ```
