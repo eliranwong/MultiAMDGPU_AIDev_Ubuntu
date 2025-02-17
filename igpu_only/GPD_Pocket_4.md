@@ -1,4 +1,4 @@
-# Tested on a iGPU-only device
+# Tested on GPD Pocket 4
 
 Tested device: AMD Ryzen™ AI 9 HX 370; AMD Radeon™ 890M
 
