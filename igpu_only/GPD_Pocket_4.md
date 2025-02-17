@@ -2,7 +2,7 @@
 
 Tested device: AMD Ryzen™ AI 9 HX 370; AMD Radeon™ 890M
 
-BIOS Memory Setting:
+BIOS Memory Setting (reboot+DEL key):
 
 UEFI/BIOS -> Advanced -> AMD CBS -> NBIO -> GFX Configuration > 
 
