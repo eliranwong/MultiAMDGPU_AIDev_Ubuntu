@@ -2,6 +2,16 @@
 
 Tested device: AMD Ryzen™ AI 9 HX 370; AMD Radeon™ 890M
 
+BIOS Memory Setting:
+
+UEFI/BIOS -> Advanced -> AMD CBS -> NBIO -> GFX Configuration > 
+
+```
+iGPU Advanced Control > Disabled
+Dedicated Graphics Memory > Medium (16GB)
+Remaining System Memory > 48GB
+```
+
 # ROCM Version
 
 Tested version: 6.3.2
