@@ -223,6 +223,10 @@ Read more about hand gestures on X11 at https://ubuntuhandbook.org/index.php/202
 * Sound input & output device chooser
 * X11 gestures
 
+For touchscreen:
+
+* GJS OSK
+
 # Work with File Selection
 
 ## Example - Microsoft Visual Studio Code
