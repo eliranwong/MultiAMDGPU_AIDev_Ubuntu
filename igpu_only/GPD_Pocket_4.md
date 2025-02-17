@@ -125,7 +125,7 @@ eval duration:        5m52.409s
 eval rate:            3.71 tokens/s
 ```
 
-# Test Speed with llama.cpp
+# Test Speed with llama.cpp - CPU Backend
 
 > ./llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_1.5b.gguf'
 
@@ -172,9 +172,76 @@ eval rate:            3.71 tokens/s
 | qwen2 32B Q4_K - Medium        |  18.48 GiB |    32.76 B | CPU        |      12 |         tg128 |          4.16 ± 0.03 |
 ```
 
+# Test Speed with llama.cpp - ROCm Backend
+
+> ./build/bin/llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_1.5b.gguf'
+
+```
+ggml_cuda_init: GGML_CUDA_FORCE_MMQ:    no
+ggml_cuda_init: GGML_CUDA_FORCE_CUBLAS: no
+ggml_cuda_init: found 1 ROCm devices:
+  Device 0: AMD Radeon Graphics, gfx1151 (0x1151), VMM: no, Wave Size: 32
+| model                          |       size |     params | backend    | ngl |          test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------------: | -------------------: |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |         pp512 |       486.73 ± 44.23 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |         tg128 |         59.33 ± 2.00 |
+```
+
+./build/bin/llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_7b.gguf'
+
+```
+ggml_cuda_init: GGML_CUDA_FORCE_MMQ:    no
+ggml_cuda_init: GGML_CUDA_FORCE_CUBLAS: no
+ggml_cuda_init: found 1 ROCm devices:
+  Device 0: AMD Radeon Graphics, gfx1151 (0x1151), VMM: no, Wave Size: 32
+| model                          |       size |     params | backend    | ngl |          test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------------: | -------------------: |
+| qwen2 7B Q4_K - Medium         |   4.36 GiB |     7.62 B | ROCm       |  99 |         pp512 |         92.78 ± 0.36 |
+| qwen2 7B Q4_K - Medium         |   4.36 GiB |     7.62 B | ROCm       |  99 |         tg128 |         17.49 ± 0.01 |
+```
+
+> ./build/bin/llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_8b.gguf'
+
+```
+ggml_cuda_init: GGML_CUDA_FORCE_MMQ:    no
+ggml_cuda_init: GGML_CUDA_FORCE_CUBLAS: no
+ggml_cuda_init: found 1 ROCm devices:
+  Device 0: AMD Radeon Graphics, gfx1151 (0x1151), VMM: no, Wave Size: 32
+| model                          |       size |     params | backend    | ngl |          test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------------: | -------------------: |
+| llama 8B Q4_K - Medium         |   4.58 GiB |     8.03 B | ROCm       |  99 |         pp512 |         88.05 ± 2.18 |
+| llama 8B Q4_K - Medium         |   4.58 GiB |     8.03 B | ROCm       |  99 |         tg128 |         16.44 ± 0.26 |
+```
+
+> ./build/bin/llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_14b.gguf'
+
+```
+ggml_cuda_init: GGML_CUDA_FORCE_MMQ:    no
+ggml_cuda_init: GGML_CUDA_FORCE_CUBLAS: no
+ggml_cuda_init: found 1 ROCm devices:
+  Device 0: AMD Radeon Graphics, gfx1151 (0x1151), VMM: no, Wave Size: 32
+| model                          |       size |     params | backend    | ngl |          test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------------: | -------------------: |
+| qwen2 14B Q4_K - Medium        |   8.37 GiB |    14.77 B | ROCm       |  99 |         pp512 |         46.88 ± 2.31 |
+| qwen2 14B Q4_K - Medium        |   8.37 GiB |    14.77 B | ROCm       |  99 |         tg128 |          8.96 ± 0.09 |
+```
+
+> ./build/bin/llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_32b.gguf'
+
+```
+ggml_cuda_init: GGML_CUDA_FORCE_MMQ:    no
+ggml_cuda_init: GGML_CUDA_FORCE_CUBLAS: no
+ggml_cuda_init: found 1 ROCm devices:
+  Device 0: AMD Radeon Graphics, gfx1151 (0x1151), VMM: no, Wave Size: 32
+| model                          |       size |     params | backend    | ngl |          test |                  t/s |
+| ------------------------------ | ---------: | ---------: | ---------- | --: | ------------: | -------------------: |
+| qwen2 32B Q4_K - Medium        |  18.48 GiB |    32.76 B | ROCm       |  99 |         pp512 |         20.17 ± 0.67 |
+| qwen2 32B Q4_K - Medium        |  18.48 GiB |    32.76 B | ROCm       |  99 |         tg128 |          4.09 ± 0.07 |
+```
+
 # Llama.cpp vs Ollama
 
-With the same memory settings, llama.cpp is slightly faster than ollama in all tests.
+With the same memory settings, llama.cpp is significantly faster than ollama in all tests, with the same model weights.
 
 # Links
 
