@@ -124,3 +124,13 @@ eval count:           1308 token(s)
 eval duration:        5m52.409s
 eval rate:            3.71 tokens/s
 ```
+
+# Links
+
+https://gpdstore.net/kb/gpd-pocket-4-support-hub/kb-article/getting-started-with-the-gpd-pocket-4/?srsltid=AfmBOoq-RCtsGnkt
+
+https://gpd.hk/gpdpocket4firmware
+
+https://github.com/ftfpteams/focaltech-linux-fingerprint-driver
+
+https://gpdstore.net/kb/faq/kb-article/how-to-install-ubuntu-linux-24-10-on-the-gpd-pocket-3/
