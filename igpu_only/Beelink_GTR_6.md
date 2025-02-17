@@ -1,4 +1,4 @@
-# Tested on a iGPU-only device
+# Tested on Beelink GTR6
 
 Tested device: Beelink GTR6 (Ryzen 9 6900HX CPU + integrated Radeon 680M GPU + 64GB RAM)
 
