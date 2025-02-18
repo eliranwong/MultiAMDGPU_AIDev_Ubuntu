@@ -152,6 +152,19 @@ eval duration:        5m52.409s
 eval rate:            3.71 tokens/s
 ```
 
+Model: `deepseek-r1:70b`
+
+```
+total duration:       3m52.784148477s
+load duration:        31.808434ms
+prompt eval count:    8 token(s)
+prompt eval duration: 2s
+prompt eval rate:     4.00 tokens/s
+eval count:           406 token(s)
+eval duration:        3m50.749s
+eval rate:            1.76 tokens/s
+```
+
 # Test Speed with llama.cpp - CPU Backend
 
 > ./llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_1.5b.gguf'
@@ -204,14 +217,15 @@ eval rate:            3.71 tokens/s
 > ./build/bin/llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_1.5b.gguf'
 
 ```
+./build/bin/llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_1.5b.gguf'
 ggml_cuda_init: GGML_CUDA_FORCE_MMQ:    no
 ggml_cuda_init: GGML_CUDA_FORCE_CUBLAS: no
 ggml_cuda_init: found 1 ROCm devices:
   Device 0: AMD Radeon Graphics, gfx1151 (0x1151), VMM: no, Wave Size: 32
 | model                          |       size |     params | backend    | ngl |          test |                  t/s |
 | ------------------------------ | ---------: | ---------: | ---------- | --: | ------------: | -------------------: |
-| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |         pp512 |       486.73 ± 44.23 |
-| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |         tg128 |         59.33 ± 2.00 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |         pp512 |       517.99 ± 35.01 |
+| qwen2 1.5B Q4_K - Medium       |   1.04 GiB |     1.78 B | ROCm       |  99 |         tg128 |         63.23 ± 0.75 |
 ```
 
 ./build/bin/llama-bench -t $(lscpu | grep '^Core(s)' | awk '{print $NF}') -m '/home/eliran/agentmake/models/gguf/deepseek-r1_7b.gguf'
