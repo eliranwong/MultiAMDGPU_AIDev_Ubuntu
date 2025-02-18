@@ -36,10 +36,10 @@ Environment variables:
 export ROCM_HOME=/opt/rocm-6.3.2
 export LD_LIBRARY_PATH=/opt/rocm-6.3.2/include:/opt/rocm-6.3.2/lib:$LD_LIBRARY_PATH
 export PATH=$HOME/.local/bin:/opt/rocm-6.3.2/bin:/opt/rocm-6.3.2/llvm/bin:$PATH
-export HSA_OVERRIDE_GFX_VERSION=11.5.0
+export HSA_OVERRIDE_GFX_VERSION=11.5.1
 ```
 
-Remarks about HSA:
+## Remarks about HSA_OVERRIDE_GFX_VERSION:
 
 1. Check `rocminfo` output first
 
@@ -56,6 +56,33 @@ for RDNA 3 based GPUs and APUs HSA_OVERRIDE_GFX_VERSION=11.0.0
 for RDNA 3.5 based GPUs and APUs HSA_OVERRIDE_GFX_VERSION=11.5.0
 
 3. Read more at: https://llvm.org/docs/AMDGPUUsage.html#processors
+
+In my case, I am running ROCm version 6.3.2.
+
+When I run:
+
+> ls /opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx*.dat
+
+I got the following output:
+
+```
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1010.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1012.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1030.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1100.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1101.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1102.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1151.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1200.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx1201.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx900.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx906.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx908.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx90a.dat
+/opt/rocm/lib/rocblas/library/TensileLibrary_lazy_gfx942.dat
+```
+
+As I am running a RDNA-3.5-based iGPU, the closest choice for me is `gfx1151`.  Therefore, I `export HSA_OVERRIDE_GFX_VERSION=11.5.1` as one of the environment variables.
 
 # Speed Test with Ollama
 
