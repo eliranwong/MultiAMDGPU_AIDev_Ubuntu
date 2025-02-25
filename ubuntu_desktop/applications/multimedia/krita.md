@@ -1,0 +1,1 @@
+sudo apt install -y krita krita-data krita-gmic

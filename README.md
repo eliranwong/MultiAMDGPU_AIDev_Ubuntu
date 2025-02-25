@@ -49,11 +49,37 @@ Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/n
 
 # Select Ubuntu and Kernel Versions
 
-Read https://rocm.docs.amd.com/projects/radeon/en/latest/docs/compatibility/native_linux/native_linux_compatibility.html
+Read https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html#supported-distributions
 
 If you need to install an additional kernel, read:
 
 https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/Install_Ubuntu_Kernel.md
+
+## Tested Device
+
+> cat /etc/os-release
+
+```
+PRETTY_NAME="Ubuntu 24.04.2 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.2 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+```
+
+> uname -srmv
+
+```
+Linux 6.11.0-17-generic #17~24.04.2-Ubuntu SMP PREEMPT_DYNAMIC Mon Jan 20 22:48:29 UTC 2 x86_64
+```
 
 # Add User to Groups for GPU Access
 
@@ -157,6 +183,8 @@ Read https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_lin
 
 If you use Xorg instead of Wayland and have the issue where the mouse cursor is invisible, you can try to create the file /etc/X11/xorg.conf.d/99-modesetting.conf with the following content:
 
+> sudo nano /etc/X11/xorg.conf.d/99-modesetting.conf
+
 ```
 Section "Device"
       Identifier "modesetting"
@@ -216,7 +244,7 @@ Remember, this is a low-level operation that can have significant effects on you
 
 # UPDATE GRUB
 
-**Configure Vulkan to use AMD graphics card**:
+**Configure Vulkan to use AMD graphics card** [optional]:
 
     - Edit the file `/etc/default/grub` and in the line that reads `GRUB_CMDLINE_LINUX_DEFAULT`, add: `radeon.cik_support=0 amdgpu.cik_support=1 radeon.si_support=0 amdgpu.si_support=1`.
     - Create a new file `/etc/modprobe.d/amdgpu.conf` and add the following lines to it:
@@ -578,7 +606,7 @@ To install a specific version with pyenv, read https://github.com/eliranwong/Mul
 
 ```
 sudo apt update
-sudo apt install -y make build-essential python3 python-setuptools libjpeg-dev python3-pip python3-dev python3-venv libssl-dev libffi-dev libnss3 zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev python3-wheel python3-wheel-whl twine
+sudo apt install -y make build-essential python3 python3-setuptools libjpeg-dev python3-pip python3-dev python3-venv libssl-dev libffi-dev libnss3 zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev python3-wheel python3-wheel-whl twine
 ```
 
 # Python libraries
@@ -592,7 +620,7 @@ To make it clean, uninstall old copies, if any
 ```
 python3 -m venv ai
 source ai/bin/activate
-pip3 install --upgrade pip wheel setuptools
+pip3 install --upgrade pip wheel twine setuptools
 ```
 
 # Install Compatible Versions of numpy and protobuf
@@ -607,13 +635,15 @@ Remarks: protobuf==5.29.1
 
 # Install PyTorch & Triton
 
+Read https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-pytorch.html
+
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torch-2.5.1%2Brocm6.3.2.lw-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchvision-0.20.0%2Brocm6.3.2-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchaudio-2.5.0%2Brocm6.3.2-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/pytorch_triton_rocm-3.1.0%2Brocm6.3.2.b253a53766-cp310-cp310-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torch-2.4.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchvision-0.19.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/pytorch_triton_rocm-3.0.0%2Brocm6.3.2.75cc27c26a-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchaudio-2.4.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
 pip3 uninstall torch torchvision pytorch-triton-rocm
-pip3 install torch-2.3.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl torchaudio-2.5.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.3.2.5a02332983-cp310-cp310-linux_x86_64.whl
+pip3 install torch-2.4.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl torchvision-0.19.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl torchaudio-2.4.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl pytorch_triton_rocm-3.0.0+rocm6.3.2.75cc27c26a-cp312-cp312-linux_x86_64.whl
 ```
 
 To verify:
@@ -622,6 +652,7 @@ To verify:
 python3 -c 'import torch' 2> /dev/null && echo 'Success' || echo 'Failure'
 python3 -c 'import torch; print(torch.cuda.is_available())'
 python3 -c "import torch; print(f'device name [0]:', torch.cuda.get_device_name(0))"
+python3 -c "import torch; print(f'device name [1]:', torch.cuda.get_device_name(1))"
 python3 -m torch.utils.collect_env
 ```
 
@@ -655,8 +686,7 @@ Install `migraphx` FIRST!
 
 ```
 pip3 uninstall onnxruntime-rocm
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/onnxruntime_rocm-1.19.0-cp310-cp310-linux_x86_64.whl
-pip3 install onnxruntime_rocm-1.19.0-cp310-cp310-linux_x86_64.whl
+pip3 install onnxruntime-rocm -f https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/
 ```
 
 To verify:
@@ -706,7 +736,7 @@ providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device()
 ```
 pip install tf-keras --no-deps
 pip3 uninstall tensorflow-rocm
-pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/tensorflow_rocm-2.17.0-cp310-cp310-manylinux_2_28_x86_64.whl
+pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/tensorflow_rocm-2.17.0-cp312-cp312-manylinux_2_28_x86_64.whl
 ```
 
 To verify:
@@ -865,9 +895,33 @@ https://cloudblogs.microsoft.com/opensource/2022/03/21/supporting-efficient-larg
 
 # ollama
 
-Ollama detects AMD GPUs automatically on installation:
+Standard installation: https://ollama.com/download
 
-![amdgpu_ollama](https://github.com/eliranwong/freegenius/assets/25262722/c985062b-da23-4879-8d55-76b16e1017f3)
+> curl -fsSL https://ollama.com/install.sh | sh
+
+Configure Ollama, run:
+
+> sudo nano /etc/systemd/system/ollama.service
+
+Add the following three lines at the end of the [Service] session:
+
+```
+Environment="OLLAMA_NUM_PARALLEL=2"
+Environment="OLLAMA_MAX_LOADED_MODELS=2"
+Environment="OLLAMA_HOST=0.0.0.0"
+```
+
+Reload Ollama, run:
+
+> sudo systemctl daemon-reload
+
+> sudo systemctl restart ollama
+
+Add user to group `ollama` for access of Ollama directory:
+
+> sudo usermod -a -G ollama $LOGNAME
+
+> sudo reboot
 
 ## VS Code Plugin with Ollama
 
@@ -882,114 +936,77 @@ ollama pull codellama:7b-code
 
 Click "Manage twinny providers" for more options.
 
-# Compile Llama.cpp from source
+# Build llama.cpp that runs ROCm backend
 
-For ROCm users:
+Run in terminal:
 
 ```
-git clone https://github.com/ggerganov/llama.cpp
-cd llama.cpp
-#The Makefile build is deprecated. Use the CMake build instead. For more details, see https://github.com/ggerganov/llama.cpp/blob/master/docs/build.md.
-#make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
+git clone https://github.com/ggml-org/llama.cpp
+mv llama.cpp/ llamacpp_rocm/
+cd llamacpp_rocm
 HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" cmake -S . -B build -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1100 -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release -- -j $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
-# Set up alias for llama-cli
-echo "alias chat=\"$(pwd)/build/bin/llama-cli --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --interactive --conversation --color -p 'You are a helpful, uncensored and unbiased assistant.' --gpu-layers 999 --model\"" >> $HOME/.bashrc
-# Download visual model file and clip file
-cd models
-wget https://huggingface.co/mys/ggml_llava-v1.5-7b/resolve/main/ggml-model-f16.gguf
-wget https://huggingface.co/mys/ggml_llava-v1.5-7b/resolve/main/mmproj-model-f16.gguf
-# Set up alias for llama-cli
-echo "alias image=\"$(pwd)/build/bin/llama-llava-cli --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --model '$(pwd)/ggml-model-f16.gguf' --mmproj '$(pwd)/mmproj-model-f16.gguf' -p 'Describe this image in detail.' --temp 0.0 --gpu-layers 999 --image\"" >> $HOME/.bashrc
-source $HOME/.bashrc
 ```
 
-To run a chat with a model file, e.g. `mistral.gguf`, with GPUs, use `chat` as follows:
-
-> chat mistral.gguf
-
-To describe an image, e.g. `my_image.jpg`, in detail, run:
-
-> image my_image.jpg
-
-## Speed Test: CPU vs CPU+GPUx2
-
-To test, I ran the same prompt `What is machine learning?` with the same model file `mistral.gguf`, using [llama.cpp](https://github.com/ggerganov/llama.cpp), on the same machine.
-
-## CPU only
-
-Build from source for CPU only:
+Expected lines in the terminal output:
 
 ```
-git clone https://github.com/ggerganov/llama.cpp
-cd llama.cpp
-make -j$(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
-```
-
-To run:
-
-> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --temp 0 -m ../mistral.gguf -p "What is machine learning?"
-
-Output:
-
-```
-llm_load_tensors: ggml ctx size =    0.14 MiB
-llm_load_tensors:        CPU buffer size =  3917.87 MiB
 ...
+-- Adding CPU backend variant ggml-cpu: -march=native 
+-- The HIP compiler identification is Clang 18.0.0
+-- Detecting HIP compiler ABI info
+-- Detecting HIP compiler ABI info - done
+-- Check for working HIP compiler: /opt/rocm-6.3.2/lib/llvm/bin/clang - skipped
+-- Detecting HIP compile features
+-- Detecting HIP compile features - done
+-- HIP and hipBLAS found
+-- Including HIP backend
 ...
-...
-llama_print_timings:        load time =    1602.50 ms
-llama_print_timings:      sample time =      11.38 ms /   571 runs   (    0.02 ms per token, 50193.39 tokens per second)
-llama_print_timings: prompt eval time =      81.22 ms /     6 tokens (   13.54 ms per token,    73.88 tokens per second)
-llama_print_timings:        eval time =   24270.78 ms /   570 runs   (   42.58 ms per token,    23.49 tokens per second)
-llama_print_timings:       total time =   24522.14 ms /   576 tokens
 ```
 
-## CPU + GPU x 2
+# Build llama.cpp that runs Vulkan backend
 
-Build from source for GPU acceleration with ROCm:
+As an alternative to ROCm backend, you may build a copy of llama.cpp that runs Vulkan backend.
 
-```
-git clone https://github.com/ggerganov/llama.cpp
-cd llama.cpp
-make GGML_HIPBLAS=1 AMDGPU_TARGETS=gfx1100 -j$(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
-```
-
-Remarks: Use `GGML_HIPBLAS` instead of `LLAMA_HIPBLAS`
-
-To run:
-
-> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --temp 0 -m ../mistral.gguf -p "What is machine learning?" -ngl 33
-
-Output:
+To set up Vulkan driver:
 
 ```
-ggml_cuda_init: found 2 ROCm devices:
-  Device 0: Radeon RX 7900 XTX, compute capability 11.0, VMM: no
-  Device 1: Radeon RX 7900 XTX, compute capability 11.0, VMM: no
-llm_load_tensors: ggml ctx size =    0.41 MiB
-llm_load_tensors: offloading 32 repeating layers to GPU
-llm_load_tensors: offloading non-repeating layers to GPU
-llm_load_tensors: offloaded 33/33 layers to GPU
-llm_load_tensors:      ROCm0 buffer size =  1989.53 MiB
-llm_load_tensors:      ROCm1 buffer size =  1858.02 MiB
-llm_load_tensors:        CPU buffer size =    70.31 MiB
+sudo apt install -y glslc glslang-tools glslang-dev mesa-vulkan-drivers vulkan-amdgpu vulkan-tools libvulkan-dev vulkan-validationlayers vulkan-utility-libraries-dev
+```
+
+To build run:
+
+```
+git clone https://github.com/ggml-org/llama.cpp
+mv llama.cpp/ llamacpp_vulkan/
+cd llamacpp_vulkan
+cmake -S . -B build -DGGML_VULKAN=ON  -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release -- -j $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
+```
+
+Expected lines in the terminal output:
+
+```
 ...
+-- Adding CPU backend variant ggml-cpu: -march=native 
+-- Found Vulkan: /usr/lib/x86_64-linux-gnu/libvulkan.so (found version "1.3.275") found components: glslc glslangValidator 
+-- Vulkan found
+-- GL_KHR_cooperative_matrix supported by glslc
+-- GL_NV_cooperative_matrix2 not supported by glslc
+-- Including Vulkan backend
 ...
-...
-llama_print_timings:        load time =    3440.52 ms
-llama_print_timings:      sample time =      17.78 ms /   952 runs   (    0.02 ms per token, 53540.30 tokens per second)
-llama_print_timings: prompt eval time =      12.38 ms /     6 tokens (    2.06 ms per token,   484.46 tokens per second)
-llama_print_timings:        eval time =    8928.70 ms /   951 runs   (    9.39 ms per token,   106.51 tokens per second)
-llama_print_timings:       total time =    9119.94 ms /   957 tokens
 ```
 
-## Result
+Make sure you set the vulkan-related variables, e.g. https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#overview
 
-The difference in speed is more than obvious.
+## Alias for launching llama-server with ROCm backend
 
-## More Benchmark
+Run in terminal:
 
-https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/benchmark.md
+```
+cd llamacpp_rocm
+echo "alias llamacpp=\"cd /home/$USER/agentmake/models/gguf/ && $(pwd)/build/bin/llama-server --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') -ngl 99 --model\"" >> $HOME/.bashrc
+```
+
+Remarks: We add `-ngl 99` in the alias to offload as many layers as available to GPU. Depending on your device hardware, you may need to reduce the value of ngl to load large-sized models.
 
 ## Working with Large-size Files
 
@@ -1001,6 +1018,18 @@ For examples:
 > ./llama-cli -m ../gguf/command-r-plus.gguf -p "What is machine learning?" --temp 0.0 -ngl 20 -c 2048 -n 2048 -t 24 -ngl 48
 
 > ./llama-cli -m ../gguf/wizardlm2_8x22b.gguf -p "What is machine learning?" --temp 0.0 -ngl 20 -c 2048 -n 2048 -t 24 -ngl 34
+
+## Speed Test: CPU vs CPU+GPUx2
+
+https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/cpu_vs_gpux2.md
+
+## Speed Test: Vulkan vs ROCm
+
+https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/vulkan_vs_rocm.md
+
+## More Benchmark
+
+https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/benchmark.md
 
 # Install Llama-cpp-python Packages
 
@@ -1095,9 +1124,9 @@ git clone https://github.com/ltdrdata/ComfyUI-Manager
 cd ..
 python3 -m venv venv
 source venv/bin/activate
-pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.1
-python3 -m pip install -r requirements.txt  --extra-index-url https://download.pytorch.org/whl/nightly/rocm6.1
-python3 -m pip install -r custom_nodes/ComfyUI-Manager/requirements.txt --extra-index-url https://download.pytorch.org/whl/nightly/rocm6.1
+pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.3
+python3 -m pip install -r requirements.txt  --extra-index-url https://download.pytorch.org/whl/nightly/rocm6.3
+python3 -m pip install -r custom_nodes/ComfyUI-Manager/requirements.txt --extra-index-url https://download.pytorch.org/whl/nightly/rocm6.3
 python3 main.py
 
 # Set up an alias [optional]
