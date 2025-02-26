@@ -749,25 +749,6 @@ python3 -c 'import tensorflow' 2> /dev/null && echo 'Success' || echo 'Failure'
 
 Links available at: https://github.com/ROCm/flash-attention/releases/
 
-```
-wget https://github.com/ROCm/flash-attention/releases/download/v3.0.0.r1-cktile/flash_attn-3.0.0.post1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
-pip install flash_attn-3.0.0.post1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
-```
-
-Or
-
-```
-wget https://github.com/ROCm/flash-attention/releases/download/v3.0.0.r1-cktile/flash_attn-3.0.0.post1+cu118torch2.0cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
-pip install flash_attn-3.0.0.post1+cu118torch2.0cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
-```
-
-Or
-
-```
-wget https://github.com/ROCm/flash-attention/releases/download/v3.0.0.r1-cktile/flash_attn-3.0.0.post1+cu118torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
-pip install flash_attn-3.0.0.post1+cu118torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
-```
-
 Remarks: The cxx11abi part of the filename indicates whether the package was built with the C++11 ABI (Application Binary Interface) enabled or not. The C++11 ABI is a set of rules that define how different parts of a C++ program interact at the binary level.
 
 # Install Cupy (pending update)
@@ -1076,16 +1057,6 @@ to
 LLAMA_MAX_DEVICES = 2
 ```
 
-# AgentMake AI
-
-Read our setup notes at:
-
-https://github.com/eliranwong/AMD_iGPU_AI_Setup#install-agentmake-ai
-
-Read more about AgentMake AI at:
-
-https://github.com/eliranwong/agentmake
-
 # Stable-diffusion-cpp-python
 
 ```
@@ -1208,6 +1179,229 @@ cp sample.config.toml config.toml
 docker compose up -d
 open localhost:3000
 ```
+
+# CLI and Desktop Integration with AgentMake AI
+
+Run in terminal:
+
+```
+# optional: navigate to home directory
+cd
+# install in a virtual environment
+python3 -m venv ai
+source ai/bin/activate
+pip install --upgrade agentmake[genai]
+echo ". /home/$USER/ai/bin/activate" >> ~/.bashrc
+# To test
+ai Hi!
+```
+
+## Edit Configurations
+
+To edit configurations or add API keys, run in terminal:
+
+> ai -ec
+
+## Test with Ollama
+
+> ai Hi!
+
+Remarks: Ollama is set as the default backend, so you can use the `ai` or `aic` commands without specifying the backend option. Run `ai -ec` to edit configurations.
+
+## Test with Chat Feature
+
+Use command `aic` with chat features enabled, e.g.:
+
+> aic Tell me a joke.
+
+Close the terminal app and reopen it
+
+> aic Tell me one more.
+
+Chat history is saved locally and recalled even the terminal session is ended.
+
+Become a new conversation with `-n` option, e.g.:
+
+> aic -n Hi!
+
+## Test with Llama.cpp
+
+You can run llama.cpp server with the model files downloaded via Ollama.
+
+To access ollama model files, add user to group `ollama`:
+
+> sudo usermod -a -G ollama $LOGNAME
+
+> sudo reboot
+
+To download a model via Ollama and save a copy of it in `~/agentmake/models/gguf/` by default, e.g.:
+
+> ai --get_model deepseek-r1 -gm llama3.3:70b -gm aya-expanse
+
+To run an instance of llama-server, assuming that you have set up an alias as mentioned [here](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#alias-for-launching-llama-server-with-rocm-backend), e.g.:
+
+> llamacpp deepseek-r1.gguf
+
+To run agentmake with llama.cpp, e.g.:
+
+> ai -b llamacpp Hi!
+
+## Test with Perplexica
+
+To list available tools that work with perplexica, run:
+
+> ai -lt | grep perplexica
+
+Expected output:
+
+```
+perplexica/openai
+perplexica/groq
+perplexica/xai
+perplexica/googleai
+perplexica/anthropic
+perplexica/github
+```
+
+To use one of them, e.g.:
+
+> ai -t perplexica/github What is AgentMake AI?
+
+## Test with SearXNG
+
+SearXNG is automatically installed with Perplexica, to get real-time information, e.g.:
+
+> ai -t search/searxng Give me news updates in London today.
+
+## Test with Fabric Integration
+
+Assuming fabric patterns are downloaded, e.g.:
+
+> ai What are AI agents? -sys fabric.write_micro_essay -b genai
+
+## Test with Selected Text in Any Applicaitons
+
+First, make sure `xsel` is installed:
+
+> sudo apt install xsel
+
+Launch `Settings` > Keyboard > View and Customise Shortcuts > Custom Shortcuts > +
+
+Fill in content, like below (replace `username` with your `username`: 
+
+```
+Name: AgentMake AI
+Command: gnome-terminal -- bash -c "/home/username/ai/bin/ai -i -eo -py"
+Shift+Ctrl+A
+```
+
+![Image](https://github.com/user-attachments/assets/d21fea9a-2288-4e85-96ad-dfbee7ce160d)
+
+Select some text in an application, then press `Shift+Ctrl+A`.
+
+Choose a predefined instruction:
+
+![Image](https://github.com/user-attachments/assets/e4872498-0cef-48e7-a550-55c0c4234929)
+
+Assistant response is automatically copied to clipboard.
+
+Remarks: You can define up to 10 custom instructions for being selected in the dialog, by specifying the values of `CUSTOM_INSTRUCTION_1`, `CUSTOM_INSTRUCTION_2`, `CUSTOM_INSTRUCTION_3`, ... `CUSTOM_INSTRUCTION_10` in AgentMake configurations (run `ai -ec` to edit).
+
+## Test with Tool in Custom instruction
+
+You can specify a tool in a custom instruction by prefixing the tool name with symbol `@`
+
+For example, if you want to extract a Youtube url from the selected text, download the video and convert it into mp3:
+
+Edit configuration:
+
+> ai -ec
+
+Edit the item `CUSTOM_INSTRUCTION_1`:
+
+```
+CUSTOM_INSTRUCTION_1="@youtube/download_audio"
+```
+
+Try to highlight a text that contains a YouTube url, in any applications, then press `Shift+Ctrl+A`.
+
+## Test with Image Creation with Flux
+
+Requirement: To run the following example, you need to manually download the file `ae.safetensors` from https://huggingface.co/black-forest-labs/FLUX.1-dev and place it in `~/agentmake/models/flux`.
+
+To check available tools, to work with Flux:
+
+> ai -lt | grep flux
+
+```output
+images/create_flux_portrait
+images/create_flux_landscape
+images/create_flux
+```
+
+To create an image, e.g.:
+
+> ai -t images/create_flux a cute cat
+
+![Image](https://github.com/user-attachments/assets/441d6ac8-4f2d-449a-a188-616529a595e9)
+
+Remarks: There are `iw`, `ih` and `iss` for adjusting the image output.
+
+## Note about Azure AI Setup
+
+An easy way to deploy AI models via Azure service:
+
+1. Sign in https://ai.azure.com/github
+2. All resources > Create New
+3. Overview > copy an API key, Azure OpenAI Service and Azure AI inference endpoints
+
+* Use Azure OpenAI Service endpoint for running OpenAI models; the endpoint should look like https://resource_name.openai.azure.com/
+
+* Use Azure AI inference endpoint for running DeepSeek-R1 and Phi-4; the endpoint should look like https://resource_name.services.ai.azure.com/models
+
+To configure AgentMake AI, run:
+
+> ai -ec
+
+## Note about Vertex AI
+
+Make sure the extra package `genai` is installed with the command mentioned above:
+
+> pip install --upgrade "agentmake[genai]"
+
+To configure, run:
+
+> ai -ec
+
+Enter the path of your Google application credentials JSON file as the value of `VERTEXAI_API_KEY`. You need to specify your project ID and service location, in the configurations, as well. e.g.:
+
+```
+VERTEXAI_API_KEY=~/agentmake/google_application_credentials.json
+VERTEXAI_API_PROJECT_ID=my_project_id
+VERTEXAI_API_SERVICE_LOCATION=us-central1
+```
+
+To test Gemini 2.0 with Vertex AI, e.g.:
+
+> ai -b vertexai -m gemini-2.0-flash Hi!
+
+## Using other backends and tools
+
+To list all available tools:
+
+> ai -lt
+
+For all options, run:
+
+> ai -h
+
+To edit configurations, run:
+
+> ai -ec
+
+AgentMake AI supports 14 AI backends and 7 agentic components.
+
+Read more at https://github.com/eliranwong/agentmake
 
 # Llama Factory
 
