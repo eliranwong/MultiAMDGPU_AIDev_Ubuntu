@@ -69,10 +69,6 @@ More about pyenv-virtualenv at: https://github.com/pyenv/pyenv-virtualenv
 
 More about pyenv plugins at: https://github.com/pyenv/pyenv/wiki/Plugins
 
-# Update pip wheel
-
-> pip install --upgrade pip wheel
-
 # Install ROCm
 
 https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#install-rocm-613
@@ -134,22 +130,21 @@ fc-cache -f -v
 
 # Set up ibus Chinese Input [Optional]
 
-Settings > Language and Region > Manage Installed Languages > Install / Remove Languages > "Chinese (Simplified)" and "Chinese (Traditional)"
+Settings > Region & Language > Manage Installed Languages > Install / Remove Languages > "Chinese (Simplified)" and "Chinese (Traditional)"
 
-> sudo locale-gen
-
-> sudo apt install -y ibus-pinyin
-
-> ibus restart
-
-> ibus-setup
+```
+sudo locale-gen
+sudo apt install -y ibus-pinyin
+ibus restart
+ibus-setup
+```
 
 Settings > Keyboard > Input Sources > Add > Chinese (Intelligent Pinyin) > Preferences > General > Chinese > Traditional
 
 > nano ~/.bashrc
 
 ```
-export LC_CTYPE=zh_CN.UTF-8
+#export LC_CTYPE=zh_CN.UTF-8
 export XIM=ibus
 export XIM_PROGRAM=/usr/bin/ibus
 export QT_IM_MODULE=ibus
@@ -188,19 +183,17 @@ Do not use the touchegg package provided by Ubuntu.  It does not work with X11 g
 
 Instaall X11 gestures:
 
-> sudo add-apt-repository ppa:touchegg/stable
-
-enter sudo password
-
-press "Enter"
-
-> sudo apt update
-
-> sudo apt install touchegg
-
-To verify,
-
-> systemctl status touchegg.service
+```
+# add repository
+sudo add-apt-repository ppa:touchegg/stable
+# enter sudo password and press "Enter"
+sudo apt update
+sudo apt install touchegg
+#To verify,
+systemctl status touchegg.service
+# install extension manager
+sudo apt install gnome-shell-extension-manager
+```
 
 Launch gnome shell extension manager > Browser > "X11 gestures"
 
@@ -227,6 +220,7 @@ Read more about hand gestures on X11 at https://ubuntuhandbook.org/index.php/202
 
 For touchscreen:
 
+* Screen Rotate
 * GJS OSK
 
 # Work with File Selection
@@ -271,62 +265,9 @@ Add mode:
 
 > chmod +x ~/.local/share/nautilus/scripts/Annotator
 
-# FreeGenius AI
+# AI CLI and Desktop Integration
 
-To install:
-
-```
-sudo apt update && sudo apt install -y ffmpeg portaudio19-dev vlc
-mkdir -p ~/apps
-cd ~/apps
-python3 -m venv freegenius
-source freegenius/bin/activate
-pip install freegenius piper-tts
-echo "export PATH=$HOME/apps/freegenius/bin:$PATH"
-```
-
-## GPU Acceleration
-
-Read https://github.com/eliranwong/freegenius/wiki/Speed-Up-with-GPU-Acceleration
-
-## Startup Applications Preferences
-
-Add a startup application preference:
-
-1. Press ```super``` key and search startup to launch the 'Startup Applications Preferences' Window
-2. Add a new entry
-
-```Name``` FreeGenius AI Hub
-```Command``` env HSA_OVERRIDE_GFX_VERSION=10.3.0 /home/eliran/apps/freegenius/bin/python3 /home/eliran/apps/freegenius/bin/freegeniushub
-```Comment``` FreeGenius AI Hub
-
-![startup](https://github.com/eliranwong/ubuntu_on_surface_go/assets/25262722/579507f7-aeda-4021-b784-c0c8232fc3a2)
-
-## Work with text selection
-
-Install xsel
-
-> apt install xsel
-
-Add custom keyboard shortcuts:
-
-1. Launch "Settings"
-2. Go to "Keyboard" > "Keyboard Shortcuts" > "View and Customise Shortcuts" > "Custom Shortcuts"
-3. Select "+" to add a custom shortcut and enter the following information, e.g.:
-
-For example,
-```
-Name: FreeGenius AI
-Command: /usr/bin/gnome-terminal --command home/username/freegenius/FreeGenius
-Shortcut: Ctrl + Alt + L
-```
-Remarks: Change ```username``` to your username.
-
-![text_selection_keyboard_shortcut](https://github.com/eliranwong/freegenius/assets/25262722/08d0899c-fbc7-4696-b341-b9b09fd67121)
-
-## Work with file selection
-
-FreeGenius AI v0.2.74+ automatically generates a script at ~/.local/share/nautilus/scripts, which work with file or folder selection by right-clicking.
+https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#cli-and-desktop-integration-with-agentmake-ai
 
 # Set up office 365 Email
 
@@ -406,15 +347,14 @@ alias annotator='com.github.phase1geo.annotator & disown'
 
 # Free Up Space
 
-> sudo apt -s clean
-
-> sudo apt --purge autoremove
-
-> journalctl --disk-usage<br>
-> sudo journalctl --vacuum-time=3d
-
-> sudo apt install stacer<br>
-> stacer
+```
+sudo apt -s clean
+sudo apt --purge autoremove
+journalctl --disk-usage
+sudo journalctl --vacuum-time=3d
+sudo apt install stacer
+stacer
+```
 
 # Copy Shortcuts on Desktop
 
@@ -478,6 +418,23 @@ Alternately, use run gui app 'dconf-editor'
 
 ![background2](https://github.com/eliranwong/ubuntu_on_surface_go/assets/25262722/ffe5e59d-ba87-473c-8ff6-0bb6ffa24053)
 
+# Set up SSH Server
+
+```
+sudo apt install openssh-server avahi-utils
+echo "echo IP Address: \$(hostname -I | awk '{print \$1}')" >> ~/.bashrc
+```
+
+# Install Messaging
+
+Listen from one end, e.g.:
+
+> nc -l -p 12345
+
+Send a message from another end, e.g.:
+
+> echo testing | nc computer_name.local 12345
+
 # Replace PulseAudio with PipeWire on Ubuntu 22.04
 
 The fix for [PulseAudio issues](https://github.com/eliranwong/ubuntu_on_surface_go#fix-pulseaudio-playback-delay), it better to replace PulseAudio with Pipewire on Ubuntu 22.04.
@@ -529,6 +486,8 @@ https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/tree/main/ubuntu_desktop/
 https://github.com/eliranwong/ubuntu_on_surface_go/blob/main/setup_remote_destkop_on_ubuntu.md
 
 # HP Printer Drivers
+
+This is optional for Ubuntu 24.04
 
 First, install libcanberra-gtk-module
 
