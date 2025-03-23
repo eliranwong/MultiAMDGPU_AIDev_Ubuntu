@@ -114,9 +114,9 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 </details>
 
-# Install ROCM 6.3.2
+# Install ROCM 6.3.4
 
-Version 6.3.2 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
+Version 6.3.4 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
 
 Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/howto_native_linux.html
 
@@ -132,8 +132,8 @@ sudo apt remove --purge amdgpu-install
 ```
 sudo apt update
 sudo apt install -y libstdc++-12-dev
-wget https://repo.radeon.com/amdgpu-install/6.3.2/ubuntu/noble/amdgpu-install_6.3.60302-1_all.deb
-sudo apt install ./amdgpu-install_6.3.60302-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/6.3.4/ubuntu/noble/amdgpu-install_6.3.60304-1_all.deb
+sudo apt install ./amdgpu-install_6.3.60304-1_all.deb
 sudo amdgpu-install --usecase=graphics,multimedia,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
 ```
 
