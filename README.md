@@ -114,9 +114,9 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 </details>
 
-# Install ROCM 6.3.4
+# Install ROCM 6.4.2
 
-Version 6.3.4 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
+Version 6.4.2 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
 
 Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/howto_native_linux.html
 
@@ -132,8 +132,8 @@ sudo apt remove --purge amdgpu-install
 ```
 sudo apt update
 sudo apt install -y libstdc++-12-dev
-wget https://repo.radeon.com/amdgpu-install/6.3.4/ubuntu/noble/amdgpu-install_6.3.60304-1_all.deb
-sudo apt install ./amdgpu-install_6.3.60304-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/6.4.2/ubuntu/noble/amdgpu-install_6.4.60402-1_all.deb
+sudo apt install ./amdgpu-install_6.4.60402-1_all.deb
 sudo amdgpu-install --usecase=graphics,multimedia,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
 ```
 
@@ -318,7 +318,7 @@ Modify the values to suit your cases.
 
 The following examples assume:
 
-* ROCm version 6.3.2 installed
+* ROCm version 6.4.2 installed
 
 * No integrated GPU
 
@@ -331,7 +331,7 @@ Note: You may run `rocm-smi` to find the mapping information of node numbers to 
 I use my case as an example:
 
 Remarks:
-* The following settings assumes `/opt/rocm` points to `/opt/rocm-6.3.2`.
+* The following settings assumes `/opt/rocm` points to `/opt/rocm-6.4.2`.
 * Modify the values of ROCR_VISIBLE_DEVICES to your own ones.
 
 ```
@@ -339,7 +339,7 @@ Remarks:
 export GFX_ARCH=gfx1100
 export HCC_AMDGPU_TARGET=gfx1100
 export CUPY_INSTALL_USE_HIP=1
-export ROCM_VERSION=6.3
+export ROCM_VERSION=6.4
 export ROCM_HOME=/opt/rocm
 export LD_LIBRARY_PATH=/usr/include/vulkan:/opt/rocm/include:/opt/rocm/lib:/opt/rocm/lib/llvm/lib:/opt/rocm/lib/migraphx/lib:$LD_LIBRARY_PATH
 export PATH=/home/eliran/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
