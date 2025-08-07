@@ -1,4 +1,4 @@
-# New! The Speed of Running OpenAI GPT OSS 120B on Dual AMD RX 7900 XTX (48GB in total)
+# Speed Test - Running OpenAI GPT OSS 120B on Dual AMD RX 7900 XTX (48GB in total)
 
 Official document states that OpenAI GPT OSS 120B requires 80GB GPU to run, but I am testing it with dual AMD GPUs (dual RX 7900 XTX) with 48GB in total.  Watch the video for the decent result.
 
