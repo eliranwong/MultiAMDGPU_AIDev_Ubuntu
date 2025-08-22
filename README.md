@@ -928,6 +928,7 @@ Click "Manage twinny providers" for more options.
 Run in terminal:
 
 ```
+sudo apt update && sudo apt install libcurl4-openssl-dev
 git clone https://github.com/ggml-org/llama.cpp
 mv llama.cpp/ llamacpp_rocm/
 cd llamacpp_rocm
