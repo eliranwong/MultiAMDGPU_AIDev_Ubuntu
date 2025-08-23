@@ -1,3 +1,9 @@
+# Speed Test with Llama.cpp - OpenAI GPT OSS 120B + 128K FULL Context
+
+Read https://github.com/ggml-org/llama.cpp/discussions/15396#discussioncomment-14195673
+
+Real-time video: https://www.youtube.com/watch?v=FkODrtB6W2w
+
 # Speed Test - Running OpenAI GPT OSS 120B on Dual AMD RX 7900 XTX (48GB in total)
 
 Official document states that OpenAI GPT OSS 120B requires 80GB GPU to run, but I am testing it with dual AMD GPUs (dual RX 7900 XTX) with 48GB in total.  Watch the video for the decent result.
