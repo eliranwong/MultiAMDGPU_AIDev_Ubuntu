@@ -1,3 +1,9 @@
+# Speed Test - Llama.cpp vs Ollama
+
+Llama.cpp is way faster! More than a double in speed!
+
+Full video: https://youtu.be/wtjPIuO9Cq4?si=pMUTLSCb3ZmMh7tZ
+
 # Speed Test with Llama.cpp - OpenAI GPT OSS 120B + 128K FULL Context
 
 Read https://github.com/ggml-org/llama.cpp/discussions/15396#discussioncomment-14195673
