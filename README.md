@@ -1001,7 +1001,7 @@ Make sure you set the vulkan-related variables, e.g. https://github.com/eliranwo
 
 For example:
 
-> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -ub 2048 -b 2048 -fa -p -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 -ngl 23
+> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -ub 2048 -b 2048 -fa -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 -ngl 23
 
 Multiple GGUF files are automatically downloaded in `~/.cache/llama.cpp`. You may optionally merge them into a single file, e.g.
 
