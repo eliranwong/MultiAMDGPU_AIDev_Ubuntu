@@ -997,6 +997,16 @@ Expected lines in the terminal output:
 
 Make sure you set the vulkan-related variables, e.g. https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#overview
 
+## Download model files from HF [optional]
+
+For example:
+
+> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -ub 2048 -b 2048 -fa -p -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 -ngl 23
+
+Multiple GGUF files are automatically downloaded in `~/.cache/llama.cpp`. You may optionally merge them into a single file, e.g.
+
+> ./llama-gguf-split ~/.cache/llama.cpp/ggml-org_gpt-oss-120b-GGUF_gpt-oss-120b-mxfp4-00001-of-00003.gguf ggml-org_gpt-oss-120b-GGUF_gpt-oss-120b-mxfp4.gguf
+
 ## Alias for launching llama-server with ROCm backend
 
 Run in terminal:
