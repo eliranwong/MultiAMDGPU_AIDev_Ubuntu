@@ -26,6 +26,30 @@ rm -rf ~/.config/nvim/.git
 nvim
 ```
 
+# Add Nvim-Tree Plugin
+
+Read more at https://github.com/nvim-tree/nvim-tree.lua/wiki/Installation
+
+> nano ~/.config/nvim/lua/plugins/nvim-tree.lua
+
+Add the following content
+
+```
+return {
+  "nvim-tree/nvim-tree.lua",
+  version = "*",
+  lazy = false,
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
+  config = function()
+    require("nvim-tree").setup {}
+  end,
+}
+```
+
+Run command `:NvimTreeOpen`
+
 # Add Plugin - gemini.nvim
 
 Official Documentation
