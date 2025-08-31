@@ -47,7 +47,7 @@ Edit the file:
 Add the following content:
 
 ```
-{
+return {
   'kiddos/gemini.nvim',
   opts = {}
 }
