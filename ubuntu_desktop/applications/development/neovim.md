@@ -80,3 +80,37 @@ return {
 Edit the default settings at [optional]:
 
 > nano ~/.local/share/nvim/lazy/gemini.nvim/lua/gemini/config.lua
+
+# Common Operations
+
+## Visual Mode
+
+y - copy
+p - paste
+u - undo
+Ctrl+r redo
+
+## Open Terminal Window
+
+SPACE+fT
+
+## Close Window
+
+Ctrl+w followed by 'c'
+
+## Search with grep
+
+> sudo apt install ripgrep 
+
+> echo "vim.opt.grepprg='grep -nE' >> ~/.config/nvim/init.lua" 
+
+Grep root directory 'SPACE+/' or 'SPACE+g'
+
+Grep open buffers 'SPACE+B'
+
+Grep current directory 'SPACE+G'
+
+Search and replace 'SPACE+sr'
+
+Read more at lazyvim.org/keymaps
+
