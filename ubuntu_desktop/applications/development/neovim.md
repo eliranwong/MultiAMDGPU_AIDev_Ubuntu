@@ -90,6 +90,10 @@ p - paste
 u - undo
 Ctrl+r redo
 
+## Soft Wrap
+
+> echo "vim.opt.wrap=true >> ~/.config/nvim/init.lua"
+
 ## Open Terminal Window
 
 SPACE+fT
@@ -102,7 +106,7 @@ Ctrl+w followed by 'c'
 
 > sudo apt install ripgrep 
 
-> echo "vim.opt.grepprg='grep -nE' >> ~/.config/nvim/init.lua" 
+> echo "vim.opt.grepprg='grep -nE' >> ~/.config/nvim/init.lua"
 
 Grep root directory 'SPACE+/' or 'SPACE+g'
 
