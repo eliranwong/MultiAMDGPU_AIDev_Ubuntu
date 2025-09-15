@@ -16,6 +16,16 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 echo 'export PATH="$PATH:/opt/nvim-linux-x86_64/bin"' >> ~/.bashrc 
 ```
 
+To install, e.g. on an arm device:
+
+```
+curl -LO https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-arm64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-arm64.tar.gz
+export PATH="$PATH:/opt/nvim-linux-arm64/bin"
+echo 'export PATH="$PATH:/opt/nvim-linux-arm64/bin"' >> ~/.bashrc 
+```
+
 # Install LazyVim
 
 https://www.lazyvim.org/installation
