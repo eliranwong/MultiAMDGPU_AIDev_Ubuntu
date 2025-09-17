@@ -110,7 +110,7 @@ SPACE+fT
 
 ## Close Window
 
-Ctrl+w followed by 'c'
+In Normal mode, press Ctrl+w followed by 'c'
 
 ## Search with grep
 
@@ -128,3 +128,6 @@ Search and replace 'SPACE+sr'
 
 Read more at lazyvim.org/keymaps
 
+## Error running nvim-lspconfig
+
+Workaround: https://github.com/LazyVim/LazyVim/issues/6039#issuecomment-2856227817
