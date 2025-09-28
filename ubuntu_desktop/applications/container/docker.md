@@ -40,6 +40,14 @@ sudo apt-get update
 
 > docker run hello-world
 
+# Remove all images and relase spaces
+
+```
+docker rmi $(docker images -q)
+docker image prune -a
+docker system prune -a --volumes
+```
+
 # To uninstall
 
 > sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
