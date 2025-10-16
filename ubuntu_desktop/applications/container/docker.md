@@ -43,7 +43,8 @@ sudo apt-get update
 # Remove all images and relase spaces
 
 ```
-docker rmi $(docker images -q)
+docker stop $(docker ps -q)
+docker rmi -f $(docker images -q)
 docker image prune -a
 docker system prune -a --volumes
 ```
