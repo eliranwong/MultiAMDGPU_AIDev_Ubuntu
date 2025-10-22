@@ -40,6 +40,24 @@ sudo apt-get update
 
 > docker run hello-world
 
+# To stop or remove containers
+
+To list running containers:
+
+> docker ps
+
+To stop a container:
+
+> docker stop container_id
+
+To list stopped containers:
+
+> docker ps -a --filter "status=exited"
+
+To remove a container:
+
+> docker rm container_id
+
 # Remove all images and relase spaces
 
 ```

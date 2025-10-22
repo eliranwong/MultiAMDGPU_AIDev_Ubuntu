@@ -132,9 +132,9 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 </details>
 
-# Install ROCM 6.4.2
+# Install ROCM 7.0.2
 
-Version 6.4.2 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
+Version 7.0.2 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
 
 Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/howto_native_linux.html
 
@@ -150,8 +150,8 @@ sudo apt remove --purge amdgpu-install
 ```
 sudo apt update
 sudo apt install -y libstdc++-12-dev
-wget https://repo.radeon.com/amdgpu-install/6.4.2/ubuntu/noble/amdgpu-install_6.4.60402-1_all.deb
-sudo apt install ./amdgpu-install_6.4.60402-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/7.0.2/ubuntu/noble/amdgpu-install_7.0.2.70002-1_all.deb
+sudo apt install ./amdgpu-install_7.0.2.70002-1_all.deb
 sudo amdgpu-install --usecase=graphics,multimedia,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
 ```
 
@@ -336,7 +336,7 @@ Modify the values to suit your cases.
 
 The following examples assume:
 
-* ROCm version 6.4.2 installed
+* ROCm version 7.0.2 installed
 
 * No integrated GPU
 
@@ -349,7 +349,7 @@ Note: You may run `rocm-smi` to find the mapping information of node numbers to 
 I use my case as an example:
 
 Remarks:
-* The following settings assumes `/opt/rocm` points to `/opt/rocm-6.4.2`.
+* The following settings assumes `/opt/rocm` points to `/opt/rocm-7.0.2`.
 * Modify the values of ROCR_VISIBLE_DEVICES to your own ones.
 
 ```
@@ -357,7 +357,7 @@ Remarks:
 export GFX_ARCH=gfx1100
 export HCC_AMDGPU_TARGET=gfx1100
 export CUPY_INSTALL_USE_HIP=1
-export ROCM_VERSION=6.4
+export ROCM_VERSION=7.0
 export ROCM_HOME=/opt/rocm
 export LD_LIBRARY_PATH=/usr/include/vulkan:/opt/rocm/include:/opt/rocm/lib:/opt/rocm/lib/llvm/lib:/opt/rocm/lib/migraphx/lib:$LD_LIBRARY_PATH
 export PATH=/home/eliran/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
@@ -618,7 +618,7 @@ Read: https://github.com/ROCm/AMDMIGraphX#amd-migraphx
 
 # Set up Python
 
-Use python version 3.10.x, to work with wheel files available at https://repo.radeon.com/rocm/manylinux/rocm-rel-6.1.3/
+Use python version 3.10.x, to work with wheel files available at https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/
 
 To install a specific version with pyenv, read https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/ubuntu_desktop/basic.md#pyenv
 
@@ -656,12 +656,12 @@ Remarks: protobuf==5.29.1
 Read https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-pytorch.html
 
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torch-2.4.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchvision-0.19.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/pytorch_triton_rocm-3.0.0%2Brocm6.3.2.75cc27c26a-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchaudio-2.4.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
-pip3 uninstall torch torchvision pytorch-triton-rocm
-pip3 install torch-2.4.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl torchvision-0.19.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl torchaudio-2.4.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl pytorch_triton_rocm-3.0.0+rocm6.3.2.75cc27c26a-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torch-2.8.0%2Brocm7.0.2.git245bf6ed-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torchvision-0.23.0%2Brocm7.0.2.git824e8c87-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/triton-3.4.0%2Brocm7.0.2.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torchaudio-2.8.0%2Brocm7.0.2.git6e1c7fe9-cp312-cp312-linux_x86_64.whl
+pip3 uninstall torch torchvision triton torchaudio
+pip3 install torch-2.8.0+rocm7.0.2.git245bf6ed-cp312-cp312-linux_x86_64.whl torchvision-0.23.0+rocm7.0.2.git824e8c87-cp312-cp312-linux_x86_64.whl torchaudio-2.8.0+rocm7.0.2.git6e1c7fe9-cp312-cp312-linux_x86_64.whl triton-3.4.0+rocm7.0.2.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
 ```
 
 To verify:
@@ -704,7 +704,7 @@ Install `migraphx` FIRST!
 
 ```
 pip3 uninstall onnxruntime-rocm
-pip3 install onnxruntime-rocm -f https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/
+pip3 install onnxruntime-rocm -f https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/
 ```
 
 To verify:
@@ -754,7 +754,7 @@ providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device()
 ```
 pip install tf-keras --no-deps
 pip3 uninstall tensorflow-rocm
-pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/tensorflow_rocm-2.17.0-cp312-cp312-manylinux_2_28_x86_64.whl
+pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/tensorflow_rocm-2.19.1-cp312-cp312-manylinux_2_28_x86_64.whl
 ```
 
 To verify:
@@ -770,6 +770,8 @@ Links available at: https://github.com/ROCm/flash-attention/releases/
 Remarks: The cxx11abi part of the filename indicates whether the package was built with the C++11 ABI (Application Binary Interface) enabled or not. The C++11 ABI is a set of rules that define how different parts of a C++ program interact at the binary level.
 
 # Install Cupy (pending update)
+
+https://docs.cupy.dev/en/stable/install.html#using-cupy-on-amd-gpu-experimental
 
 Export required variables, if you haven't:
 
@@ -916,7 +918,11 @@ Reload Ollama, run:
 
 > sudo systemctl restart ollama
 
-Add user to group `ollama` for access of Ollama directory:
+Check if `ollama` is one of your user groups:
+
+> groups
+
+If not, add user to group `ollama` for access of Ollama directory:
 
 > sudo usermod -a -G ollama $LOGNAME
 
@@ -944,7 +950,7 @@ sudo apt update && sudo apt install libcurl4-openssl-dev
 git clone https://github.com/ggml-org/llama.cpp
 mv llama.cpp/ llamacpp_rocm/
 cd llamacpp_rocm
-HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" cmake -S . -B build -DGGML_HIP=ON -DAMDGPU_TARGETS=gfx1100 -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release -- -j $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
+HIPCXX="$(hipconfig -l)/clang" HIP_PATH="$(hipconfig -R)" cmake -S . -B build -DGGML_HIP=ON -DGPU_TARGETS=gfx1100 -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release -- -j $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
 ```
 
 Expected lines in the terminal output:
@@ -952,10 +958,10 @@ Expected lines in the terminal output:
 ```
 ...
 -- Adding CPU backend variant ggml-cpu: -march=native 
--- The HIP compiler identification is Clang 18.0.0
+-- The HIP compiler identification is Clang 20.0.0
 -- Detecting HIP compiler ABI info
 -- Detecting HIP compiler ABI info - done
--- Check for working HIP compiler: /opt/rocm-6.3.2/lib/llvm/bin/clang - skipped
+-- Check for working HIP compiler: /opt/rocm-7.0.2/lib/llvm/bin/clang - skipped
 -- Detecting HIP compile features
 -- Detecting HIP compile features - done
 -- HIP and hipBLAS found
@@ -1007,16 +1013,17 @@ Multiple GGUF files are automatically downloaded in `~/.cache/llama.cpp`. You ma
 
 > ./llama-gguf-split ~/.cache/llama.cpp/ggml-org_gpt-oss-120b-GGUF_gpt-oss-120b-mxfp4-00001-of-00003.gguf ggml-org_gpt-oss-120b-GGUF_gpt-oss-120b-mxfp4.gguf
 
-## Alias for launching llama-server with ROCm backend
+## Test Running `gpt-oss-120b-GGUF` with Full 128K Context 
 
-Run in terminal:
+> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -ub 2048 -b 2048 -fa "on" -p "Explain what is AI in 50 words." -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 -ngl 23
 
-```
-cd llamacpp_rocm
-echo "alias llamacpp=\"cd /home/$USER/agentmake/models/gguf/ && $(pwd)/build/bin/llama-server --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') -ngl 99 --model\"" >> $HOME/.bashrc
-```
+> ./llama-server --host 127.0.0.1 --port 8888 --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') -fa "on" -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 --jinja -b 2048 -ub 2048 -ngl 23
 
-Remarks: We add `-ngl 99` in the alias to offload as many layers as available to GPU. Depending on your device hardware, you may need to reduce the value of ngl to load large-sized models.
+Remarks: `-ngl 23` is the maximum the testing device can load. You may adjust it according to your device hardware.
+
+## Test Running `gpt-oss-20b-GGUF` with Full 128K Context
+
+./llama-server --host 127.0.0.1 --port 8888 --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') -fa "on" -hf ggml-org/gpt-oss-20b-GGUF --ctx-size 0 --jinja -b 4096 -ub 4096 -ngl 99
 
 ## Working with Large-size Files
 
@@ -1089,7 +1096,7 @@ LLAMA_MAX_DEVICES = 2
 # Stable-diffusion-cpp-python
 
 ```
-CMAKE_ARGS="-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DSD_HIPBLAS=ON -DCMAKE_BUILD_TYPE=Release -DAMDGPU_TARGETS=gfx1100" pip install stable-diffusion-cpp-python --no-cache-dir
+CMAKE_ARGS="-DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DSD_HIPBLAS=ON -DCMAKE_BUILD_TYPE=Release -DGPU_TARGETS=gfx1100" pip install stable-diffusion-cpp-python --no-cache-dir
 ```
 
 # stable-diffusion-webui
@@ -1196,7 +1203,7 @@ fabric --setup
 source $HOME/.bashrc
 ```
 
-# perplexica
+# Perplexica and SearXNG
 
 Install docker first and run:
 
@@ -1204,10 +1211,17 @@ Install docker first and run:
 sudo apt install -y git
 git clone https://github.com/ItzCrazyKns/Perplexica.git
 cd Perplexica
-cp sample.config.toml config.toml
-docker compose up -d
-open localhost:3000
+docker build -t perplexica .
+docker run -d --restart unless-stopped -p 3000:3000 -p 4000:8080 -v perplexica-data:/home/perplexica/data -v perplexica-uploads:/home/perplexica/uploads --name perplexica perplexica
 ```
+
+To open Perplexica and set up providers, run:
+
+> open http://localhost:3000
+
+To open SearXNG, run:
+
+> open http://localhost:4000
 
 # CLI and Desktop Integration with AgentMake AI
 
@@ -1220,7 +1234,7 @@ cd
 python3 -m venv ai
 source ai/bin/activate
 pip install --upgrade agentmake[genai]
-echo ". /home/$USER/ai/bin/activate" >> ~/.bashrc
+echo "export PATH=$PATH:$HOME/ai/bin" >> ~/.bashrc
 # To test
 ai Hi!
 ```
@@ -1233,7 +1247,7 @@ To edit configurations or add API keys, run in terminal:
 
 ## Test with Ollama
 
-> ai Hi!
+> ai -b ollama Hi!
 
 Remarks: Ollama is set as the default backend, so you can use the `ai` or `aic` commands without specifying the backend option. Run `ai -ec` to edit configurations.
 
@@ -1255,6 +1269,16 @@ Become a new conversation with `-n` option, e.g.:
 
 ## Test with Llama.cpp
 
+Read setup of llama.cpp at https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#build-llamacpp-that-runs-rocm-backend
+
+### Download HuggingFace Models
+
+For example, run:
+
+> ./llama-server --host 127.0.0.1 --port 8888 --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') -fa "on" -hf ggml-org/gpt-oss-20b-GGUF --ctx-size 0 --jinja -b 4096 -ub 4096 -ngl 99
+
+### Download Ollama Models
+
 You can run llama.cpp server with the model files downloaded via Ollama.
 
 To access ollama model files, add user to group `ollama`:
@@ -1267,11 +1291,34 @@ To download a model via Ollama and save a copy of it in `~/agentmake/models/gguf
 
 > ai --get_model deepseek-r1 -gm llama3.3:70b -gm aya-expanse
 
-To run an instance of llama-server, assuming that you have set up an alias as mentioned [here](https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu#alias-for-launching-llama-server-with-rocm-backend), e.g.:
+To set up an alias for running llama.cpp server, e.g.:
+
+Run in terminal:
+
+```
+cd llamacpp_rocm
+echo "alias llamacpp=\"cd /home/$USER/agentmake/models/gguf/ && $(pwd)/build/bin/llama-server --host 127.0.0.1 --port 8888 --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -fa "on" -ngl 99 --model\"" >> $HOME/.bashrc
+```
+
+Remarks: We add `-ngl 99` in the alias to offload as many layers as available to GPU. Depending on your device hardware, you may need to reduce the value of ngl to load large-sized models.
 
 > llamacpp deepseek-r1.gguf
 
-To run agentmake with llama.cpp, e.g.:
+### To run agentmake with llama.cpp, e.g.:
+
+In the examples above, we changed the default llama-server port from `8080` to `8888`. Therefore, we need to edit the default configuration for llama.cpp, by running:
+
+> ai -ec
+
+Edit like below:
+
+```
+LLAMACPP_API_ENDPOINT=http://127.0.0.1:8888/v1
+LLAMACPP_TEMPERATURE=0.3
+LLAMACPP_MAX_TOKENS=131072
+```
+
+Save the changes and close the configuration, and run:
 
 > ai -b llamacpp Hi!
 
@@ -1316,7 +1363,7 @@ First, make sure `xsel` is installed:
 
 Launch `Settings` > Keyboard > View and Customise Shortcuts > Custom Shortcuts > +
 
-Fill in content, like below (replace `username` with your `username`: 
+Fill in content, like below, replace `username` with your `username`: 
 
 ```
 Name: AgentMake AI
@@ -1434,17 +1481,20 @@ Read more at https://github.com/eliranwong/agentmake
 
 # Llama Factory
 
+## Installation from source
+
 ```
 git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
 cd LLaMA-Factory
 python3 -m venv rocm
 source rocm/bin/activate
-pip install -e ".[metrics]"
-pip uninstall torch triton -y
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torch-2.3.0%2Brocm6.3.2-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchvision-0.18.0%2Brocm6.3.2-cp310-cp310-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/pytorch_triton_rocm-2.3.0%2Brocm6.3.2.5a02332983-cp310-cp310-linux_x86_64.whl
-pip3 install torch-2.3.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl torchvision-0.18.0+rocm6.3.2-cp310-cp310-linux_x86_64.whl pytorch_triton_rocm-2.3.0+rocm6.3.2.5a02332983-cp310-cp310-linux_x86_64.whl
+pip install -e ".[torch,metrics]" --no-build-isolation
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torch-2.8.0%2Brocm7.0.2.git245bf6ed-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torchvision-0.23.0%2Brocm7.0.2.git824e8c87-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/triton-3.4.0%2Brocm7.0.2.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torchaudio-2.8.0%2Brocm7.0.2.git6e1c7fe9-cp312-cp312-linux_x86_64.whl
+pip3 uninstall torch torchvision triton torchaudio -y
+pip3 install torch-2.8.0+rocm7.0.2.git245bf6ed-cp312-cp312-linux_x86_64.whl torchvision-0.23.0+rocm7.0.2.git824e8c87-cp312-cp312-linux_x86_64.whl torchaudio-2.8.0+rocm7.0.2.git6e1c7fe9-cp312-cp312-linux_x86_64.whl triton-3.4.0+rocm7.0.2.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
 pip install --upgrade huggingface_hub
 ```
 
@@ -1462,6 +1512,26 @@ Note: Llama Factory currently fails to run training when mulitple GPUs are used,
 
 > env HIP_VISIBLE_DEVICES=0,1 llamafactory-cli webui
 
+An issue was posted at https://github.com/hiyouga/LLaMA-Factory/issues/6271
+
+## Installation with Docker
+
+```
+git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
+cd docker/docker-rocm/
+docker compose up -d
+```
+
+To run webui:
+
+```
+cd docker/docker-rocm/
+docker compose exec llamafactory bash
+```
+
+> env HIP_VISIBLE_DEVICES=0 llamafactory-cli webuiss
+
+Then, open `http://127.0.0.1:7860/` with a web browser.
 
 # Performance Optimization
 
