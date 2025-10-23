@@ -928,6 +928,15 @@ If not, add user to group `ollama` for access of Ollama directory:
 
 > sudo reboot
 
+## Create custom ollama model
+
+For example:
+
+```
+echo -e "FROM gpt-oss:120b\nPARAMETER num_ctx 131072" > Modelfile
+ollama create gpt-oss-120b-128k -f Modelfile
+```
+
 ## VS Code Plugin with Ollama
 
 Install VS code plugin `twinny` by `rjmacarthy`
@@ -1222,6 +1231,35 @@ To open Perplexica and set up providers, run:
 To open SearXNG, run:
 
 > open http://localhost:4000
+
+# Open NoteBook
+
+```
+# Create project directory
+mkdir -p ~/dev/open-notebook && cd ~/dev/open-notebook
+
+# Download configuration files
+curl -O https://raw.githubusercontent.com/lfnovo/open-notebook/main/docker-compose.full.yml
+curl -O https://raw.githubusercontent.com/lfnovo/open-notebook/main/.env.example
+
+# Rename and configure environment
+mv .env.example docker.env
+```
+
+Edit docker.env with your API keys
+
+```
+# Rename and edit the docker-compose file
+mv docker-compose.full.yml docker-compose.yml
+sed -i 's/8000:8000/9000:8000/g' docker-compose.yml
+
+# Start Open Notebook
+docker compose up -d
+```
+
+Access Open Notebook at http://localhost:8502
+
+Read more at: https://github.com/lfnovo/open-notebook/blob/main/docs/getting-started/installation.md
 
 # CLI and Desktop Integration with AgentMake AI
 
