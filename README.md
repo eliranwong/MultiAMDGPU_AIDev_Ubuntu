@@ -1251,13 +1251,22 @@ Edit docker.env with your API keys
 ```
 # Rename and edit the docker-compose file
 mv docker-compose.full.yml docker-compose.yml
+# In my case the port `8000` is already used by another service, so
 sed -i 's/8000:8000/9000:8000/g' docker-compose.yml
 
 # Start Open Notebook
 docker compose up -d
+
+# Make save data accessible
+sudo chmod a+w notebook_data/ surreal_data/
+
+# Access open-notebook
+open http://localhost:8502
 ```
 
-Access Open Notebook at http://localhost:8502
+To view log:
+
+> docker compose logs -f open_notebook
 
 Read more at: https://github.com/lfnovo/open-notebook/blob/main/docs/getting-started/installation.md
 
