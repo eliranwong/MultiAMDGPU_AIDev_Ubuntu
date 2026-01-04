@@ -132,9 +132,9 @@ If you're using specific AMDGPU control applications or tools, they might have t
 
 </details>
 
-# Install ROCM 7.0.2
+# Install ROCM 7.1.1
 
-Version 7.0.2 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
+Version 7.1.1 is preferred, as it officaillly supports AMD Radeon™ 7000 series GPUs:
 
 Read more at: https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/howto_native_linux.html
 
@@ -150,8 +150,8 @@ sudo apt remove --purge amdgpu-install
 ```
 sudo apt update
 sudo apt install -y libstdc++-12-dev
-wget https://repo.radeon.com/amdgpu-install/7.0.2/ubuntu/noble/amdgpu-install_7.0.2.70002-1_all.deb
-sudo apt install ./amdgpu-install_7.0.2.70002-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/7.1.1/ubuntu/noble/amdgpu-install_7.1.1.70101-1_all.deb
+sudo apt install ./amdgpu-install_7.1.1.70101-1_all.deb
 sudo amdgpu-install --usecase=graphics,multimedia,rocm,rocmdev,rocmdevtools,lrt,opencl,openclsdk,hip,hiplibsdk,openmpsdk,mllib,mlsdk --no-dkms -y
 ```
 
@@ -336,7 +336,7 @@ Modify the values to suit your cases.
 
 The following examples assume:
 
-* ROCm version 7.0.2 installed
+* ROCm version 7.1.1 installed
 
 * No integrated GPU
 
@@ -349,7 +349,7 @@ Note: You may run `rocm-smi` to find the mapping information of node numbers to 
 I use my case as an example:
 
 Remarks:
-* The following settings assumes `/opt/rocm` points to `/opt/rocm-7.0.2`.
+* The following settings assumes `/opt/rocm` points to `/opt/rocm-7.1.1`.
 * Modify the values of ROCR_VISIBLE_DEVICES to your own ones.
 
 ```
@@ -357,7 +357,7 @@ Remarks:
 export GFX_ARCH=gfx1100
 export HCC_AMDGPU_TARGET=gfx1100
 export CUPY_INSTALL_USE_HIP=1
-export ROCM_VERSION=7.0
+export ROCM_VERSION=7.1
 export ROCM_HOME=/opt/rocm
 export LD_LIBRARY_PATH=/usr/include/vulkan:/opt/rocm/include:/opt/rocm/lib:/opt/rocm/lib/llvm/lib:/opt/rocm/lib/migraphx/lib:$LD_LIBRARY_PATH
 export PATH=/home/eliran/.local/bin:/opt/rocm/bin:/opt/rocm/llvm/bin:$PATH
@@ -618,7 +618,7 @@ Read: https://github.com/ROCm/AMDMIGraphX#amd-migraphx
 
 # Set up Python
 
-Use python version 3.10.x, to work with wheel files available at https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/
+Use python version 3.12.x, to work with wheel files available at https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/
 
 To install a specific version with pyenv, read https://github.com/eliranwong/MultiAMDGPU_AIDev_Ubuntu/blob/main/ubuntu_desktop/basic.md#pyenv
 
@@ -656,12 +656,12 @@ Remarks: protobuf==5.29.1
 Read https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-pytorch.html
 
 ```
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torch-2.8.0%2Brocm7.0.2.git245bf6ed-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torchvision-0.23.0%2Brocm7.0.2.git824e8c87-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/triton-3.4.0%2Brocm7.0.2.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torchaudio-2.8.0%2Brocm7.0.2.git6e1c7fe9-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torch-2.9.1%2Brocm7.1.1.lw.git351ff442-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torchvision-0.24.0%2Brocm7.1.1.gitb919bd0c-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/triton-3.5.1%2Brocm7.1.1.gita272dfa8-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torchaudio-2.9.0%2Brocm7.1.1.gite3c6ee2b-cp312-cp312-linux_x86_64.whl
 pip3 uninstall torch torchvision triton torchaudio
-pip3 install torch-2.8.0+rocm7.0.2.git245bf6ed-cp312-cp312-linux_x86_64.whl torchvision-0.23.0+rocm7.0.2.git824e8c87-cp312-cp312-linux_x86_64.whl torchaudio-2.8.0+rocm7.0.2.git6e1c7fe9-cp312-cp312-linux_x86_64.whl triton-3.4.0+rocm7.0.2.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
+pip3 install torch-2.9.1+rocm7.1.1.lw.git351ff442-cp312-cp312-linux_x86_64.whl torchvision-0.24.0+rocm7.1.1.gitb919bd0c-cp312-cp312-linux_x86_64.whl torchaudio-2.9.0+rocm7.1.1.gite3c6ee2b-cp312-cp312-linux_x86_64.whl triton-3.5.1+rocm7.1.1.gita272dfa8-cp312-cp312-linux_x86_64.whl
 ```
 
 To verify:
@@ -704,7 +704,7 @@ Install `migraphx` FIRST!
 
 ```
 pip3 uninstall onnxruntime-rocm
-pip3 install onnxruntime-rocm -f https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/
+pip3 install onnxruntime-rocm -f https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/
 ```
 
 To verify:
@@ -754,7 +754,7 @@ providers = [("ROCMExecutionProvider", {"device_id": torch.cuda.current_device()
 ```
 pip install tf-keras --no-deps
 pip3 uninstall tensorflow-rocm
-pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/tensorflow_rocm-2.19.1-cp312-cp312-manylinux_2_28_x86_64.whl
+pip3 install https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/tensorflow_rocm-2.20.0.dev0%2Bselfbuilt-cp312-cp312-manylinux_2_28_x86_64.whl
 ```
 
 To verify:
@@ -928,6 +928,33 @@ If not, add user to group `ollama` for access of Ollama directory:
 
 > sudo reboot
 
+## Install Ollama with Docker
+
+Create a file `docker-compose.yml` with the following content and then run `docker compose up -d`
+
+```
+  ollama:
+    image: ollama/ollama:rocm
+    container_name: ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      #- ollama:/root/.ollama
+      #- ${HOME}/.ollama:/root/.ollama
+      - /usr/share/ollama/.ollama:/root/.ollama
+    devices:
+      - "/dev/kfd:/dev/kfd"
+      - "/dev/dri:/dev/dri"
+# remove the following lines if an abosolute path is used
+#volumes:
+#  ollama:
+```
+
+Work with Ollama inside the container, e.g.
+
+> docker exec -it ollama ollama ls
+
 ## Create custom ollama model
 
 For example:
@@ -970,7 +997,7 @@ Expected lines in the terminal output:
 -- The HIP compiler identification is Clang 20.0.0
 -- Detecting HIP compiler ABI info
 -- Detecting HIP compiler ABI info - done
--- Check for working HIP compiler: /opt/rocm-7.0.2/lib/llvm/bin/clang - skipped
+-- Check for working HIP compiler: /opt/rocm-7.1.1/lib/llvm/bin/clang - skipped
 -- Detecting HIP compile features
 -- Detecting HIP compile features - done
 -- HIP and hipBLAS found
@@ -994,7 +1021,7 @@ To build run:
 git clone https://github.com/ggml-org/llama.cpp
 mv llama.cpp/ llamacpp_vulkan/
 cd llamacpp_vulkan
-cmake -S . -B build -DGGML_VULKAN=ON  -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release -- -j $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
+cmake -S . -B build -DGGML_VULKAN=ON -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release -- -j $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}')
 ```
 
 Expected lines in the terminal output:
@@ -1016,7 +1043,7 @@ Make sure you set the vulkan-related variables, e.g. https://github.com/eliranwo
 
 For example:
 
-> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -ub 2048 -b 2048 -fa -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 -ngl 23
+> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -ub 2048 -b 2048 -fa -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 -ngl 27
 
 Multiple GGUF files are automatically downloaded in `~/.cache/llama.cpp`. You may optionally merge them into a single file, e.g.
 
@@ -1024,11 +1051,11 @@ Multiple GGUF files are automatically downloaded in `~/.cache/llama.cpp`. You ma
 
 ## Test Running `gpt-oss-120b-GGUF` with Full 128K Context 
 
-> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -ub 2048 -b 2048 -fa "on" -p "Explain what is AI in 50 words." -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 -ngl 23
+> ./llama-cli -t $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') --jinja -ub 2048 -b 2048 -fa "on" -p "Explain what is AI in 50 words." -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 -ngl 27
 
-> ./llama-server --host 127.0.0.1 --port 8888 --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') -fa "on" -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 --jinja -b 2048 -ub 2048 -ngl 23
+> ./llama-server --host 127.0.0.1 --port 8888 --threads $(lscpu | grep -m 1 '^Core(s)' | awk '{print $NF}') -fa "on" -hf ggml-org/gpt-oss-120b-GGUF --ctx-size 0 --jinja -b 2048 -ub 2048 -ngl 27
 
-Remarks: `-ngl 23` is the maximum the testing device can load. You may adjust it according to your device hardware.
+Remarks: `-ngl 27` is the maximum the testing device can load. You may adjust it according to your device hardware.
 
 ## Test Running `gpt-oss-20b-GGUF` with Full 128K Context
 
@@ -1536,12 +1563,12 @@ cd LLaMA-Factory
 python3 -m venv rocm
 source rocm/bin/activate
 pip install -e ".[torch,metrics]" --no-build-isolation
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torch-2.8.0%2Brocm7.0.2.git245bf6ed-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torchvision-0.23.0%2Brocm7.0.2.git824e8c87-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/triton-3.4.0%2Brocm7.0.2.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.0.2/torchaudio-2.8.0%2Brocm7.0.2.git6e1c7fe9-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torch-2.8.0%2Brocm7.1.1.git245bf6ed-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torchvision-0.23.0%2Brocm7.1.1.git824e8c87-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/triton-3.4.0%2Brocm7.1.1.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torchaudio-2.8.0%2Brocm7.1.1.git6e1c7fe9-cp312-cp312-linux_x86_64.whl
 pip3 uninstall torch torchvision triton torchaudio -y
-pip3 install torch-2.8.0+rocm7.0.2.git245bf6ed-cp312-cp312-linux_x86_64.whl torchvision-0.23.0+rocm7.0.2.git824e8c87-cp312-cp312-linux_x86_64.whl torchaudio-2.8.0+rocm7.0.2.git6e1c7fe9-cp312-cp312-linux_x86_64.whl triton-3.4.0+rocm7.0.2.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
+pip3 install torch-2.8.0+rocm7.1.1.git245bf6ed-cp312-cp312-linux_x86_64.whl torchvision-0.23.0+rocm7.1.1.git824e8c87-cp312-cp312-linux_x86_64.whl torchaudio-2.8.0+rocm7.1.1.git6e1c7fe9-cp312-cp312-linux_x86_64.whl triton-3.4.0+rocm7.1.1.gitf9e5bf54-cp312-cp312-linux_x86_64.whl
 pip install --upgrade huggingface_hub
 ```
 
