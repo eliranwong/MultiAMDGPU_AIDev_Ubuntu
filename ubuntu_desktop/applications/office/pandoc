@@ -1,0 +1,7 @@
+- `pandoc` is required to export text content to DOCX format. To install, for example, on Debian/Ubuntu:
+
+> sudo apt install pandoc
+
+- `pdflatex` is required to export content to PDF format. To install, for example, on Debian/Ubuntu:
+
+> sudo apt install texlive-full
